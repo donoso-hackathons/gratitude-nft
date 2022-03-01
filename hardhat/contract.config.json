@@ -1,8 +1,8 @@
 {
-  "nftContract": {
-    "name": "NftContract",
-    "artifactsPath": "3-NftContract.sol/NftContract.json",
-    "jsonName": "nft_contract",
+  "gratitudeContract": {
+    "name": "GratitudeContract",
+    "artifactsPath": "GratitudeContract.sol/GratitudeContract.json",
+    "jsonName": "gratitude_contract",
     "ctor": []
   }
 }
