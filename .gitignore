@@ -7,6 +7,7 @@
 /bazel-out
 
 /hardhat/.env
+/src/environments/environment.mumbai.ts
 
 # Node
 /node_modules
