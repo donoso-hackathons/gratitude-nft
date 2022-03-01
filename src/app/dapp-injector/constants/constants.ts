@@ -4,15 +4,14 @@ export const INFURA_ID = "460f40a260564ac4a4f4b3fffb032dad";
 // MY ETHERSCAN_ID, SWAP IN YOURS FROM https://etherscan.io/myapikey
 export const ETHERSCAN_KEY = "DNXJA8RX2Q3VZ4URQIWP7Z68CJXQZSC6AW";
 
-// BLOCKNATIVE ID FOR Notify.js:
-export const BLOCKNATIVE_DAPPID = "0b58206a-f3c0-4701-a62f-73c7243e8c77";
+
 
 export const ALCHEMY_KEY = "oKxs-03sij-U_N0iOlrSsZFr29-IqbuF";
 
-export type NETWORK_TYPE = 'localhost' | 'mainnet'| 'mumbai' | 'kovan' | 'rinkeby' | 'ropsten' | 'goerli' |'polygon';
+export type NETWORK_TYPE = 'localhost' | 'mainnet'| 'mumbai' | 'kovan' | 'rinkeby' | 'ropsten' | 'goerli' |'polygon' | 'xdai' |'noop';
 
 export interface INETWORK {
-name: string;
+name: NETWORK_TYPE;
 color?: string;
 price?:number;
 gasPrice?:number;
@@ -22,13 +21,19 @@ blockExplorer?: string;
 faucet?:string
 }
 
+export const noNetwork:INETWORK =   {
+  name:'noop',
+  chainId:0,
+  rpcUrl:'noop'
+}
+
 export const NETWORKS:{[key:string]: INETWORK} = {
   localhost: {
     name: "localhost",
     color: "#666666",
-    chainId: 31337,
+    chainId: 1337,
     blockExplorer: "",
-    rpcUrl: "http://" + (global.window ? window.location.hostname : "localhost") + ":8545",
+    rpcUrl: "http://" + (window ? window.location.hostname : "localhost") + ":8545",
   },
   mainnet: {
     name: "mainnet",
@@ -98,122 +103,122 @@ export const NETWORKS:{[key:string]: INETWORK} = {
     faucet: "https://faucet.polygon.technology/",
     blockExplorer: "https://mumbai.polygonscan.com/",
   },
-  localArbitrum: {
-    name: "localArbitrum",
-    color: "#50a0ea",
-    chainId: 153869338190755,
-    blockExplorer: "",
-    rpcUrl: `http://localhost:8547`,
-  },
-  localArbitrumL1: {
-    name: "localArbitrumL1",
-    color: "#50a0ea",
-    chainId: 44010,
-    blockExplorer: "",
-    rpcUrl: `http://localhost:7545`,
-  },
-  rinkebyArbitrum: {
-    name: "Arbitrum Testnet",
-    color: "#50a0ea",
-    chainId: 421611,
-    blockExplorer: "https://rinkeby-explorer.arbitrum.io/#/",
-    rpcUrl: `https://rinkeby.arbitrum.io/rpc`,
-  },
-  arbitrum: {
-    name: "Arbitrum",
-    color: "#50a0ea",
-    chainId: 42161,
-    blockExplorer: "https://explorer.arbitrum.io/#/",
-    rpcUrl: `https://arb1.arbitrum.io/rpc`,
-    gasPrice: 0,
-  },
-  localOptimismL1: {
-    name: "localOptimismL1",
-    color: "#f01a37",
-    chainId: 31337,
-    blockExplorer: "",
-    rpcUrl: "http://" + (global.window ? window.location.hostname : "localhost") + ":9545",
-  },
-  localOptimism: {
-    name: "localOptimism",
-    color: "#f01a37",
-    chainId: 420,
-    blockExplorer: "",
-    rpcUrl: "http://" + (global.window ? window.location.hostname : "localhost") + ":8545",
-    gasPrice: 0,
-  },
-  kovanOptimism: {
-    name: "kovanOptimism",
-    color: "#f01a37",
-    chainId: 69,
-    blockExplorer: "https://kovan-optimistic.etherscan.io/",
-    rpcUrl: `https://kovan.optimism.io`,
-    gasPrice: 0,
-  },
-  optimism: {
-    name: "optimism",
-    color: "#f01a37",
-    chainId: 10,
-    blockExplorer: "https://optimistic.etherscan.io/",
-    rpcUrl: `https://mainnet.optimism.io`,
-  },
-  localAvalanche: {
-    name: "localAvalanche",
-    color: "#666666",
-    chainId: 43112,
-    blockExplorer: "",
-    rpcUrl: `http://localhost:9650/ext/bc/C/rpc`,
-    gasPrice: 225000000000,
-  },
-  fujiAvalanche: {
-    name: "fujiAvalanche",
-    color: "#666666",
-    chainId: 43113,
-    blockExplorer: "https://cchain.explorer.avax-test.network/",
-    rpcUrl: `https://api.avax-test.network/ext/bc/C/rpc`,
-    gasPrice: 225000000000,
-  },
-  mainnetAvalanche: {
-    name: "mainnetAvalanche",
-    color: "#666666",
-    chainId: 43114,
-    blockExplorer: "https://cchain.explorer.avax.network/",
-    rpcUrl: `https://api.avax.network/ext/bc/C/rpc`,
-    gasPrice: 225000000000,
-  },
-  testnetHarmony: {
-    name: "testnetHarmony",
-    color: "#00b0ef",
-    chainId: 1666700000,
-    blockExplorer: "https://explorer.pops.one/",
-    rpcUrl: `https://api.s0.b.hmny.io`,
-    gasPrice: 1000000000,
-  },
-  mainnetHarmony: {
-    name: "mainnetHarmony",
-    color: "#00b0ef",
-    chainId: 1666600000,
-    blockExplorer: "https://explorer.harmony.one/",
-    rpcUrl: `https://api.harmony.one`,
-    gasPrice: 1000000000,
-  },
-  fantom: {
-    name: "fantom",
-    color: "#1969ff",
-    chainId: 250,
-    blockExplorer: "https://ftmscan.com/",
-    rpcUrl: `https://rpcapi.fantom.network`,
-    gasPrice: 1000000000,
-  },
-  testnetFantom: {
-    name: "testnetFantom",
-    color: "#1969ff",
-    chainId: 4002,
-    blockExplorer: "https://testnet.ftmscan.com/",
-    rpcUrl: `https://rpc.testnet.fantom.network`,
-    gasPrice: 1000000000,
-    faucet: "https://faucet.fantom.network/",
-  },
+  // localArbitrum: {
+  //   name: "localArbitrum",
+  //   color: "#50a0ea",
+  //   chainId: 153869338190755,
+  //   blockExplorer: "",
+  //   rpcUrl: `http://localhost:8547`,
+  // },
+  // localArbitrumL1: {
+  //   name: "localArbitrumL1",
+  //   color: "#50a0ea",
+  //   chainId: 44010,
+  //   blockExplorer: "",
+  //   rpcUrl: `http://localhost:7545`,
+  // },
+  // rinkebyArbitrum: {
+  //   name: "Arbitrum Testnet",
+  //   color: "#50a0ea",
+  //   chainId: 421611,
+  //   blockExplorer: "https://rinkeby-explorer.arbitrum.io/#/",
+  //   rpcUrl: `https://rinkeby.arbitrum.io/rpc`,
+  // },
+  // arbitrum: {
+  //   name: "Arbitrum",
+  //   color: "#50a0ea",
+  //   chainId: 42161,
+  //   blockExplorer: "https://explorer.arbitrum.io/#/",
+  //   rpcUrl: `https://arb1.arbitrum.io/rpc`,
+  //   gasPrice: 0,
+  // },
+  // localOptimismL1: {
+  //   name: "localOptimismL1",
+  //   color: "#f01a37",
+  //   chainId: 31337,
+  //   blockExplorer: "",
+  //   rpcUrl: "http://" + (window ? window.location.hostname : "localhost") + ":9545",
+  // },
+  // localOptimism: {
+  //   name: "localOptimism",
+  //   color: "#f01a37",
+  //   chainId: 420,
+  //   blockExplorer: "",
+  //   rpcUrl: "http://" + (window ? window.location.hostname : "localhost") + ":8545",
+  //   gasPrice: 0,
+  // },
+  // kovanOptimism: {
+  //   name: "kovanOptimism",
+  //   color: "#f01a37",
+  //   chainId: 69,
+  //   blockExplorer: "https://kovan-optimistic.etherscan.io/",
+  //   rpcUrl: `https://kovan.optimism.io`,
+  //   gasPrice: 0,
+  // },
+  // optimism: {
+  //   name: "optimism",
+  //   color: "#f01a37",
+  //   chainId: 10,
+  //   blockExplorer: "https://optimistic.etherscan.io/",
+  //   rpcUrl: `https://mainnet.optimism.io`,
+  // },
+  // localAvalanche: {
+  //   name: "localAvalanche",
+  //   color: "#666666",
+  //   chainId: 43112,
+  //   blockExplorer: "",
+  //   rpcUrl: `http://localhost:9650/ext/bc/C/rpc`,
+  //   gasPrice: 225000000000,
+  // },
+  // fujiAvalanche: {
+  //   name: "fujiAvalanche",
+  //   color: "#666666",
+  //   chainId: 43113,
+  //   blockExplorer: "https://cchain.explorer.avax-test.network/",
+  //   rpcUrl: `https://api.avax-test.network/ext/bc/C/rpc`,
+  //   gasPrice: 225000000000,
+  // },
+  // mainnetAvalanche: {
+  //   name: "mainnetAvalanche",
+  //   color: "#666666",
+  //   chainId: 43114,
+  //   blockExplorer: "https://cchain.explorer.avax.network/",
+  //   rpcUrl: `https://api.avax.network/ext/bc/C/rpc`,
+  //   gasPrice: 225000000000,
+  // },
+  // testnetHarmony: {
+  //   name: "testnetHarmony",
+  //   color: "#00b0ef",
+  //   chainId: 1666700000,
+  //   blockExplorer: "https://explorer.pops.one/",
+  //   rpcUrl: `https://api.s0.b.hmny.io`,
+  //   gasPrice: 1000000000,
+  // },
+  // mainnetHarmony: {
+  //   name: "mainnetHarmony",
+  //   color: "#00b0ef",
+  //   chainId: 1666600000,
+  //   blockExplorer: "https://explorer.harmony.one/",
+  //   rpcUrl: `https://api.harmony.one`,
+  //   gasPrice: 1000000000,
+  // },
+  // fantom: {
+  //   name: "fantom",
+  //   color: "#1969ff",
+  //   chainId: 250,
+  //   blockExplorer: "https://ftmscan.com/",
+  //   rpcUrl: `https://rpcapi.fantom.network`,
+  //   gasPrice: 1000000000,
+  // },
+  // testnetFantom: {
+  //   name: "testnetFantom",
+  //   color: "#1969ff",
+  //   chainId: 4002,
+  //   blockExplorer: "https://testnet.ftmscan.com/",
+  //   rpcUrl: `https://rpc.testnet.fantom.network`,
+  //   gasPrice: 1000000000,
+  //   faucet: "https://faucet.fantom.network/",
+  // },
 };
 
 export const netWorkByName = (chainName:NETWORK_TYPE) => {
@@ -227,5 +232,5 @@ export const netWorkById = (chainId:number) => {
       return NETWORKS[n];
     }
   }
-  return
+  return noNetwork
 };

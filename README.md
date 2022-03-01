@@ -1,27 +1,111 @@
-# GratitudeNft
+# Gratitude NFT
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.1.4.
+Gratitude NFT a Dapp Hackathon project that aims to create the XXXX
 
-## Development server
+## Major problems it solves
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+XXXXx
 
-## Code scaffolding
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Answering Questions not yet there
 
-## Build
+XXXXXX
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Next steps and hackathon decisions
 
-## Running unit tests
+XXXXx
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+   ### use cases
+      - XXXXx
 
-## Running end-to-end tests
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
 
-## Further help
+# 🏄‍♂️ Quick Start
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+## localhost (for now)
+
+Create a copy of /hardhat/sample.env
+
+```javascript
+npm run chain
+// spin blockchain node on localhost creating 10 accounts and private keys
+```
+
+```javascript
+npm run watch-contract
+// launch, compile, and deploy in watch mode. To deploy on Polygon Testnet, run
+npm run watch-contract mumbai
+// Mumbai deployment requires free Moralis account
+```
+
+```javascript
+ng serve -o
+// build app and serve on localhost:4200. Alternatively, run
+ng serve -o -c mumbai
+// to use your configured Mumbai testnet wallet
+```
+
+### other helpful commands
+
+```javascript
+npm run compile
+// compile contracts
+```
+
+```javascript
+npm run deploy
+// deploy contract to localhost. Alternatively you can run
+npm run deploy:mumbai
+// to deploy on Polygon Testnet
+```
+
+## testnet/livenet
+
+Either deploying to localhost node or testnet/cloud the conract has to be compiled
+
+```javascript
+npm run compile
+// compile the demo app contract in hardhat/contracts/demoContract.sol
+```
+
+When compiling, the contract artifacts will be created in the angular project assets folder.
+
+🔏 You can edit your smart contract `.sol` in `/hardhat/contracts` and recompile with same command
+
+Now is time to deploy our contract
+
+```javascript
+npm run deploy
+// deploy the smartcontract to the chosen network.
+```
+
+If you want to deploy to a testnet/mainnet the api and private key have to be configured within hardhat/hardhat.config.ts
+
+💼 You can edit your deployment scripts in `/hardhat/deploy`  
+ &nbsp;
+
+Developping in the hardhat network it may be useful to use watch hooks for compiling and deploying, if this is required you can avoid the commands 'compile' and 'deploy' and run in watch mode
+
+```javascript
+npm run watch-contract
+// launch compile and deploy in watch mode.
+```
+
+☠️☠️☠️ Don't do watch mode in mainnet  
+⚠️⚠️⚠️ Take care watching in the testnet, test ether is free but you are required to have some  
+ &nbsp;  
+ **Testing Solidity Contracts**
+The schematics also include the hardhat test configuration and infrastructure for solidity contract testing  
+ &nbsp;
+
+```javascript
+npm run contracts:test
+// run the contract tests
+```
+
+```javascript
+npm run contracts:coverage
+// Contracts solidity test coverage analysis
+```
+
+&nbsp;

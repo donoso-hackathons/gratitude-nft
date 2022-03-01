@@ -1,4 +1,25 @@
-import { Contract, ethers } from "ethers";
+import { Contract, providers, Signer } from "ethers";
+import { AngularContract } from "../classes/contract";
+import { INETWORK } from "../constants";
+
+
+export interface ISTARTUP_CONFIG {
+  defaultProvider:providers.JsonRpcProvider | 'noop';
+  defaultNetwork: string,
+  connectedNetwork:string,
+  wallet: 'wallet' | 'privKey' | 'burner',
+  blockSubscription:boolean,
+  providers: {[key:string]: any},
+  signer?: Signer 
+  contracts:{[key:string]: AngularContract}
+}
+
+
+// export interface ICONTRACT_ANGULAR {
+//   name: string, address:string, contract:Contract, abi:Array<IABI_OBJECT>
+// }
+
+
 
 export interface IABI_OBJECT {
   inputs: Array<{ internalType: string; name: string; type: string }>;
@@ -8,8 +29,8 @@ export interface IABI_OBJECT {
   name?: string;
 }
 
-export interface BlockWithTransactions extends Omit<ethers.providers.Block , 'transactions'> {
-  transactions: Array<ethers.providers.TransactionResponse>;
+export interface BlockWithTransactions extends Omit<providers.Block , 'transactions'> {
+  transactions: Array<providers.TransactionResponse>;
 
 }
 
@@ -20,10 +41,18 @@ export interface IMETA_CONTRACT {
   contract:Contract
 }
 
-export interface ICONTRACT {
-  address:string,
-  name:string
-  abi?:any;
+export interface ICONTRACT_METADATA {
+  address:string;
+  name:string;
+  abi:Array<IABI_OBJECT>;
+  network_id: number;
+}
+
+export interface ICONTRACT{
+  address:string;
+  name:string;
+  abi:Array<IABI_OBJECT>;
+  network: INETWORK;
 }
 
 export interface IBALANCE {

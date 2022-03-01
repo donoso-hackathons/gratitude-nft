@@ -3,11 +3,11 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NFTContractModule } from './dapp-demos/3-nft-contract/nft-contract.module';
+import { NftContractModule } from './dapp-demos/3-nft-Contract/nft-contract.module';
 import { DappInjectorModule } from './dapp-injector/dapp-injector.module';
 import { StoreModule } from '@ngrx/store';
 import { we3ReducerFunction } from 'angular-web3';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 @NgModule({
   declarations: [
     AppComponent
@@ -15,7 +15,8 @@ import { we3ReducerFunction } from 'angular-web3';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    NFTContractModule,
+    BrowserAnimationsModule,
+    NftContractModule,
     DappInjectorModule,
     StoreModule.forRoot({web3: we3ReducerFunction}),
   ],
