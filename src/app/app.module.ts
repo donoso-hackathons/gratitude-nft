@@ -8,6 +8,7 @@ import { DappInjectorModule } from './dapp-injector/dapp-injector.module';
 import { StoreModule } from '@ngrx/store';
 import { we3ReducerFunction } from 'angular-web3';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 @NgModule({
   declarations: [
     AppComponent
@@ -19,6 +20,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     NftContractModule,
     DappInjectorModule,
     StoreModule.forRoot({web3: we3ReducerFunction}),
+    NgbModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
