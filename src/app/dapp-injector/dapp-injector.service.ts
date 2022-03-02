@@ -12,7 +12,7 @@ import { startUpConfig } from './dapp-injector.module';
 
 import { uniswap_abi } from './helpers/uniswap_abi';
 import { ICONTRACT, ICONTRACT_METADATA, ISTARTUP_CONFIG, ITRANSACTION_DETAILS, ITRANSACTION_RESULT } from './models';
-import { Web3Actions } from './store';
+import { Web3Actions, web3Selectors } from './store';
 
 import { JsonRpcProvider, Web3Provider } from '@ethersproject/providers';
 
@@ -23,6 +23,7 @@ export class DappInjectorService {
   private _dollarExchange!: number;
   config!: ISTARTUP_CONFIG;
   webModal!: Web3ModalComponent;
+  contractHeader: ICONTRACT;
   constructor(
     @Inject(DOCUMENT) private readonly document: any,
     @Inject('nftContractMetadata')
@@ -267,6 +268,15 @@ export class DappInjectorService {
 
     this.config.contracts['myContract'] = contract;
 
+    this.contractHeader = {
+      name: contract.name,
+      address: contract.address,
+      abi: contract.abi,
+      network: contract.network,
+    };
+
+
+
     await this.getDollarEther();
     this.store.dispatch(
       Web3Actions.setDollarExhange({ exchange: this._dollarExchange })
@@ -288,8 +298,59 @@ export class DappInjectorService {
   }
 
   async launchWenmodal() {
-    await this.webModal.connectWallet();
+
+    if (this.config.defaultNetwork == 'localhost') {
+      this.connectLocalWallet()
+    } else {
+      await this.webModal.connectWallet();
+    }
+
+
   }
+
+async connectLocalWallet(){
+  this.store.dispatch(Web3Actions.chainBusy({ status: true}));
+  try {
+    const hardhatProvider = await this.createProvider([
+      NETWORKS[this.config.defaultNetwork].rpcUrl,
+    ]);
+
+    let wallet: Wallet;
+
+    switch (this.config.wallet) {
+      case 'burner':
+        const currentPrivateKey =
+          window.localStorage.getItem('metaPrivateKey');
+        if (currentPrivateKey) {
+          wallet = new Wallet(currentPrivateKey);
+        } else {
+          wallet = Wallet.createRandom();
+          const privateKey = wallet._signingKey().privateKey;
+          window.localStorage.setItem('metaPrivateKey', privateKey);
+        }
+        break;
+
+      default:
+        let privKey = ''; //environment.privKey
+        wallet = new Wallet(privKey);
+        break;
+    }
+
+    ////// local wallet
+    const hardhatSigner = await wallet.connect(hardhatProvider);
+ 
+    this.dispatchInit({ signer: hardhatSigner, provider: hardhatProvider });
+  } catch (error: any) {
+    console.log(error);
+
+    this.notifierService.showNotificationTransaction({
+      success: false,
+      error_message: error.toString(),
+    });
+    this.store.dispatch(Web3Actions.chainStatus({ status: 'fail' }));
+    this.store.dispatch(Web3Actions.chainBusy({ status: false }));
+  }
+}
 
   async initChain() {
     this.config = startUpConfig;
@@ -304,7 +365,7 @@ export class DappInjectorService {
 
     if (this.config.wallet == 'wallet') {
       console.log('Check if 🦊 injected provider');
-      let ethereum = (window as any).ethereum;
+     let ethereum = (window as any).ethereum;
       if (!!(window as any).ethereum) {
         const metamaskProvider = new providers.Web3Provider(ethereum, 'any');
 
@@ -361,43 +422,16 @@ export class DappInjectorService {
         this.store.dispatch(Web3Actions.chainBusy({ status: false }));
       });
     } else {
-      try {
-   
-        let wallet: Wallet;
-
-        switch (this.config.wallet) {
-          case 'burner':
-            const currentPrivateKey =
-              window.localStorage.getItem('metaPrivateKey');
-            if (currentPrivateKey) {
-              wallet = new Wallet(currentPrivateKey);
-            } else {
-              wallet = Wallet.createRandom();
-              const privateKey = wallet._signingKey().privateKey;
-              window.localStorage.setItem('metaPrivateKey', privateKey);
-            }
-            break;
-
-          default:
-            let privKey = ''; //environment.privKey
-            wallet = new Wallet(privKey);
-            break;
-        }
-
-        ////// local wallet
-        const hardhatSigner = await wallet.connect(hardhatProvider);
-
-        this.dispatchInit({ signer: hardhatSigner, provider: hardhatProvider });
-      } catch (error: any) {
-        console.log(error);
-
-        this.notifierService.showNotificationTransaction({
-          success: false,
-          error_message: error.toString(),
-        });
-        this.store.dispatch(Web3Actions.chainStatus({ status: 'fail' }));
+      this.store.dispatch(Web3Actions.chainStatus({ status: 'disconnected' }));
+      this.store.dispatch(Web3Actions.chainBusy({ status: false }));
+      this.store.pipe(web3Selectors.pleaseDisconnect).subscribe(()=> {
+        console.log('i amdisconencting manually')
+        this.store.dispatch(Web3Actions.chainStatus({ status: 'disconnected' }));
         this.store.dispatch(Web3Actions.chainBusy({ status: false }));
-      }
+        this.config.signer = undefined;
+        this.config.contracts = {};
+
+      })
     }
   }
 }

@@ -1,0 +1,39 @@
+<div style="margin-bottom:64px;" class="nav-ok">
+
+  <div class="top-bar-wrapper">
+    <div class="top-sub-bar">
+      <div class="block-relative">
+        <div class="noeEn">
+          <a [routerLink]="['/']" routerLinkActive="router-link-active">
+            <img class="logo-small" src="assets/images/logo/wog.png">
+            <img class="logo-big" src="assets/images/logo/wog_logo_transparent_long.png">
+          </a>
+        </div>
+      </div>
+
+
+    </div>
+    <div class="top-sub-bar">
+ 
+        <div *ngIf="blockchain_status!=='success'"  class="block-relative"><a (click)="connect()">
+
+          <button type="button" class="top-bar-element  top-bar-element-biz">
+            <div class="display-flex-center">
+              <div class="top-bar-element-icon">
+                <mat-icon>
+                  card_giftcard
+                </mat-icon>
+              </div>
+              <div class="top-bar-element-text top-bar-element-text-biz"><span></span>Wallet connect </div>
+            </div>
+          </button>
+        </a></div>
+
+    <wallet-display *ngIf="blockchain_status=='success'" style="margin-right:10px" [signer]="signer"
+        (doFaucetEvent)="doFaucetEvent.emit()" (openTransactionEvent)="openTransactionEvent.emit()"></wallet-display>
+
+
+  </div>
+
+</div>
+

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DappInjectorService } from 'angular-web3';
 
 @Component({
   selector: 'dapp-landing',
@@ -7,9 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LandingComponent implements OnInit {
 
-  constructor() { }
+  constructor(private dappInjectorService:DappInjectorService) { }
 
   ngOnInit(): void {
+  }
+
+  connect(){
+    this.dappInjectorService.launchWenmodal()
   }
 
 }

@@ -1,11 +1,11 @@
 import { Contract, providers, Signer } from "ethers";
 import { AngularContract } from "../classes/contract";
-import { INETWORK } from "../constants";
+import { INETWORK, NETWORK_TYPE } from "../constants";
 
 
 export interface ISTARTUP_CONFIG {
   defaultProvider:providers.JsonRpcProvider | 'noop';
-  defaultNetwork: string,
+  defaultNetwork: NETWORK_TYPE,
   connectedNetwork:string,
   wallet: 'wallet' | 'privKey' | 'burner',
   blockSubscription:boolean,

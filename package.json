@@ -11,7 +11,7 @@
     "accounts": "cd hardhat && npx hardhat --tsconfig ./tsconfig.hardhat.json accounts",
     "compile": "cd hardhat && npx hardhat --tsconfig ./tsconfig.hardhat.json compile",
     "generate": "cd hardhat && npx hardhat --tsconfig ./tsconfig.hardhat.json generate",
-    "deploy": "cd hardhat && npx hardhat --tsconfig ./tsconfig.hardhat.json run ./scripts/deploy.ts --network localhost",
+    "deploy": "cd hardhat && npx hardhat --tsconfig ./tsconfig.hardhat.json run ./scripts/deploy.ts",
     "deploy:ropsten": "cd hardhat && npx hardhat --tsconfig ./tsconfig.hardhat.json run ./scripts/deploy.ts --network ropsten",
     "contracts:test": "cd hardhat && npx hardhat --tsconfig ./tsconfig.hardhat.json test",
     "contracts:coverage": "cd hardhat && npx hardhat --tsconfig ./tsconfig.hardhat.json coverage",

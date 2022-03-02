@@ -34,17 +34,18 @@ export class NftContractComponent implements AfterViewInit {
   contract_abi!: Array<IABI_OBJECT>;
   walletBalance!: IBALANCE;
   contractBalance!: IBALANCE;
-  contractHeader!: ICONTRACT;
+  
   deployer_address!: string;
   active = 1;
   greeting!: string;
   greeting_input!: string;
   provider!: ethers.providers.JsonRpcProvider;
   signer: any;
+  contractHeader!: ICONTRACT;
   deployer_balance: any;
   loading_contract: 'loading' | 'found' | 'error' = 'loading';
   newWallet!: ethers.Wallet;
-
+  selectedIndex = 0;
   dollarExchange!: number;
   balanceDollar!: number;
   myContract!: AngularContract;
@@ -61,6 +62,12 @@ export class NftContractComponent implements AfterViewInit {
       this.deployer_address = await (
         await this.dappInjectorService.config.providers['main'].getSigner()
       ).getAddress();
+
+      if (this.dappInjectorService.config.connectedNetwork == 'localhost') {
+      await this.doFaucet('initial')
+      }
+
+
     } catch (error) {
       console.log(error);
       this.loading_contract = 'error';
@@ -96,7 +103,7 @@ export class NftContractComponent implements AfterViewInit {
     }
   }
 
-  async doFaucet() {
+  async doFaucet(status?) {
     this.store.dispatch(Web3Actions.chainBusy({ status: true }));
     if (this.dappInjectorService.config.connectedNetwork == 'localhost') {
       let amountInEther = '0.1';
@@ -119,9 +126,11 @@ export class NftContractComponent implements AfterViewInit {
       );
 
       this.store.dispatch(Web3Actions.chainBusy({ status: false }));
+      if (!status){
       await this.notifierService.showNotificationTransaction(
         transaction_result
       );
+      }
     } else {
       const href = netWorkByName(
         this.dappInjectorService.config.connectedNetwork as NETWORK_TYPE

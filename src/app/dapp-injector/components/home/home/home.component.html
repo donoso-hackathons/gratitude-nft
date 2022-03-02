@@ -5,8 +5,8 @@
   <span *ngIf="blockchain_status=='success'"> {{contractHeader.name}} is running!</span>
   <div class="spacer"></div>
 
-  <wallet-display *ngIf="blockchain_status=='success'" style="margin-right:10px" [signer]="signer"
-    (doFaucetEvent)="doFaucetEvent.emit()" (openTransactionEvent)="openTransactionEvent.emit()"></wallet-display>
+  <!-- <wallet-display *ngIf="blockchain_status=='success'" style="margin-right:10px" [signer]="signer"
+    (doFaucetEvent)="doFaucetEvent.emit()" (openTransactionEvent)="openTransactionEvent.emit()"></wallet-display> -->
 </div>
 
 <div class="content" role="main">
@@ -19,7 +19,7 @@
 
 
  
-  <div style="text-align: center; margin: auto">
+  <div style="text-align: center; margin: auto">app
 
     <ng-content></ng-content>
   </div>
