@@ -298,7 +298,14 @@ export class DappInjectorService {
   }
 
   async launchWenmodal() {
-    await this.webModal.connectWallet();
+
+    if (this.config.defaultNetwork == 'localhost') {
+      this.connectLocalWallet()
+    } else {
+      await this.webModal.connectWallet();
+    }
+
+
   }
 
 async connectLocalWallet(){

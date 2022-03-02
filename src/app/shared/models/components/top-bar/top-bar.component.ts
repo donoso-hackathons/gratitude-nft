@@ -41,7 +41,8 @@ export class TopBarComponent implements OnChanges, OnDestroy {
    @Output() public openTransactionEvent = new EventEmitter();
 
   connect(){
-      this.dappInjectorService.connectLocalWallet()
+    this.dappInjectorService.launchWenmodal();
+    
   }
 
   ngOnInit(): void {

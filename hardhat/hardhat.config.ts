@@ -9,8 +9,9 @@ import "solidity-coverage";
 import { readFileSync, writeFileSync } from "fs";
 
 const INFURA_ID = 'YOUR KEY' //process.env["INFURA_ID"]
-const MORALIS_ID = 'YOUR KEY'; //process.env["MORALIS_ID"] 
-const ALCHEMY_ID_MUMBAI= 'YOUR KEY';  //process.env["ALCHEMY_ID_MUMBAI"]
+//const MORALIS_ID = 'YOUR KEY'; //process.env["MORALIS_ID"] 
+const MORALIS_ID = '6e874b0f13667e6fd8583112';
+const ALCHEMY_ID_MUMBAI= process.env["ALCHEMY_ID_MUMBAI"]
  
 
 dotenv.config();
@@ -78,11 +79,11 @@ const mnemonic = () => {
   try {
     return readFileSync("./mnemonic.txt").toString().trim();
   } catch (e) {
-    if (defaultNetwork !== "localhost") {
-      console.log(
-        "☢️ WARNING: No mnemonic file created for a deploy account. Try `yarn run generate` and then `yarn run account`."
-      );
-    }
+    // if (defaultNetwork !== "localhost") {
+    //   console.log(
+    //     "☢️ WARNING: No mnemonic file created for a deploy account. Try `yarn run generate` and then `yarn run account`."
+    //   );
+    // }
   }
   return "";
 }
@@ -92,14 +93,14 @@ const config: HardhatUserConfig = {
   paths: {
     artifacts: '../src/assets/artifacts'
   },
-  defaultNetwork,
+
   // if you want to deploy to a testnet, mainnet, or xdai, you will need to configure:
   // 1. An Infura key (or similar)
   // 2. A private key for the deployer
   // DON'T PUSH THESE HERE!!!
   // An `example.env` has been provided in the Hardhat root. Copy it and rename it `.env`
   // Follow the directions, and uncomment the network you wish to deploy to.
-
+  defaultNetwork,
   networks: {
     hardhat: {
       chainId: 1337,
@@ -162,14 +163,17 @@ const config: HardhatUserConfig = {
         mnemonic: mnemonic(),
       },
     },     
+    // mumbai: {
+    //   url: `https://speedy-nodes-nyc.moralis.io/${MORALIS_ID}/polygon/mumbai`,// <---- YOUR MORALIS ID! (not limited to infura)
+    //   //url: `https://polygon-mumbai.g.alchemy.com/v2/${ALCHEMY_ID_MUMBAI}`,
+    //   gasPrice: 1000000000,
+    //   accounts: process.env["PRIVATE_KEY"] !== undefined ? [process.env["PRIVATE_KEY"]] : [],
+    // },    
     mumbai: {
-      url: `https://speedy-nodes-nyc.moralis.io/${MORALIS_ID}/polygon/mumbai`,// <---- YOUR MORALIS ID! (not limited to infura)
-     // `https://polygon-mumbai.g.alchemy.com/v2/${ALCHEMY_ID_MUMBAI}`
-      gasPrice: 1000000000,
-      accounts: {
-        mnemonic: mnemonic(),
-      },
-    },    
+      url: `https://polygon-mumbai.g.alchemy.com/v2/P2lEQkjFdNjdN0M_mpZKB8r3fAa2M0vT`, // <---- YOUR MORALIS ID! (not limited to infura)
+      accounts: process.env["PRIVATE_KEY"] !== undefined ? [process.env["PRIVATE_KEY"]] : [],
+         gasPrice: 8000000000,
+    },
 
     matic: {
       url: "https://rpc-mainnet.maticvigil.com/",
