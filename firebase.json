@@ -1,0 +1,10 @@
+{
+  "hosting": {
+    "public": "dist/gratitude-nft",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}
