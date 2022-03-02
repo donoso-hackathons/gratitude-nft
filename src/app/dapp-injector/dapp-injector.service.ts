@@ -23,6 +23,7 @@ export class DappInjectorService {
   private _dollarExchange!: number;
   config!: ISTARTUP_CONFIG;
   webModal!: Web3ModalComponent;
+  contractHeader: ICONTRACT;
   constructor(
     @Inject(DOCUMENT) private readonly document: any,
     @Inject('nftContractMetadata')
@@ -267,6 +268,15 @@ export class DappInjectorService {
 
     this.config.contracts['myContract'] = contract;
 
+    this.contractHeader = {
+      name: contract.name,
+      address: contract.address,
+      abi: contract.abi,
+      network: contract.network,
+    };
+
+
+
     await this.getDollarEther();
     this.store.dispatch(
       Web3Actions.setDollarExhange({ exchange: this._dollarExchange })
@@ -386,6 +396,7 @@ export class DappInjectorService {
 
         ////// local wallet
         const hardhatSigner = await wallet.connect(hardhatProvider);
+     
 
         this.dispatchInit({ signer: hardhatSigner, provider: hardhatProvider });
       } catch (error: any) {

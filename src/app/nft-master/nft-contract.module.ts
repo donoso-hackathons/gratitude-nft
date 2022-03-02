@@ -6,13 +6,13 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatTabsModule } from '@angular/material/tabs';
-import { blockchain_imports, blockchain_providers } from './blockchain_wiring';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { RouterModule } from '@angular/router';
+
 import { IpfsModule } from '../pages/ipfs/ipfs.module';
 import { CreateGratitudeModule } from '../pages/create-gratitude/create-gratitude.module';
-import { LandingModule } from '../pages/landing/landing.module';
+
+import { NftContractRoutingModule } from './nft-contract-routing.module';
 
 
 
@@ -32,11 +32,10 @@ import { LandingModule } from '../pages/landing/landing.module';
     MatTabsModule,
     IpfsModule,
     CreateGratitudeModule,
-    LandingModule,
-    RouterModule,
-    blockchain_imports
+    NftContractRoutingModule,
+   
   ],
-  providers:[...blockchain_providers] ,
+  providers:[] ,
   exports: [
     NftContractComponent
   ]

@@ -5,25 +5,33 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DappInjectorModule } from './dapp-injector/dapp-injector.module';
 import { StoreModule } from '@ngrx/store';
-import { we3ReducerFunction } from 'angular-web3';
+import { we3ReducerFunction} from 'angular-web3';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { NftContractModule } from './nft-master/nft-contract.module';
+
+
+import { MatIconModule } from '@angular/material/icon';
+import { blockchain_imports, blockchain_providers } from './blockchain_wiring';
+
+
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    // TopBarComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    BrowserAnimationsModule,
-    NftContractModule,
+    BrowserAnimationsModule,  
     DappInjectorModule,
+    
     StoreModule.forRoot({web3: we3ReducerFunction}),
     NgbModule,
+    MatIconModule,
+    ...blockchain_imports
   ],
-  providers: [],
+  providers: [...blockchain_providers],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

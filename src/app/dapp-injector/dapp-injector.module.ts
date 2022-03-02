@@ -2,6 +2,7 @@ import { ModuleWithProviders, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DappInjectorService } from './dapp-injector.service';
 import { ISTARTUP_CONFIG } from './models';
+import { Web3ModalModule } from './components';
 
 export const startUpConfig:ISTARTUP_CONFIG = {
   defaultNetwork: 'localhost',
@@ -18,7 +19,8 @@ export const startUpConfig:ISTARTUP_CONFIG = {
 @NgModule({
   declarations: [],
   imports: [
-    CommonModule
+    CommonModule,
+    Web3ModalModule
   ]
 })
 

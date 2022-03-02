@@ -1,1 +1,20 @@
-<nft-contract></nft-contract>
+<!-- <nft-contract></nft-contract> -->
+<!-- <top-bar [contractHeader]="contractHeader" 
+[blockchain_status]="blockchain_status"
+[blockchain_is_busy]="blockchain_is_busy" [signer]="signer" style=" display: block; margin-top: 64px;"></top-bar> -->
+<div *ngIf="blockchain_status == 'ethereum-not-connected' || blockchain_status ==  'wallet-not-connected'">
+    <!-- <web3-modal></web3-modal>  -->
+    <button  type="button" *ngIf="dappInjectorService.webModal?.ready == true"  class="btn btn-outline-success"  (click)="web3modalAction(true)"
+  > Sign in with Metamask/Wallet
+  </button>
+  <div *ngIf="dappInjectorService.webModal?.ready == false" class="loadingspinner"></div>
+  
+  </div>
+
+  <h3 *ngIf="blockchain_status == 'fail'" style="margin:40px auto;">Something went wrong with the connection<br>
+    Please review your jsonrpc connection</h3>
+
+<img *ngIf="blockchain_status == 'fail'" style="width:200px;margin-bottom:40px;" alt="Angular Logo"
+    src="data:image/png;base64,{{no_network}}">
+
+<router-outlet></router-outlet>

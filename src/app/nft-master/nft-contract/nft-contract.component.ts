@@ -34,17 +34,18 @@ export class NftContractComponent implements AfterViewInit {
   contract_abi!: Array<IABI_OBJECT>;
   walletBalance!: IBALANCE;
   contractBalance!: IBALANCE;
-  contractHeader!: ICONTRACT;
+  
   deployer_address!: string;
   active = 1;
   greeting!: string;
   greeting_input!: string;
   provider!: ethers.providers.JsonRpcProvider;
   signer: any;
+  contractHeader!: ICONTRACT;
   deployer_balance: any;
   loading_contract: 'loading' | 'found' | 'error' = 'loading';
   newWallet!: ethers.Wallet;
-
+  selectedIndex = 0;
   dollarExchange!: number;
   balanceDollar!: number;
   myContract!: AngularContract;
@@ -61,6 +62,12 @@ export class NftContractComponent implements AfterViewInit {
       this.deployer_address = await (
         await this.dappInjectorService.config.providers['main'].getSigner()
       ).getAddress();
+
+      if (this.dappInjectorService.config.connectedNetwork == 'localhost') {
+      await this.doFaucet()
+      }
+
+
     } catch (error) {
       console.log(error);
       this.loading_contract = 'error';

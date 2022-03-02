@@ -8,13 +8,15 @@ import { MatIconModule } from '@angular/material/icon';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import { WalletDisplayComponent } from './wallet-display.component';
 
+
+
 @NgModule({
   declarations: [
     WalletDisplayComponent
   ],
   imports: [
     CommonModule,
-    ClipboardModule
+    ClipboardModule,
 
 
   ],
