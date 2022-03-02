@@ -1,8 +1,8 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef,  EventEmitter,  Input,  Output,  Renderer2, SimpleChanges, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, Output, Renderer2, SimpleChanges, ViewChild } from '@angular/core';
 import { createIcon } from '@download/blockies';
 import { Store } from '@ngrx/store';
 import { Signer } from 'ethers';
-import {  firstValueFrom } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 import { netWorkByName, NETWORK_TYPE } from '../../constants/constants';
 import { convertWeiToEther, displayEther, displayUsd } from '../../helpers';
 import { Web3Actions, web3Selectors, Web3State } from '../../store';
@@ -15,22 +15,23 @@ import { Web3Actions, web3Selectors, Web3State } from '../../store';
   styleUrls: ['./wallet-display.component.css']
 })
 export class WalletDisplayComponent implements AfterViewInit {
-  blockiesOptions:any;
-  address_to_show!:string;
+  blockiesOptions: any;
+  address_to_show!: string;
   balance!: { ether: any; usd: any; };
   dollarExhange!: number;
   network!: string;
 
 
   constructor(
+
     private cd: ChangeDetectorRef,
-    private renderer:Renderer2, private store: Store<Web3State>) {
+    private renderer: Renderer2, private store: Store<Web3State>) {
 
-   }
+  }
 
-   @Input()  public signer!: Signer;
+  @Input() public signer!: Signer;
 
-   async convertWeitoDisplay(balance:any) {
+  async convertWeitoDisplay(balance: any) {
     const ehterbalance = convertWeiToEther(balance);
     const dollar =
       ehterbalance * this.dollarExhange
@@ -38,48 +39,48 @@ export class WalletDisplayComponent implements AfterViewInit {
       ether: displayEther(ehterbalance),
       usd: displayUsd(dollar),
     };
-   }  
+  }
 
 
-  @ViewChild("wallet", {read: ElementRef}) private walletDiv!: ElementRef;
+  @ViewChild("wallet", { read: ElementRef }) private walletDiv!: ElementRef;
   @Output() doFaucetEvent = new EventEmitter();
   @Output() openTransactionEvent = new EventEmitter();
 
-  openTransaction(){
+  openTransaction() {
     this.openTransactionEvent.emit()
   }
 
-  doFaucet(){
+  doFaucet() {
     this.doFaucetEvent.emit()
   }
 
 
   doDisconnect() {
-    this.store.dispatch(Web3Actions.chainStatus({status: 'disconnected'}))
+    this.store.dispatch(Web3Actions.chainStatus({ status: 'disconnected' }))
   }
 
-  async doScan(){
-    if (this.network == 'localhost') { 
+  async doScan() {
+    if (this.network == 'localhost') {
       alert("No scan provider for localhost, please embed the blockchain component")
-  
+
     } else {
-      
+
       const href = netWorkByName(this.network as NETWORK_TYPE);
-  
-      if (href.blockExplorer) { 
+
+      if (href.blockExplorer) {
         window.open(
-          href.blockExplorer +`/address/${this.address_to_show}` ,
+          href.blockExplorer + `/address/${this.address_to_show}`,
           '_blank' // <- This is what makes it open in a new window.
         );
       }
-  
+
     }
   }
 
 
   ngAfterViewInit(): void {
 
-    
+
     this.store.pipe(web3Selectors.selectChainReady).subscribe(async (value) => {
 
       console.log(value)
@@ -99,22 +100,23 @@ export class WalletDisplayComponent implements AfterViewInit {
         // default: random. Set to -1 to disable it. These "spots" create structures
         // that look like eyes, mouths and noses.
       }
-     // await this.myWallet.refreshWalletBalance()
-     this.convertWeitoDisplay(balance)
-     
+      // await this.myWallet.refreshWalletBalance()
+      this.convertWeitoDisplay(balance)
+
     });
 
-    this.store.pipe(web3Selectors.selectWalletBalance).subscribe(balance=>   { 
+    this.store.pipe(web3Selectors.selectWalletBalance).subscribe(balance => {
       this.convertWeitoDisplay(balance)
-      this.cd.detectChanges();})
+      this.cd.detectChanges();
+    })
 
-    this.store.select(web3Selectors.selectSignerNetwork).subscribe(network=> this.network = network)
+    this.store.select(web3Selectors.selectSignerNetwork).subscribe(network => this.network = network)
 
     const icon = createIcon(this.blockiesOptions);
-    
-    this.renderer.appendChild(this.walletDiv.nativeElement,icon);
-    }
-  
+
+    this.renderer.appendChild(this.walletDiv.nativeElement, icon);
+  }
+
 
 
 

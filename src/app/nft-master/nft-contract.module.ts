@@ -13,6 +13,7 @@ import { IpfsModule } from '../pages/ipfs/ipfs.module';
 import { CreateGratitudeModule } from '../pages/create-gratitude/create-gratitude.module';
 
 import { NftContractRoutingModule } from './nft-contract-routing.module';
+import { blockchain_imports, blockchain_providers } from '../blockchain_wiring';
 
 
 
@@ -33,9 +34,9 @@ import { NftContractRoutingModule } from './nft-contract-routing.module';
     IpfsModule,
     CreateGratitudeModule,
     NftContractRoutingModule,
-   
+    ...blockchain_imports
   ],
-  providers:[] ,
+  providers:[...blockchain_providers] ,
   exports: [
     NftContractComponent
   ]

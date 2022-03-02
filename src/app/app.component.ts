@@ -17,7 +17,7 @@ export class AppComponent implements AfterViewInit {
   signer: any;
   contractHeader!: ICONTRACT;
   constructor(
-    private dappInjectorService:DappInjectorService,
+  
     private store:Store,
     private router:Router){
 
@@ -27,10 +27,11 @@ export class AppComponent implements AfterViewInit {
       this.blockchain_status = value;
       console.log(value)
       if (value == 'success'){
-        this.signer = this.dappInjectorService.config.signer;
-        this.contractHeader = this.dappInjectorService.contractHeader;
-       // this.router.navigateByUrl('/master')
+        this.router.navigateByUrl('/master')
+      } else {
+        this.router.navigateByUrl('/landing')
       }
+
     });
 
     this.store

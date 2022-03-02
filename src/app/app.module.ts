@@ -5,27 +5,28 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DappInjectorModule } from './dapp-injector/dapp-injector.module';
 import { StoreModule } from '@ngrx/store';
-import { we3ReducerFunction} from 'angular-web3';
+import { DappInjectorService, WalletDisplayModule, we3ReducerFunction} from 'angular-web3';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 import { MatIconModule } from '@angular/material/icon';
 import { blockchain_imports, blockchain_providers } from './blockchain_wiring';
+import { TopBarComponent } from './shared/models/components/top-bar/top-bar.component';
 
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    // TopBarComponent
+    TopBarComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,  
     DappInjectorModule,
-    
+    WalletDisplayModule,
     StoreModule.forRoot({web3: we3ReducerFunction}),
     NgbModule,
     MatIconModule,

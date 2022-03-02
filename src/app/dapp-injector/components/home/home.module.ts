@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HomeComponent } from './home/home.component';
-import { WalletDisplayModule } from '../wallet-display/wallet-display.module';
+
 
 import { DappLoadingModule } from '../loading/loading.module';
 
@@ -14,7 +14,7 @@ import { DappLoadingModule } from '../loading/loading.module';
   ],
   imports: [
     CommonModule,
-    WalletDisplayModule,
+
     DappLoadingModule
   ],
   exports: [

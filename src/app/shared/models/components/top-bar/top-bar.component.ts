@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectionStrategy, OnDestroy, EventEmitter, In
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { DappInjectorService, NETWORK_STATUS } from 'angular-web3';
+import { DappInjectorService, ICONTRACT, NETWORK_STATUS } from 'angular-web3';
 import { connect } from 'http2';
 import { Signer } from 'ethers';
 
@@ -18,25 +18,30 @@ export class TopBarComponent implements OnChanges, OnDestroy {
     }
     title = 'barrio';
     show_login_verlay = false;
+  contractHeader: ICONTRACT;
+  signer: Signer;
 
   constructor(private dappInjectorService:DappInjectorService) {
 
    }
   ngOnChanges(changes: SimpleChanges): void {
+
+    this.contractHeader = this.dappInjectorService.contractHeader;
+    this.signer = this.dappInjectorService.config.signer
   }
 
-   @Input() public contractHeader!:any
+
 
    @Input() public blockchain_is_busy = false;
  
    @Input() public blockchain_status:NETWORK_STATUS = 'loading';
    
-   @Input() public signer!:Signer;
+ 
    @Output() public doFaucetEvent = new EventEmitter();
    @Output() public openTransactionEvent = new EventEmitter();
 
   connect(){
-      
+      this.dappInjectorService.connectLocalWallet()
   }
 
   ngOnInit(): void {
