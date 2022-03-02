@@ -29,7 +29,7 @@ import { IpfsService } from './ipfs-service';
     MatIconModule,
     NgJsonEditorModule,
   ],
-  providers:[],
+  providers:[IpfsService],
   exports: [
     IpfsUploadComponent,
     IpfsDownloadComponent
