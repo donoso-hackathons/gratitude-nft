@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CreateGratitudeComponent } from './create-gratitude/create-gratitude.component';
-
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -9,7 +9,7 @@ import { CreateGratitudeComponent } from './create-gratitude/create-gratitude.co
     CreateGratitudeComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,FormsModule
   ],
   exports:[CreateGratitudeComponent]
 })

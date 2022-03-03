@@ -19,9 +19,11 @@ px
     color: #fff;
     background-color: transparent;
     padding: 8px 8px 8px 8px;
-    border-radius: 5px;
+    border-radius: 12px;
+    margin: 2px;
     text-decoration: none;
     cursor: pointer;
+    transition: all 0.3s ease;
 }
 button:hover {
       width: 190px;
@@ -29,7 +31,7 @@ button:hover {
     font-size: 26px;
     font-weight: 500;
     border: 2px solid $white;
-    border-radius: 3px;
+    border-radius: 11px;
     text-align: center;
     margin: 10px 15px
 px
@@ -40,6 +42,7 @@ px
     border-radius: 5px;
     text-decoration: none;
     cursor: pointer;
+    transition: all 0.2s ease-in-out;
 }
 
 .background{
@@ -47,7 +50,7 @@ px
     width: 100vw;
     top: 0;
     left: 0;
-  
+
   }
 input, textarea, labe{
     background-color: $white;
@@ -87,7 +90,7 @@ input, textarea, labe{
 .card-title{
     display: flex;
     justify-content: center;
-    
+
 }
 .card-image{
     display: flex;
@@ -95,14 +98,14 @@ input, textarea, labe{
     position: relative;
     justify-content: center;
     object-fit: fill;
-   
+
 }
 .card-image-img {
     display: flex;
     position: relative;
     justify-content: center;
     width: 700px;
-    
+
 }
 .card-filters{
     display: flex;
@@ -132,7 +135,7 @@ input, textarea, labe{
     @include button;
 }
 .card-text-label{
-    width: 175px;
+    //width: 175px;
     line-height: 26px;
     font-size: 24px;
     font-weight: 500;
@@ -150,11 +153,11 @@ px
 }
 .card-text-inputs{
     width: 100%;
-    line-height: 34px;
+    min-height: 34px;
     font-size: 34px;
     font-weight: 500;
     border: 2px solid $white;
-    border-radius: 3px;
+    border-radius: 6px;
     text-align: center;
     margin: 10px 15px
 px
@@ -163,5 +166,6 @@ px
     background-color: transparent;
     padding: 8px 8px 8px 8px;
     border-radius: 5px;
+    transition: all 0.2s ease-in-out;
     text-decoration: none;
 }
