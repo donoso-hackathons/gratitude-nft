@@ -8,7 +8,7 @@
 @mixin button {
     width: 190px;
     line-height: 56px;
-    font-size: 18px;
+    font-size: 24px;
     font-weight: 500;
     border: 2px solid $white;
     border-radius: 3px;
@@ -26,7 +26,7 @@ px
 button:hover {
       width: 190px;
     line-height: 56px;
-    font-size: 18px;
+    font-size: 26px;
     font-weight: 500;
     border: 2px solid $white;
     border-radius: 3px;
@@ -34,7 +34,7 @@ button:hover {
     margin: 10px 15px
 px
  0 0;
-    color: $pink;
+    color: $teal;
     background-color: $white;
     padding: 8px 8px 8px 8px;
     border-radius: 5px;
@@ -62,14 +62,15 @@ input, textarea, labe{
     display: flex;
     justify-content: center;
     font-family: 'Kaushan Script', cursive;
-    font-size: 56px;
+    font-size: 66px;
     background: -webkit-linear-gradient($pink, $black);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    padding: 15px;
 }
 .title-nft{
     font-family: 'Kaushan Script', cursive;
-    background: -webkit-linear-gradient($pink, $yellow);
+    background: -webkit-linear-gradient($black, $pink);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
@@ -124,6 +125,7 @@ input, textarea, labe{
 .card-mint-btn{
     display: flex;
     justify-content: center;
+    width: 400px;
     @include button;
 }
 .card-buttons-btn{
@@ -140,7 +142,7 @@ input, textarea, labe{
     margin: 10px 15px
 px
  0 0;
-    color: $pink;
+    color: $white;
     padding: 8px;
     background-color: transparent;
     border-radius: 5px;
@@ -151,7 +153,7 @@ px
     line-height: 34px;
     font-size: 34px;
     font-weight: 500;
-    border: 2px solid $teal-dark;
+    border: 2px solid $white;
     border-radius: 3px;
     text-align: center;
     margin: 10px 15px
