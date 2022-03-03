@@ -1,0 +1,65 @@
+@import "../../../../assets/css/variables";
+*{
+    background-color: $black;
+    color: $white;
+}
+input, textarea, labe{
+    background-color: $white;
+    color: $white;
+}
+.container{
+    display: flex;
+    position: relative;
+}
+.title{
+    display: flex;
+    justify-content: center;
+}
+.card{
+    display: flex;
+    position: relative;
+}
+.card-frame{
+    display: flex;
+    position: relative;
+    flex-direction: column;
+}
+.card-title{
+    display: flex;
+    justify-content: center;
+}
+.card-image{
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    justify-content: center;
+    object-fit: fill;
+   
+}
+.card-image-img {
+    display: flex;
+    position: relative;
+    justify-content: center;
+    width: 75%;
+    height: 75%;
+}
+.card-filters{
+    display: flex;
+    flex-direction: column;
+}
+.image-upload{
+    display: flex;
+    justify-content: center;
+}
+.image-upload-btn{
+    display: flex;
+    justify-content: center;
+}
+.card-mint{
+    display: flex;
+    justify-content: center;
+}
+.card-mint-btn{
+    display: flex;
+    justify-content: center;
+}
