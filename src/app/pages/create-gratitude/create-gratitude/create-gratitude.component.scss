@@ -1,8 +1,17 @@
 @import "../../../../assets/css/variables";
-*{
-    background-color: $black;
-    color: $white;
+@import url('https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap');
+@font-face {
+    font-family: "Glory";
+    src: url(https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&display=swap);
 }
+
+.background{
+    background: -webkit-linear-gradient($pink, $teal);
+    width: 100vw;
+    top: 0;
+    left: 0;
+  
+  }
 input, textarea, labe{
     background-color: $white;
     color: $white;
@@ -10,14 +19,27 @@ input, textarea, labe{
 .container{
     display: flex;
     position: relative;
+    background-color: $teal;
 }
 .title{
     display: flex;
     justify-content: center;
+    font-family: 'Kaushan Script', cursive;
+    font-size: 56px;
+    background: -webkit-linear-gradient($pink, $black);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.title-nft{
+    font-family: 'Kaushan Script', cursive;
+    background: -webkit-linear-gradient($pink, $yellow);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 .card{
     display: flex;
     position: relative;
+     background: -webkit-linear-gradient($pink, $teal);
 }
 .card-frame{
     display: flex;
@@ -27,6 +49,7 @@ input, textarea, labe{
 .card-title{
     display: flex;
     justify-content: center;
+    
 }
 .card-image{
     display: flex;
@@ -40,8 +63,8 @@ input, textarea, labe{
     display: flex;
     position: relative;
     justify-content: center;
-    width: 75%;
-    height: 75%;
+    width: 700px;
+    
 }
 .card-filters{
     display: flex;
