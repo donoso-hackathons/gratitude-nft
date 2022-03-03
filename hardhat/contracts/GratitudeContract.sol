@@ -14,6 +14,14 @@ import "hardhat/console.sol";
 contract GratitudeContract is ERC721, ERC721URIStorage, Ownable {
     using Counters for Counters.Counter;
     Counters.Counter public _tokenIds;
+    Counters.Counter public _draftTokenIds;
+
+    struct GEO {
+       uint8 lat;
+       uint8 lng;
+    
+    }
+
     struct NFT {
         address sender;
         address receiver;
@@ -22,7 +30,7 @@ contract GratitudeContract is ERC721, ERC721URIStorage, Ownable {
     
     }
     
-    mapping(address => NFT) private _userNft;
+    mapping(address => mapping(uint256 => NFT)) private _draftNftbyUser;
     mapping(uint256  => uint256) private _pending;
     enum NFTStatus {DRAFT, PENDING, TIMEOUT, ACCEPTED, REJECTED}
 
@@ -32,7 +40,29 @@ contract GratitudeContract is ERC721, ERC721URIStorage, Ownable {
     }
 
 
- 
+    function createGratitudeToken (uint256 status, address receiver) 
+    public
+    returns (uint256) {
+        require(status == 0 || status == 1, "ONLY STATUS DRAFT(0) OR PENDING(1) ARE ACCEPTED");
+        console.log(receiver);
+        console.log(address(0));
+        _draftTokenIds.increment();
+        uint256 draft_id = _draftTokenIds.current();
+        if (status == 0) {
+
+        } else {
+        
+         if (receiver != address(0)) {
+         // TODO SET APPROVER TO RECEVIER INN THE CASE THAT ADDRESS IS AVAILABLE
+         }    
+        }
+        
+    
+    
+
+        return draft_id;
+
+    }
 
 
     function tokenURI(uint256 tokenId)
@@ -61,7 +91,7 @@ contract GratitudeContract is ERC721, ERC721URIStorage, Ownable {
         // }
     }
 
-    function mintItem(address to, string memory _tokenURI)
+    function mintItem(string memory _tokenURI)
         public
         returns (uint256)
     {
@@ -70,12 +100,12 @@ contract GratitudeContract is ERC721, ERC721URIStorage, Ownable {
         _mint(msg.sender, id);
         _setTokenURI(id, _tokenURI);
 
-        _userNft[msg.sender] = NFT({
-        status: NFTStatus.PENDING,
-        sender:msg.sender,
-        receiver:to,
-        tokenId:id
-    });
+        // _draftNftbyUser[msg.sender] = NFT({
+        // status: NFTStatus.PENDING,
+        // sender:msg.sender,
+        // receiver:to,
+        // tokenId:id
+        //});
 
         return id;
     }
