@@ -71,11 +71,12 @@ contract GratitudeContract is ERC721, Ownable {
    *                    otherwise pass '0x0000000000000000000000000000000000000000'
    * @param _geo        for the time being pass {lat:0, lng:0}, if we have more time we could ask
    *                    location and with THEGRAPH query after coordinates and paint a world of gratitude (DREAM)
-   * @param _timeStamp  timestamp
+   * @param _timeStamp  timestamp in sec  Math.ceil((new Date().getTime())/1000)
    * @param _tokenUri   IPFS url of the json file defining the NFT atributes
    * @param _linkCode   randomString of 1o characters to be stored as kecca256
    *
    *
+   * Example args:      [1,'0x0000000000000000000000000000000000000000', {lat:0, lng:0}, 12345631, 'https://tokenuri', '67hghkihy9']
    */
   function createGratitudeToken(
     uint256 _status,
