@@ -174,7 +174,7 @@ export class AngularContract implements OnDestroy {
       }
       state = myFunction_filter[0].stateMutability;
     }
-
+    console.log('mystate: '+ state)
     if (state == 'pure' || state == 'view') {
       return await this.runContractFunction(functionName, args);
     } else {

@@ -20,6 +20,7 @@ import { BlockWithTransactions, IABI_OBJECT, IBALANCE, ICONTRACT, IINPUT_EVENT }
 import { NotifierService } from '../../notifier/notifier.service';
 import { DialogService } from '../../dialog/dialog.service';
 import { AngularContract } from 'src/app/dapp-injector/classes/contract';
+import { randomString } from 'angular-web3';
 
 
 @Component({
@@ -52,6 +53,7 @@ export class DebugComponent implements AfterViewInit {
 
   dollarExchange!: number;
   balanceDollar!: number;
+  adress_0 = '0x0000000000000000000000000000000000000000';
   constructor(
     private cd:ChangeDetectorRef,
     private dialogService: DialogService,
@@ -72,6 +74,25 @@ export class DebugComponent implements AfterViewInit {
 
   @ViewChild('payableContainer', { read: ViewContainerRef })
   payableContainer!: ViewContainerRef;
+
+  async testContract(){
+  const timestamp = Math.ceil((new Date().getTime())/1000)
+  const linkCode = randomString(10)
+  console.log(linkCode)
+  const result =  await this.debugContract.runFunction('createGratitudeToken',[1, this.adress_0, {lat:25, lng:35}, timestamp, 'https://sadada', linkCode])
+  console.log(result)
+  this.notifierService.showNotificationTransaction(result.msg);
+
+  }
+  
+  async testContract2(){
+
+    const result =  await this.debugContract.runFunction('getSentGratitude',[])
+    console.log(result)
+  
+  
+    }
+
 
   add(abi: IABI_OBJECT): void {
     this.cd.detectChanges()
