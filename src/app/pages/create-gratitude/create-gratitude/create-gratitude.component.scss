@@ -5,6 +5,43 @@
     src: url(https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&display=swap);
 }
 
+@mixin button {
+    width: 190px;
+    line-height: 56px;
+    font-size: 24px;
+    font-weight: 500;
+    border: 2px solid $white;
+    border-radius: 3px;
+    text-align: center;
+    margin: 10px 15px
+px
+ 0 0;
+    color: #fff;
+    background-color: transparent;
+    padding: 8px 8px 8px 8px;
+    border-radius: 5px;
+    text-decoration: none;
+    cursor: pointer;
+}
+button:hover {
+      width: 190px;
+    line-height: 56px;
+    font-size: 26px;
+    font-weight: 500;
+    border: 2px solid $white;
+    border-radius: 3px;
+    text-align: center;
+    margin: 10px 15px
+px
+ 0 0;
+    color: $teal;
+    background-color: $white;
+    padding: 8px 8px 8px 8px;
+    border-radius: 5px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
 .background{
     background: -webkit-linear-gradient($pink, $teal);
     width: 100vw;
@@ -25,14 +62,15 @@ input, textarea, labe{
     display: flex;
     justify-content: center;
     font-family: 'Kaushan Script', cursive;
-    font-size: 56px;
+    font-size: 66px;
     background: -webkit-linear-gradient($pink, $black);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    padding: 15px;
 }
 .title-nft{
     font-family: 'Kaushan Script', cursive;
-    background: -webkit-linear-gradient($pink, $yellow);
+    background: -webkit-linear-gradient($black, $pink);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
@@ -68,6 +106,7 @@ input, textarea, labe{
 }
 .card-filters{
     display: flex;
+    justify-content: center;
     flex-direction: column;
 }
 .image-upload{
@@ -77,6 +116,7 @@ input, textarea, labe{
 .image-upload-btn{
     display: flex;
     justify-content: center;
+    @include button;
 }
 .card-mint{
     display: flex;
@@ -85,4 +125,43 @@ input, textarea, labe{
 .card-mint-btn{
     display: flex;
     justify-content: center;
+    width: 400px;
+    @include button;
+}
+.card-buttons-btn{
+    @include button;
+}
+.card-text-label{
+    width: 175px;
+    line-height: 26px;
+    font-size: 24px;
+    font-weight: 500;
+    border: 2px solid $yellow;
+    border-radius: 3px;
+    text-align: center;
+    margin: 10px 15px
+px
+ 0 0;
+    color: $white;
+    padding: 8px;
+    background-color: transparent;
+    border-radius: 5px;
+    text-decoration: none;
+}
+.card-text-inputs{
+    width: 100%;
+    line-height: 34px;
+    font-size: 34px;
+    font-weight: 500;
+    border: 2px solid $white;
+    border-radius: 3px;
+    text-align: center;
+    margin: 10px 15px
+px
+ 0 0;
+    color: $white;
+    background-color: transparent;
+    padding: 8px 8px 8px 8px;
+    border-radius: 5px;
+    text-decoration: none;
 }
