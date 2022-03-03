@@ -63,8 +63,7 @@ contract GratitudeContract is ERC721, Ownable {
    *************************************************************************/
 
   /**
-   * @notice The receiver retrieve GratitudeNFT wen receiving the linkcode
-   *
+   * @notice Function to create the gratitude
    * @param _status     STATUS os the NFT for thetime being only pending, if we have time draft also;
    * @param _receiver   If the _reveicer is known by creation
    *                    we will add a layer security ensuring that con be only transfered to receiver
