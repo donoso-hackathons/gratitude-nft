@@ -14,18 +14,40 @@ import "hardhat/console.sol";
 contract GratitudeContract is ERC721, ERC721URIStorage, Ownable {
     using Counters for Counters.Counter;
     Counters.Counter public _tokenIds;
+    struct NFT {
+        address sender;
+        address receiver;
+        uint256 tokenId;
+        NFTStatus status;
     
+    }
+    
+    mapping(address => NFT) private _userNft;
+    mapping(uint256  => uint256) private _pending;
+    enum NFTStatus {DRAFT, PENDING, TIMEOUT, ACCEPTED, REJECTED}
+
+
     constructor() ERC721("NG NFT Contract", "NGC") {
         // _setBaseURI("https://ipfs.io/ipfs/");
     }
 
-        function tokenURI(uint256 tokenId) public view override (ERC721,ERC721URIStorage) returns (string memory) {
-        require(_exists(tokenId), "ERC721URIStorage: URI query for nonexistent token");
 
+ 
+
+
+    function tokenURI(uint256 tokenId)
+        public
+        view
+        override(ERC721, ERC721URIStorage)
+        returns (string memory)
+    {
+        require(
+            _exists(tokenId),
+            "ERC721URIStorage: URI query for nonexistent token"
+        );
 
         return super.tokenURI(tokenId);
     }
-
 
     function _burn(uint256 tokenId)
         internal
@@ -41,13 +63,19 @@ contract GratitudeContract is ERC721, ERC721URIStorage, Ownable {
 
     function mintItem(address to, string memory _tokenURI)
         public
-        onlyOwner
         returns (uint256)
     {
         _tokenIds.increment();
         uint256 id = _tokenIds.current();
-        _mint(to, id);
+        _mint(msg.sender, id);
         _setTokenURI(id, _tokenURI);
+
+        _userNft[msg.sender] = NFT({
+        status: NFTStatus.PENDING,
+        sender:msg.sender,
+        receiver:to,
+        tokenId:id
+    });
 
         return id;
     }

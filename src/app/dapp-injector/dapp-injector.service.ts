@@ -422,8 +422,9 @@ async connectLocalWallet(){
         this.store.dispatch(Web3Actions.chainBusy({ status: false }));
       });
     } else {
-      this.store.dispatch(Web3Actions.chainStatus({ status: 'disconnected' }));
-      this.store.dispatch(Web3Actions.chainBusy({ status: false }));
+      this.connectLocalWallet();
+      // this.store.dispatch(Web3Actions.chainStatus({ status: 'disconnected' }));
+      // this.store.dispatch(Web3Actions.chainBusy({ status: false }));
       this.store.pipe(web3Selectors.pleaseDisconnect).subscribe(()=> {
         console.log('i amdisconencting manually')
         this.store.dispatch(Web3Actions.chainStatus({ status: 'disconnected' }));

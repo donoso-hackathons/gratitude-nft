@@ -4,14 +4,15 @@ const { exec } = require("child_process");
 const run = (network) => {
   console.log("🛠  Compiling & Deploying...");
   let networkArg = network ? `:${network}` : "";
-  exec(`npm run deploy${networkArg}`, function (error, stdout, stderr) {
+ // exec(`npm run deploy${networkArg}`, function (error, stdout, stderr) {
+  exec(`npm run deploy`, function (error, stdout, stderr) {
     console.log(stdout);
     if (error) console.log(error);
     if (stderr) console.log(stderr);
   });
 };
 const network = process.argv.slice(2);
-
+console.log(network)
 console.log("🔬 Watching Contracts...");
 watch(
   ["./contracts", "contract.config.json"],
