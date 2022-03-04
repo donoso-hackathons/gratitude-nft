@@ -33,6 +33,8 @@ export class DappInjectorService {
   ) {
     //this.store
     this.initChain();
+
+
   }
 
   async createProvider(url_array: string[]) {
