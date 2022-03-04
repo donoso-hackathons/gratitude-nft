@@ -501,7 +501,7 @@ contract GratitudeContract is ERC721, Ownable {
         // then delete the last slot (swap and pop).
         console.log('I should be here');
         uint256 lastTokenIndex = ERC721.balanceOf(from) - 1;
-        uint256 tokenIndex = _ownedTokensIndex[tokenId];
+        uint256 tokenIndex = _ownedTokensIndex[tokenId];        
         console.log(lastTokenIndex);
         console.log(tokenIndex);
         // When the token to delete is the last token, the swap operation is unnecessary

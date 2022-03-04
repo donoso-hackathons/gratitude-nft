@@ -6,5 +6,11 @@ export interface IGRATITUDE_IPFS_JSON {
 
 }
 
+export interface IGRATITUDE_NFT extends IGRATITUDE_IPFS_JSON {
+    status:number,
+    tokenId:number
+}
+
+
 export type NFT_TYPE = 'story' | 'audio' | 'image' | 'only-text'
 // by story I mean a video less 20 sec

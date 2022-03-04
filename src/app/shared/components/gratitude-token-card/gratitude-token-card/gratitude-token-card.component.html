@@ -1,8 +1,8 @@
 <mat-card class="example-card">
-    <mat-card-header>
+    <mat-card-header *ngIf="role=='receiver'">
       <div ></div>
-      <mat-card-title>Shiba Inu</mat-card-title>
-      <mat-card-subtitle>Dog Breed</mat-card-subtitle>
+      <mat-card-title>Creter</mat-card-title>
+      <mat-card-subtitle>Send you a Gratitude Token</mat-card-subtitle>
     </mat-card-header>
     <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
     <mat-card-content>
@@ -12,8 +12,12 @@
         bred for hunting.
       </p>
     </mat-card-content>
-    <mat-card-actions>
-      <button mat-button>LIKE</button>
-      <button mat-button>SHARE</button>
+    <mat-card-actions style="text-align: center;" *ngIf="role=='receiver'">
+      <button (click)="accept()" mat-raised-button color="primary">accept</button>
+      <button (click)="reject()" mat-raised-button color="warn">reject</button>
+    </mat-card-actions>
+    <mat-card-actions  *ngIf="role=='creater'">
+      <button mat-raised-button>LIKE</button>
+      <button mat-raised-button>SHARE</button>
     </mat-card-actions>
   </mat-card>

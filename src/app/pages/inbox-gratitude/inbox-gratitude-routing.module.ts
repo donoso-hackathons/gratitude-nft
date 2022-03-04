@@ -4,6 +4,9 @@ import { InboxGratitudeComponent } from './inbox-gratitude/inbox-gratitude.compo
 
 const routes: Routes = [{
   path:'', component:InboxGratitudeComponent
+},
+{
+  path:':linkCode', component:InboxGratitudeComponent
 }];
 
 @NgModule({
