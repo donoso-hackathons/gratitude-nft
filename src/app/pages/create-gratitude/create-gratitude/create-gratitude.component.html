@@ -7,13 +7,13 @@
                 <div id="temp1" class="card-image-temp1"><img src="../../../../assets/images/birthday-g62be367ca_640.png" width="700px"></div>
                     <div class="card-image-temp2"></div>
                         <div class="card-image-temp3"></div>
-                        
+
                 <img [ngClass]="isFilter ? 'grayscale' : 'none'" [ngClass]="isFilter2 ? 'blur' : 'none'" [ngClass]="isFilter3 ? 'invert' : 'none'" class="card-image-img card-img img-thumbnail rounded img-fluid"
                     [src]="image" />
-                        
-                    
-                
-                    <div class="card-filters d-flex justify-content-around m-2">
+
+
+
+                    <div class="card-filters  justify-content-around m-2">
                         <button (click)="clickEvent()"  class="card-buttons-btn ">Grayscale</button>
                         <button (click)="clickEvent2()" class="card-buttons-btn ">Blur</button>
                         <button (click)="clickEvent3()" class="card-buttons-btn ">Invert</button>
@@ -34,7 +34,7 @@
                 </button>
             </div>
 
-            <div class="card-text-input p-2 m-2 d-flex justify-content-around">
+            <div class="card-text-input p-2 m-2 justify-content-around">
                 <div class="px-2">
                   <label class="card-text-label" for="Title">Name</label>
                 <input class="card-text-inputs" [(ngModel)]="details.name" type="text" placeholder="your name here">
