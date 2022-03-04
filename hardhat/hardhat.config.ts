@@ -89,8 +89,16 @@ const mnemonic = () => {
 }
 const defaultNetwork = "localhost";
 const config: HardhatUserConfig = {
-  solidity: "0.8.4",
-  paths: {
+  solidity: {
+    version: "0.8.4",
+    settings: {
+      optimizer: {
+        enabled: true,
+        runs: 200
+      }
+    }
+  },  
+    paths: {
     artifacts: '../src/assets/artifacts'
   },
 

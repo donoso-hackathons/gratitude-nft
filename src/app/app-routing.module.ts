@@ -14,10 +14,10 @@ const routes: Routes = [
           (m) => m.LandingModule)
     },
     {
-      path: 'gratitude',
+      path: 'dashboard',
       loadChildren: () =>
-        import('./pages/landing/landing.module').then(
-          (m) => m.LandingModule)
+        import('./pages/dashboard/dashboard.module').then(
+          (m) => m.DashboardModule)
     },
     {
       path: 'master',
