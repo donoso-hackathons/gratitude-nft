@@ -49,34 +49,6 @@ export class CreateGratitudeComponent implements OnInit {
   temp3() {
   this.image = '../../../../assets/images/hearts-g1d52ecab5_1280.png'
 }  
-  //  imageSrc = '';
-  //     messageText = '';
-  //   
-  //     imageButtons = [
-  //       {
-  //         src: 'https://images.unsplash.com/photo-1612904370392-d1dde7a8ddc8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80',
-  //         name: 'image-1'
-  //       },
-  //       {
-  //         src: '../../../../assets/images/birthday-g62be367ca_640.png',
-  //         name: 'image-2'
-  //       },
-  //       {
-  //         src: '../../../../assets/images/bubbles-g85ef2b58e_1280.png',
-  //         name: 'image-3'
-  //       },
-  //       {
-  //         src: '../../../../assets/images/hearts-g1d52ecab5_1280.png',
-  //         name: 'image-4'
-  //       }
-  //     ]
-    
-     
-  // 
-  //     onClick4(imageNameObject: { src: string; name: string; }) {
-  //       this.imageSrc = imageNameObject.src;
-  //       this.messageText = imageNameObject.name;
-  //     }
     }
 
 
