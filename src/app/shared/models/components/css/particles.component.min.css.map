@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,KAAK,AAAC,CACJ,QAAQ,CAAE,QAAQ,CAClB,KAAK,CAAE,IAAI,CACX,MAAM,CAAE,IAAI,CACb,AACD,AAAA,UAAU,AAAC,CACT,KAAK,CAAE,IAAI,CACX,MAAM,CAAE,IAAI,CACb",
+    "sources": [
+        "../particles/particles.component.scss"
+    ],
+    "names": [],
+    "file": "particles.component.min.css"
+}
