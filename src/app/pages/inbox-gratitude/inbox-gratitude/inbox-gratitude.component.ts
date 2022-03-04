@@ -40,13 +40,12 @@ export class InboxGratitudeComponent implements AfterViewInit {
     ngAfterViewInit(): void {
     this.store.dispatch(Web3Actions.chainBusy({ status: true}));
     this.linkCode = this.route.snapshot.params['linkCode'];
-    console.log(this.route.params)
+    console.log(this.route.snapshot.params)
     this.gratitudeContract =  this.dappInjectorService.config.contracts['myContract'].contract
     if (this.linkCode) {
-        console.log('linkcode')
         this.getToken()
     } else {
-     // this.router.navigateByUrl('/master')
+     this.router.navigateByUrl('/master')
     }
 
   }
