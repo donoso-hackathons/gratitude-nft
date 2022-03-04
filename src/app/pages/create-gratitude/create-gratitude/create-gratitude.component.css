@@ -50,6 +50,10 @@ button:hover {
           filter: none;
 }
 
+#temp1 {
+  display: none;
+}
+
 /* URL to SVG filter */
 /* <filter-function> values */
 /* Multiple filters */
