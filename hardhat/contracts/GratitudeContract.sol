@@ -123,6 +123,8 @@ contract GratitudeContract is ERC721, Ownable {
             }
         }
     }
+
+
     /**
      * @notice Get Gratitude token status
      *
@@ -202,6 +204,50 @@ contract GratitudeContract is ERC721, Ownable {
         }
     }
 
+
+    /**
+     * @notice  Get creator tokens, some already can be already transferred
+     *
+     *
+     * 
+     */
+    function getCreatorTokens() public view returns (NFT[] memory) {
+        uint256 balance = _balanceByCreator[msg.sender];
+  
+        NFT[] memory _creatorNFTs =  new  NFT[](balance);
+
+
+        for (uint i = 0; i < balance; i++) {
+          _creatorNFTs[i] = _gratitudeNftbyId[i +1];
+        }
+      
+        return _creatorNFTs;
+    }
+
+
+    
+    /**
+     * @notice  Get Ownedtokens, some already can be already transferred
+     *
+     *
+     * 
+     */
+    function getOwnedTokens() public view returns (string[] memory) {
+        uint256 balance = balanceOf(msg.sender);
+        
+        string[] memory _ownedURI=  new  string[](balance);
+
+
+        for (uint i = 0; i < balance; i++) {
+          _ownedURI[i] = _gratitudeNftbyId[tokenOfOwnerByIndex(msg.sender,i)].tokenUri;
+        }
+      
+        return _ownedURI;
+    }
+
+
+
+
     /**************************************************************************
      * RECEIVER ACTIVITY WHEN LINKCODE IN URL
      *************************************************************************/
@@ -248,12 +294,7 @@ contract GratitudeContract is ERC721, Ownable {
 
         bool isInTimeStamp = _gratitudeNftbyId[_tokenId].timeStamp + 10 * 60 >
             block.timestamp;
-        console.log(_gratitudeNftbyId[_tokenId].timeStamp);
-        console.log(block.timestamp);
-  
-        console.log(isInTimeStamp);
-
-        if (!isInTimeStamp) {
+          if (!isInTimeStamp) {
             _gratitudeNftbyId[_tokenId].status = NFTStatus.TIMEOUT;
             return false;
         }
@@ -339,8 +380,9 @@ contract GratitudeContract is ERC721, Ownable {
                 _isApprovedbyPending(_msgSender(), tokenId),
             "ERC721: transfer caller is not owner nor approved or NFT not yet accepted"
         );
-
-        _transfer(from, to, tokenId);
+        _beforeTokenTransfer(from, to, tokenId);
+        _safeTransfer(from, to, tokenId,"");
+        _afterTokenTransfer(from, to, tokenId);
     }
 
     /**************************************************************************
@@ -457,10 +499,11 @@ contract GratitudeContract is ERC721, Ownable {
     {
         // To prevent a gap in from's tokens array, we store the last token in the index of the token to delete, and
         // then delete the last slot (swap and pop).
-
+        console.log('I should be here');
         uint256 lastTokenIndex = ERC721.balanceOf(from) - 1;
         uint256 tokenIndex = _ownedTokensIndex[tokenId];
-
+        console.log(lastTokenIndex);
+        console.log(tokenIndex);
         // When the token to delete is the last token, the swap operation is unnecessary
         if (tokenIndex != lastTokenIndex) {
             uint256 lastTokenId = _ownedTokens[from][lastTokenIndex];
