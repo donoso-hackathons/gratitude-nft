@@ -1,0 +1,11 @@
+
+<div style="text-align: center;">
+<mat-form-field  style="margin:20px 0" appearance="fill">
+    <mat-label>Type of Gratitude Nft</mat-label>
+    <mat-select [formControl]="nftOptionControl">
+      <mat-option [value]="option" *ngFor="let option of nftOptions ">{{ option }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <create-gratitude *ngIf="nftOptionControl.value == 'image'" ></create-gratitude>
+</div>
