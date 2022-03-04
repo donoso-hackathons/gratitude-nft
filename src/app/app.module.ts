@@ -12,7 +12,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { MatIconModule } from '@angular/material/icon';
 import { blockchain_imports, blockchain_providers } from './blockchain_wiring';
-import { TopBarComponent } from './shared/models/components/top-bar/top-bar.component';
+import { TopBarComponent } from './shared/components/top-bar/top-bar.component';
 
 
 
