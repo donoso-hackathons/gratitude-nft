@@ -1,10 +1,9 @@
 import { AfterViewInit, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { DappInjectorService } from './dapp-injector/dapp-injector.service';
 import { ICONTRACT } from './dapp-injector/models';
 import { NETWORK_STATUS, web3Selectors } from './dapp-injector/store';
-
+import { Location } from '@angular/common';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -17,7 +16,7 @@ export class AppComponent implements AfterViewInit {
   signer: any;
   contractHeader!: ICONTRACT;
   constructor(
-  
+    private location: Location,
     private store:Store,
     private router:Router){
 
@@ -25,12 +24,16 @@ export class AppComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     this.store.select(web3Selectors.chainStatus).subscribe(async (value) => {
       this.blockchain_status = value;
-      console.log(value)
-      if (value == 'success'){
-        this.router.navigateByUrl('/master')
-      } else {
-        this.router.navigateByUrl('/landing')
-      }
+      console.log(this.location.path())
+      console.log(this.location.path().indexOf('/inbox-gratitude'))
+      if (this.location.path().indexOf('/inbox-gratitude') !==  -1){
+
+      } else if (value == 'success'){
+        console.log(this.router.url)
+         this.router.navigateByUrl('/master')
+       } else {
+         this.router.navigateByUrl('/landing')
+       }
 
     });
 

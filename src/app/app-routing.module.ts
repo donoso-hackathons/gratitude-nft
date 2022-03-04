@@ -20,6 +20,12 @@ const routes: Routes = [
           (m) => m.DashboardModule)
     },
     {
+      path: 'inbox-gratitude',
+      loadChildren: () =>
+        import('./pages/inbox-gratitude/inbox-gratitude.module').then(
+          (m) => m.InboxGratitudeModule)
+    },
+    {
       path: 'master',
       loadChildren: () =>
         import('./nft-master/nft-contract.module').then(
