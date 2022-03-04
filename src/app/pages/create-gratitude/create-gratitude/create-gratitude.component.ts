@@ -26,9 +26,13 @@ export class CreateGratitudeComponent implements OnInit {
     `);
   }
   isFilter: boolean = false;
+  isFilter2: boolean = false;
 
   clickEvent(){
     this.isFilter = !this.isFilter;       
+}
+  clickEvent2(){
+    this.isFilter2 = !this.isFilter2;       
 }
 }
 

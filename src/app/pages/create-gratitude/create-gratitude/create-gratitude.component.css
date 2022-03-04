@@ -41,8 +41,8 @@ button:hover {
 }
 
 .sepia {
-  -webkit-filter: sepia(100%);
-          filter: sepia(100%);
+  -webkit-filter: sepia(70%);
+          filter: sepia(70%);
 }
 
 .none {

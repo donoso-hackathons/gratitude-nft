@@ -4,7 +4,7 @@
     <div class="card">
         <div class="card-frame">
             <div class="card-image">
-                <img [ngClass]="isFilter ? 'sepia' : 'none'" class="card-image-img card-img img-thumbnail rounded img-fluid"
+                <img [ngClass]="isFilter ? 'sepia' : 'none'" [ngClass]="isFilter2" class="card-image-img card-img img-thumbnail rounded img-fluid"
                     src="https://images.unsplash.com/photo-1612904370392-d1dde7a8ddc8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80" />
                     <div class="card-filters d-flex justify-content-around m-2">
                         <button (click)="clickEvent()"  class="card-buttons-btn ">Filter1</button>
