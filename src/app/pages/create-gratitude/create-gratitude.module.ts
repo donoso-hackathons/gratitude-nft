@@ -6,12 +6,18 @@ import { CreateGratitudeWrappperComponent } from './create-gratitude-wrappper/cr
 import { MatFormFieldModule } from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
-import { CreateRecordVideoComponent } from './create-record-video/create-record-video.component';
+import { CreateRecordVideoComponent } from './create-record-video/create-record-video.component'
+import {WebcamModule} from 'ngx-webcam';
+import { CreateTakePhotoComponent } from './create-take-photo/create-take-photo.component';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+;
 @NgModule({
   declarations: [
     CreateGratitudeComponent,
     CreateGratitudeWrappperComponent,
-    CreateRecordVideoComponent
+    CreateRecordVideoComponent,
+    CreateTakePhotoComponent
   ],
   imports: [
     CommonModule,
@@ -19,7 +25,10 @@ import { CreateRecordVideoComponent } from './create-record-video/create-record-
     ReactiveFormsModule,
     MatFormFieldModule,
     MatSelectModule,
-    MatInputModule
+    WebcamModule,
+    MatInputModule,
+    MatIconModule,
+    MatButtonModule
   ],
   exports:[CreateGratitudeWrappperComponent]
 })

@@ -13,7 +13,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatIconModule } from '@angular/material/icon';
 import { blockchain_imports, blockchain_providers } from './blockchain_wiring';
 import { TopBarComponent } from './shared/components/top-bar/top-bar.component';
-
+import {WebcamModule} from 'ngx-webcam';
 
 
 @NgModule({
@@ -30,6 +30,7 @@ import { TopBarComponent } from './shared/components/top-bar/top-bar.component';
     StoreModule.forRoot({web3: we3ReducerFunction}),
     NgbModule,
     MatIconModule,
+    WebcamModule,
     ...blockchain_imports
   ],
   providers: [...blockchain_providers],
