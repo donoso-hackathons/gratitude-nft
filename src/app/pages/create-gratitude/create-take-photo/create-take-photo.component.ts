@@ -5,7 +5,7 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './create-take-photo.component.html',
   styleUrls: ['./create-take-photo.component.scss']
 })
-export class CreateRecordVideoComponent implements OnInit {
+export class CreateTakePhotoComponent implements OnInit {
 
   constructor() { }
 
