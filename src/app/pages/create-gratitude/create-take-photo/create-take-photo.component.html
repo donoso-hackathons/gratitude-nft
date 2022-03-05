@@ -2,7 +2,7 @@
   <h2>take Photo</h2>
 
   <div *ngIf="showWebcam == false" style="text-align: center">
-    <button type="button" class="top-bar-element top-bar-element-biz">
+    <button (click)="showWebcam = true" type="button" class="top-bar-element top-bar-element-biz">
       <div class="display-flex-center">
         <div class="top-bar-element-icon">
           <mat-icon> photo_camera </mat-icon>

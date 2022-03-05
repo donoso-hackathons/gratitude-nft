@@ -1,6 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { adress_0, DappInjectorService, randomString } from 'angular-web3';
+import { Contract } from 'ethers';
 import { WebcamInitError, WebcamImage, WebcamUtil } from 'ngx-webcam';
 import { Subject, Observable } from 'rxjs';
+import { IGRATITUDE_IPFS_JSON } from 'src/app/shared/models/general';
 import { IpfsService } from '../../ipfs/ipfs-service';
 
 @Component({
@@ -8,7 +11,9 @@ import { IpfsService } from '../../ipfs/ipfs-service';
   templateUrl: './create-take-photo.component.html',
   styleUrls: ['./create-take-photo.component.scss'],
 })
-export class CreateTakePhotoComponent implements OnInit {
+export class CreateTakePhotoComponent implements AfterViewInit {
+  gratitudeContract: Contract;
+
   // toggle webcam on/off
   public showWebcam = false;
   public allowCameraSwitch = true;
@@ -27,23 +32,56 @@ export class CreateTakePhotoComponent implements OnInit {
   private trigger: Subject<void> = new Subject<void>();
 
 
-constructor(public ipfsService: IpfsService) {
+constructor(public ipfsService: IpfsService, private dappInjectorService:DappInjectorService,) {
 
 }
-
-  public ngOnInit(): void {
+  ngAfterViewInit(): void {
     WebcamUtil.getAvailableVideoInputs().then(
       (mediaDevices: MediaDeviceInfo[]) => {
         this.multipleWebcamsAvailable = mediaDevices && mediaDevices.length > 1;
       }
     );
+    this.gratitudeContract =  this.dappInjectorService.config.contracts['myContract'].contract
   }
 
+
+
  async mintNft() {
-   console.log(this.webcamImage)
+
+    /// 1 - ADDING BASE64string image to IPFS
     const result = await this.ipfsService.add(this.webcamImage.imageAsDataUrl);
     console.log(result)
-    console.log(`https://ipfs.io/ipfs/${result[0].hash}`)
+    const ipfs_url = `https://ipfs.io/ipfs/${result.path}`
+
+
+  //// 2- CREATING  IPFS JSON
+    const ipfsJson: IGRATITUDE_IPFS_JSON = {
+        type:'image',
+        ipfsFileUrl: ipfs_url,
+        senderName:'myname',
+        description:'my description'
+    }
+
+ //// 3- UPLOADING IPFS JSON AND getting tokenURI
+    const result_ipfsJson = await this.ipfsService.add(JSON.stringify(ipfsJson));
+    const tokenUri = `https://ipfs.io/ipfs/${result_ipfsJson.path}`
+
+
+
+ //// 4- UPLOADING IPFS JSON AND getting tokenURI
+
+
+  //// 5- Minting token with adress_o (it means we do not know the receiver)
+   const timestamp = Math.ceil((new Date().getTime())/1000)
+   const linkCode = randomString(10)
+   const result_mint = await this.gratitudeContract.createGratitudeToken(1, adress_0, {lat:500, lng:500}, timestamp, tokenUri, linkCode)
+   
+    console.log(result_mint)
+    
+    //// TODO 
+    // feedback user and redirecto dashbboars
+
+
   }
 
   public triggerSnapshot(): void {

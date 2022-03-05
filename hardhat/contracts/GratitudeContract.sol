@@ -16,8 +16,8 @@ contract GratitudeContract is ERC721, Ownable {
     Counters.Counter public _tokenIds;
 
     struct GEO {
-        uint8 lat;
-        uint8 lng;
+        uint16 lat;
+        uint16 lng;
     }
 
     struct NFT {
