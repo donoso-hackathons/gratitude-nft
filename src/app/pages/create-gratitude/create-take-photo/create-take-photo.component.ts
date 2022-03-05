@@ -4,7 +4,7 @@ import { Subject, Observable } from 'rxjs';
 import { IpfsService } from '../../ipfs/ipfs-service';
 
 @Component({
-  selector: 'photo',
+  selector: 'create-take-photo',
   templateUrl: './create-take-photo.component.html',
   styleUrls: ['./create-take-photo.component.scss'],
 })
