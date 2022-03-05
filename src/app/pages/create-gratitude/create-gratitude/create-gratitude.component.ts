@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DappInjectorService } from 'angular-web3';
+import { IpfsService } from '../../ipfs/ipfs-service';
 
 @Component({
   selector: 'create-gratitude',
@@ -11,19 +12,69 @@ export class CreateGratitudeComponent implements OnInit {
     name:'',
     gratitude:'',
   }
-  constructor(private dappInjectorService:DappInjectorService) { }
+  imageUrl:string;
+  tokenUri :string;
+  constructor(private dappInjectorService:DappInjectorService,private ipfsService:IpfsService) { }
 
   ngOnInit(): void {
   // const myContract = this.dappInjectorService.config.contracts['myContract'].runFunction('mint',[])
   }
-  submitNft(): void {
+
+  onFileUpload(event){
+    const file: File = event.target.files[0];
+    console.log(file,"fileeeee");
+    const reader = new FileReader();
+
+    reader.addEventListener('load', async (event: any) => {
+      const buf = Buffer.from(reader.result as ArrayBuffer)
+     try {
+      const result = await this.ipfsService.add(buf);
+      console.log(result)
+      console.log(`https://ipfs.io/ipfs/${result.path}`)
+      this.imageUrl = `https://ipfs.io/ipfs/${result.path}`;
+      console.log(this.imageUrl,"imageeeeeeee");
+     } catch (error) {
+       console.log(error,"errorrr");
+       alert("Error Uploadig file");
+     }
+
+      });
+
+      reader.readAsArrayBuffer(file);
+  }
+
+  async uploadJson() {
+    const json = {
+      name: this.details.name,
+      image: this.imageUrl,
+      gratitude: this.details.gratitude
+    }
+    const result = await this.ipfsService.add(
+      JSON.stringify(json)
+    );
+
+    if (result && result.path) {
+      this.tokenUri = result.path;
+      console.log(this.tokenUri,"tokenuriiiiiiii");
+    }
+  }
+
+
+  async submitNft() {
     //Upload Files to IPFS & Mint NFT
     const {name,gratitude} = this.details;
-    if (name&&gratitude)
-    alert(`
+    if (name&&gratitude && this.imageUrl){
+      await this.uploadJson();
+      const gratitudeDetails = [1,'0x0000000000000000000000000000000000000000', {lat:0, lng:0}, 12345631, this.tokenUri, '67hghkihy9'];
+      const myContract = await this.dappInjectorService.config.contracts['myContract'].runFunction('createGratitudeToken',gratitudeDetails);
+      console.log(myContract,"detailsssss");
+    }else{
+      alert(`
     Name: ${this.details.name}
     Gratitude: ${this.details.gratitude}
     `);
+    }
+    
   }
   isFilter: boolean = false;
   isFilter2: boolean = false;
