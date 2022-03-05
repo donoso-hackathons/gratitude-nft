@@ -1,7 +1,8 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { DappInjectorService, NotifierService } from 'angular-web3';
+import { Contract } from 'ethers';
 import { IpfsService } from '../../ipfs/ipfs-service';
 
 @Component({
@@ -9,8 +10,8 @@ import { IpfsService } from '../../ipfs/ipfs-service';
   templateUrl: './create-record-audio.component.html',
   styleUrls: ['./create-record-audio.component.scss']
 })
-export class CreateRecordAudioComponent implements OnInit {
-
+export class CreateRecordAudioComponent implements AfterViewInit {
+  gratitudeContract: Contract;
   constructor(
     private store:Store,
     private cd:ChangeDetectorRef,
@@ -20,7 +21,9 @@ export class CreateRecordAudioComponent implements OnInit {
     private router: Router) {
   }
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
+    this.gratitudeContract =  this.dappInjectorService.config.contracts['myContract'].contract
+
   }
 
 }
