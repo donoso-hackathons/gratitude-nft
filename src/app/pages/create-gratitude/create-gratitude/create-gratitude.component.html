@@ -8,14 +8,14 @@
                     <div class="card-image-temp2"></div>
                         <div class="card-image-temp3"></div>
 
-                <img [ngClass]="isFilter ? 'grayscale' : 'none'" [ngClass]="isFilter2 ? 'blur' : 'none'" [ngClass]="isFilter3 ? 'invert' : 'none'" class="card-image-img card-img img-thumbnail rounded img-fluid"
+                <img [ngClass]="isFilter ? 'grayscale' : 'none'" [ngClass]="isFilter2 ? 'hue' : 'none'" [ngClass]="isFilter3 ? 'invert' : 'none'" class="card-image-img card-img img-thumbnail rounded img-fluid"
                     [src]="image" />
 
 
 
                     <div class="card-filters  justify-content-around m-2">
                         <button (click)="clickEvent()"  class="card-buttons-btn ">Grayscale</button>
-                        <button (click)="clickEvent2()" class="card-buttons-btn ">Blur</button>
+                        <button (click)="clickEvent2()" class="card-buttons-btn ">Hue</button>
                         <button (click)="clickEvent3()" class="card-buttons-btn ">Invert</button>
                         <button (click)="temp1()" class="card-buttons-btn ">Robot</button>
                         <button (click)="temp2()" class="card-buttons-btn ">Monster</button>

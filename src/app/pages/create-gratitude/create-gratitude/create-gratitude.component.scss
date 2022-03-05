@@ -68,6 +68,9 @@ button:hover {
 .none{
     filter: none;
 }
+.hue{
+    filter: hue-rotate(90deg);
+}
 
 // image Templates
 #temp1{
