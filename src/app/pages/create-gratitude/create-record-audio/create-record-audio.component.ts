@@ -24,6 +24,12 @@ export class CreateRecordAudioComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     this.gratitudeContract =  this.dappInjectorService.config.contracts['myContract'].contract
 
+  //   navigator.mediaDevices.getUserMedia({ audio: true })
+  // .then(stream => {
+  //   const mediaRecorder = new MediaRecorder(stream);
+  //   mediaRecorder.start();
+  // });
+ 
   }
 
 }
