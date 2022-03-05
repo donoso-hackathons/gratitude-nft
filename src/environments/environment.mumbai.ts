@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
   network:'mumbai',
-  privKey:''
+  privKey:'',
+  host:"http://localhost:4200"
 };
 
 /*

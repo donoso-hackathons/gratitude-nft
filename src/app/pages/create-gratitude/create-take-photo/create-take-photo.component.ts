@@ -6,6 +6,7 @@ import { Contract } from 'ethers';
 import { WebcamInitError, WebcamImage, WebcamUtil } from 'ngx-webcam';
 import { Subject, Observable } from 'rxjs';
 import { IGRATITUDE_IPFS_JSON } from 'src/app/shared/models/general';
+import { environment } from 'src/environments/environment';
 import { IpfsService } from '../../ipfs/ipfs-service';
 
 @Component({
@@ -15,6 +16,8 @@ import { IpfsService } from '../../ipfs/ipfs-service';
 })
 export class CreateTakePhotoComponent implements AfterViewInit {
   gratitudeContract: Contract;
+  show_mint_code: string;
+  show_mint_success = false;
 
   // toggle webcam on/off
   public showWebcam = false;
@@ -32,6 +35,7 @@ export class CreateTakePhotoComponent implements AfterViewInit {
 
   // webcam snapshot trigger
   private trigger: Subject<void> = new Subject<void>();
+
 
 
 constructor(
@@ -100,8 +104,10 @@ constructor(
    const result_mint = await this.gratitudeContract.createGratitudeToken(1, adress_0, {lat:500, lng:500}, timestamp, tokenUri, linkCode)
    const tx =  await result_mint.wait();
   
-   await this.notifierService.showNotificationTransaction({success:true, success_message: 'NFT Minted!!'});
+  // await this.notifierService.showNotificationTransaction({success:true, success_message: 'NFT Minted!!'});
    this.store.dispatch(Web3Actions.chainBusy({ status: false }));
+   this.show_mint_success = true
+   this.show_mint_code = `${environment.host}/inbox-gratitude/${linkCode}`
    //this.router.navigateByUrl('/dashboard')
 
 

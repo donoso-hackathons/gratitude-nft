@@ -12,6 +12,8 @@ import { CreateTakePhotoComponent } from './create-take-photo/create-take-photo.
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { DashboardModule } from '../dashboard/dashboard.module';
+import { ClipboardModule } from '@angular/cdk/clipboard';
+import { ParticlesModule } from 'src/app/shared/components/particles/particles.module';
 ;
 @NgModule({
   declarations: [
@@ -29,7 +31,9 @@ import { DashboardModule } from '../dashboard/dashboard.module';
     WebcamModule,
     MatInputModule,
     MatIconModule,
-    MatButtonModule
+    MatButtonModule,
+    ClipboardModule,
+    ParticlesModule
   ],
   exports:[CreateGratitudeWrappperComponent]
 })

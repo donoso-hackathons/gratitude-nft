@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
   network:undefined,
-  privKey:undefined
+  privKey:undefined,
+  host:"http://localhost:4200"
 };
 
 /*
