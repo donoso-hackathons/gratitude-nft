@@ -1,8 +1,8 @@
 @import "../../../../assets/css/variables";
-@import url('https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@900&family=Syncopate:wght@700&display=swap');
 @font-face {
-    font-family: "Glory";
-    src: url(https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&display=swap);
+    font-family: "Orbitron";
+    src: url(https://fonts.googleapis.com/css2?family=Orbitron:wght@900&family=Syncopate:wght@700&display=swap);
 }
 
 @mixin button {
@@ -123,15 +123,15 @@ input, textarea, labe{
 .title{
     display: flex;
     justify-content: center;
-    font-family: 'Kaushan Script', cursive;
-    font-size: 66px;
+font-family: 'Syncopate', sans-serif;    font-size: 66px;
     background: -webkit-linear-gradient($pink, $black);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     padding: 15px;
 }
 .title-nft{
-    font-family: 'Kaushan Script', cursive;
+    margin-left: 24px;
+    font-family: 'Orbitron', sans-serif;
     background: -webkit-linear-gradient($black, $pink);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
