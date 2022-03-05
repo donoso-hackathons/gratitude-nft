@@ -29,7 +29,8 @@
                 </h4>
                 </div> -->
             <div class="image-upload">
-                <button class="image-upload-btn btn-primary p-2 mb-3">
+                <input hidden type ="file" (change) = "onFileUpload($event)" #fileupload>
+                <button (click) = "fileupload.click()" class="image-upload-btn btn-primary p-2 mb-3">
                     Upload Image
                 </button>
             </div>
