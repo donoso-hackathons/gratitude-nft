@@ -123,11 +123,18 @@ input, textarea, labe{
 .title{
     display: flex;
     justify-content: center;
-font-family: 'Syncopate', sans-serif;    font-size: 66px;
+    font-family: 'Syncopate', sans-serif;
+    font-size: 66px;
     background: -webkit-linear-gradient($pink, $black);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     padding: 15px;
+    @media screen and (max-width:800px) {
+      font-size: 44px;
+    }
+    @media screen and (max-width:600px) {
+      font-size: 26px;
+    }
 }
 .title-nft{
     margin-left: 24px;
