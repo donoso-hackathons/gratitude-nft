@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { DappInjectorService } from 'angular-web3';
+import { DappInjectorService, NotifierService,Web3Actions,adress_0,randomString } from 'angular-web3';
 import { IpfsService } from '../../ipfs/ipfs-service';
+import {IGRATITUDE_IPFS_JSON} from 'src/app/shared/models/general';
+import { Store } from '@ngrx/store';
+import { Contract } from 'ethers';
+
 
 @Component({
   selector: 'create-gratitude',
@@ -8,16 +12,18 @@ import { IpfsService } from '../../ipfs/ipfs-service';
   styleUrls: ['./create-gratitude.component.scss']
 })
 export class CreateGratitudeComponent implements OnInit {
+  gratitudeContract: Contract;
   details = {
     name:'',
     gratitude:'',
   }
   imageUrl:string;
   tokenUri :string;
-  constructor(private dappInjectorService:DappInjectorService,private ipfsService:IpfsService) { }
+  constructor(private dappInjectorService:DappInjectorService,private ipfsService:IpfsService,private store:Store,private notifierService: NotifierService,) { }
 
   ngOnInit(): void {
   // const myContract = this.dappInjectorService.config.contracts['myContract'].runFunction('mint',[])
+  this.gratitudeContract =  this.dappInjectorService.config.contracts['myContract'].contract
   }
 
   onFileUpload(event){
@@ -64,10 +70,7 @@ export class CreateGratitudeComponent implements OnInit {
     //Upload Files to IPFS & Mint NFT
     const {name,gratitude} = this.details;
     if (name&&gratitude && this.imageUrl){
-      await this.uploadJson();
-      const gratitudeDetails = [1,'0x0000000000000000000000000000000000000000', {lat:0, lng:0}, 12345631, this.tokenUri, '67hghkihy9'];
-      const myContract = await this.dappInjectorService.config.contracts['myContract'].runFunction('createGratitudeToken',gratitudeDetails);
-      console.log(myContract,"detailsssss");
+     await this.mintNft();
     }else{
       alert(`
     Name: ${this.details.name}
@@ -76,6 +79,72 @@ export class CreateGratitudeComponent implements OnInit {
     }
     
   }
+
+
+  async mintNft() {
+
+    this.store.dispatch(Web3Actions.chainBusy({ status: true }));
+    
+    let tokenUri;
+  
+    try {
+  
+  
+    //// 2- CREATING  IPFS JSON
+      const ipfsJson: IGRATITUDE_IPFS_JSON = {
+          type:'image',
+          ipfsFileUrl: this.imageUrl,
+          senderName:this.details.name,
+          description:this.details.gratitude,
+      }
+
+      console.log(JSON.stringify(ipfsJson),"json");
+  
+   //// 3- UPLOADING IPFS JSON AND getting tokenURI
+      const result_ipfsJson = await this.ipfsService.add(JSON.stringify(ipfsJson));
+      this.tokenUri = `https://ipfs.io/ipfs/${result_ipfsJson.path}`
+      console.log(this.tokenUri,"uriiiiiiii");
+  
+  
+      
+    } catch (error) {
+      console.log(error,"errorrrrrr");
+      this.notifierService.showNotificationTransaction({success:false, error_message:' Problems woth IPFS'});
+    
+      this.store.dispatch(Web3Actions.chainBusy({ status: false}));
+    }
+  
+  
+  
+    //// 4- Minting token with adress_o (it means we do not know the receiver)
+    try {
+  
+  
+  
+     const timestamp = Math.ceil((new Date().getTime())/1000)
+     const linkCode = randomString(10)
+     const result_mint = await this.gratitudeContract.createGratitudeToken(1, adress_0, {lat:500, lng:500}, timestamp, this.tokenUri, linkCode)
+     const tx =  await result_mint.wait();
+     console.log(tx,"transactionnnn")
+    
+     await this.notifierService.showNotificationTransaction({success:true, success_message: 'NFT Minted!!'});
+     this.store.dispatch(Web3Actions.chainBusy({ status: false }));
+     //this.router.navigateByUrl('/dashboard')
+  
+  
+          
+    } catch (error) {
+      console.log(error,"error minting")
+      const error_message = await this.dappInjectorService.handleContractError(error);
+      this.notifierService.showNotificationTransaction({success:false, error_message: error_message});
+      this.store.dispatch(Web3Actions.chainBusy({ status: false }));
+      
+    }
+      
+   
+  
+  
+    }
   isFilter: boolean = false;
   isFilter2: boolean = false;
   isFilter3: boolean = false;
