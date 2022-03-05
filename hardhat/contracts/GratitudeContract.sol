@@ -4,6 +4,7 @@ pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 
 import "hardhat/console.sol";
 
@@ -11,9 +12,10 @@ import "hardhat/console.sol";
 
 // GET LISTED ON OPENSEA: https://testnets.opensea.io/get-listed/step-two
 
-contract GratitudeContract is ERC721, Ownable {
+contract GratitudeContract is ERC721, Ownable, ReentrancyGuard {
     using Counters for Counters.Counter;
     Counters.Counter public _tokenIds;
+    Counters.Counter public _campaignIds;
 
     struct GEO {
         uint16 lat;
@@ -23,11 +25,33 @@ contract GratitudeContract is ERC721, Ownable {
     struct NFT {
         address receiver;
         uint256 tokenId;
-        NFTStatus status;
+        NftStatus status;
         GEO geo;
         uint256 timeStamp;
         string tokenUri;
         bytes32 linkCode;
+    }
+
+    enum NftStatus {
+        DRAFT,
+        PENDING,
+        STANDBY,
+        TIMEOUT,
+        ACCEPTED,
+        REJECTED
+    }
+
+    struct Campaign {
+        uint256 campaignId;
+        CampaignStatus status;
+        string campaignUri;
+        address campaign_creator;
+    }
+
+    enum CampaignStatus {
+        ONBOARD,
+        ACCEPTED,
+        REJECTED
     }
 
     ///Global NFT Mapping
@@ -46,23 +70,37 @@ contract GratitudeContract is ERC721, Ownable {
     ///// Needed to approve transfer while pending
     mapping(uint256 => address) private _approvePending;
 
-    enum NFTStatus {
-        DRAFT,
-        PENDING,
-        STANDBY,
-        TIMEOUT,
-        ACCEPTED,
-        REJECTED
-    }
+    ///// Gratitude Events
+    event GratitudeTokenCreationEvent(
+        uint256 indexed tokenId,
+        NftStatus status,
+        address sender,
+        address receiver,
+        GEO geo,
+        string tokenUri
+    );
+    event GratitudTokenChangeStatusEvent(uint256 tokenId, NftStatus  status);
+    event GratitudTokenAceptedEvent(uint256 tokenId, NftStatus status, GEO geo);
+
+
+    //Global Campaign Mapping
+    mapping(uint256 => Campaign) private _campaignById;
+
+    ///// Campaign Events
+    event GratitudeCampaignCreatedEvent(
+        uint256 indexed campaignId,
+        CampaignStatus status,
+        string campaignUri
+    );
+    event GratitudeCampaignVerified(uint256 campaignId);
+    event GratitudeCampaignRejected(uint256 campaignId);
 
     constructor() ERC721("GRATITUDE NFT", "GRA") {
         // _setBaseURI("https://ipfs.io/ipfs/");
     }
 
-    /**************************************************************************
-     * CREATOR ACTIVITY
-     *************************************************************************/
-
+    // ============ CREATOR ACTIVITY  PUBLIC FUNCTIONS ============ 
+    
     /**
      * @notice Function to create the gratitude
      * @param _status     STATUS os the NFT for thetime being only pending, if we have time draft also;
@@ -85,16 +123,16 @@ contract GratitudeContract is ERC721, Ownable {
         uint256 _timeStamp,
         string memory _tokenUri,
         string memory _linkCode
-    ) public {
+    ) external payable {
         require(
             _status == 0 || _status == 1,
             "ONLY STATUS DRAFT(0) OR PENDING(1) ARE ACCEPTED"
         );
         _tokenIds.increment();
         uint256 id = _tokenIds.current();
-
+ 
         NFT memory _newGratitudeNft = NFT({
-            status: NFTStatus.DRAFT,
+            status: NftStatus.DRAFT,
             receiver: _receiver,
             geo: _geo,
             tokenId: id,
@@ -107,30 +145,29 @@ contract GratitudeContract is ERC721, Ownable {
 
         if (_status == 1) {
             /// IF GRATITUDE TOKEN IS READY MINT NFT, SET STATUS TO PENDING
-            _newGratitudeNft.status = NFTStatus.PENDING;
-
-            _mint(msg.sender, id);
-            _newGratitudeNft.tokenId = id;
-            _balanceByCreator[msg.sender] += 1;
-            _createdGratitudeNFT[msg.sender][
-                _balanceByCreator[msg.sender]
-            ] = id;
-            _gratitudeNftbyId[id] = _newGratitudeNft;
-
+            _newGratitudeNft.status = NftStatus.PENDING;
             if (_receiver != address(0)) {
                 // IF RECEIVER ADDRESS IS KNOWN THEN SET APPROVER ADDRESS TO RECEIVER
                 _approvePending[id] = _receiver;
             }
         }
-    }
 
+            _mint(msg.sender, id);
+            _newGratitudeNft.tokenId = id;
+            _balanceByCreator[msg.sender] += 1;
+            _createdGratitudeNFT[msg.sender][_balanceByCreator[msg.sender]] = id;
+            _gratitudeNftbyId[id] = _newGratitudeNft;
+
+          emit GratitudeTokenCreationEvent(id, NftStatus(_status), msg.sender, _receiver, _geo, _tokenUri);  
+
+    }
 
     /**
      * @notice Get Gratitude token status
      *
      * @param _tokenId    token to lookup
      */
-    function getStatus(uint256 _tokenId) public view returns (NFTStatus) {
+    function getStatus(uint256 _tokenId) public view returns (NftStatus) {
         return _gratitudeNftbyId[_tokenId].status;
     }
 
@@ -139,17 +176,17 @@ contract GratitudeContract is ERC721, Ownable {
      *
      * @param _tokenId    token to lookup
      */
-    function checkPendingStatusPriorToGet(uint256 _tokenId) public {
+    function checkPendingStatusPriorToGet(uint256 _tokenId) public  {
         bool isInTimeStamp = _gratitudeNftbyId[_tokenId].timeStamp + 10 * 60 >
             block.timestamp;
 
         if (
             !isInTimeStamp &&
-            _gratitudeNftbyId[_tokenId].status == NFTStatus.PENDING &&
+            _gratitudeNftbyId[_tokenId].status == NftStatus.PENDING &&
             _gratitudeNftbyId[_tokenId].receiver == address(0) &&
             ERC721.ownerOf(_tokenId) == msg.sender
         ) {
-            _gratitudeNftbyId[_tokenId].status = NFTStatus.TIMEOUT;
+            _gratitudeNftbyId[_tokenId].status = NftStatus.TIMEOUT;
         }
     }
 
@@ -160,16 +197,14 @@ contract GratitudeContract is ERC721, Ownable {
      * @param _tokenId    token to lookup
      */
     function cancelWhenStillPending(uint256 _tokenId) public {
+        require(ERC721.ownerOf(_tokenId) == msg.sender, "NOT CREATOR");
         require(
-                ERC721.ownerOf(_tokenId) == msg.sender,
-            "NOT CREATOR"
-        );
-        require(
-            _gratitudeNftbyId[_tokenId].status == NFTStatus.PENDING,
+            _gratitudeNftbyId[_tokenId].status == NftStatus.PENDING,
             "NFT NOT IN PENDING STATUS"
         );
 
-        _gratitudeNftbyId[_tokenId].status = NFTStatus.STANDBY;
+        _gratitudeNftbyId[_tokenId].status = NftStatus.STANDBY;
+        emit GratitudTokenChangeStatusEvent(_tokenId, NftStatus.STANDBY);
     }
 
     /**
@@ -188,69 +223,42 @@ contract GratitudeContract is ERC721, Ownable {
         string memory _linkCode
     ) public {
         NFT storage _gratitudeNft = _gratitudeNftbyId[_tokenId];
-        NFTStatus _status = _gratitudeNft.status;
+        NftStatus _status = _gratitudeNft.status;
         require(
-            (_status == NFTStatus.REJECTED ||
-                _status == NFTStatus.STANDBY ||
-                _status == NFTStatus.TIMEOUT) &&
+            (_status == NftStatus.REJECTED ||
+                _status == NftStatus.STANDBY ||
+                _status == NftStatus.TIMEOUT) &&
                 ERC721.ownerOf(_tokenId) == msg.sender,
             "NFT IS NOT REJECTED NOR TIMEOUT NOR STANDBY"
         );
-        _gratitudeNft.status = NFTStatus.PENDING;
+        _gratitudeNft.status = NftStatus.PENDING;
         _gratitudeNft.linkCode = keccak256(abi.encodePacked(_linkCode));
         if (_receiver != address(0)) {
             // IF RECEIVER ADDRESS IS KNOWN THEN SET APPROVER ADDRESS TO RECEIVER
             _approvePending[_tokenId] = _receiver;
         }
+        emit GratitudTokenChangeStatusEvent(_tokenId, NftStatus.PENDING);
     }
-
 
     /**
      * @notice  Get creator tokens, some already can be already transferred
      *
      *
-     * 
+     *
      */
     function getCreatorTokens() public view returns (NFT[] memory) {
         uint256 balance = _balanceByCreator[msg.sender];
-  
-        NFT[] memory _creatorNFTs =  new  NFT[](balance);
 
+        NFT[] memory _creatorNFTs = new NFT[](balance);
 
-        for (uint i = 0; i < balance; i++) {
-          _creatorNFTs[i] = _gratitudeNftbyId[i +1];
+        for (uint256 i = 0; i < balance; i++) {
+            _creatorNFTs[i] = _gratitudeNftbyId[i + 1];
         }
-      
+
         return _creatorNFTs;
     }
 
-
-    
-    /**
-     * @notice  Get Ownedtokens, some already can be already transferred
-     *
-     *
-     * 
-     */
-    function getOwnedTokens() public view returns (string[] memory) {
-        uint256 balance = balanceOf(msg.sender);
-        
-        string[] memory _ownedURI=  new  string[](balance);
-
-
-        for (uint i = 0; i < balance; i++) {
-          _ownedURI[i] = _gratitudeNftbyId[tokenOfOwnerByIndex(msg.sender,i)].tokenUri;
-        }
-      
-        return _ownedURI;
-    }
-
-
-
-
-    /**************************************************************************
-     * RECEIVER ACTIVITY WHEN LINKCODE IN URL
-     *************************************************************************/
+    // ============ RECEIVER ACTIVITY WHEN LINKCODE IN URL ============
 
     /**
      * @notice The receiver retrieve GratitudeNFT wen receiving the linkcode
@@ -276,10 +284,11 @@ contract GratitudeContract is ERC721, Ownable {
         bytes32 _linkCodeHash = keccak256(abi.encodePacked(_linkCode));
         uint256 id = _linkCodeHashToId[_linkCodeHash];
         require(
-            _gratitudeNftbyId[id].status == NFTStatus.PENDING,
+            _gratitudeNftbyId[id].status == NftStatus.PENDING,
             "NFT NOT IN PENDING STATUS"
         );
-        _gratitudeNftbyId[id].status = NFTStatus.REJECTED;
+        _gratitudeNftbyId[id].status = NftStatus.REJECTED;
+        emit GratitudTokenChangeStatusEvent(id, NftStatus.REJECTED);
     }
 
     /**
@@ -288,14 +297,14 @@ contract GratitudeContract is ERC721, Ownable {
      * @param _tokenId token to lookup
      */
     function _isTimeStampReady(uint256 _tokenId) internal returns (bool) {
-        if (_gratitudeNftbyId[_tokenId].status != NFTStatus.PENDING) {
+        if (_gratitudeNftbyId[_tokenId].status != NftStatus.PENDING) {
             return false;
         }
 
         bool isInTimeStamp = _gratitudeNftbyId[_tokenId].timeStamp + 10 * 60 >
             block.timestamp;
-          if (!isInTimeStamp) {
-            _gratitudeNftbyId[_tokenId].status = NFTStatus.TIMEOUT;
+        if (!isInTimeStamp) {
+            _gratitudeNftbyId[_tokenId].status = NftStatus.TIMEOUT;
             return false;
         }
         return true;
@@ -306,7 +315,7 @@ contract GratitudeContract is ERC721, Ownable {
      *
      * @param _linkCode linkCode received in URL
      */
-    function acceptLinkHash(string memory _linkCode) public {
+    function acceptLinkHash(string memory _linkCode, GEO memory _geo) public {
         bytes32 _linkCodeHash = keccak256(abi.encodePacked(_linkCode));
         address to = msg.sender;
         uint256 id = _linkCodeHashToId[_linkCodeHash];
@@ -321,7 +330,8 @@ contract GratitudeContract is ERC721, Ownable {
             _approvePending[id] = to;
             transferFrom(owner, to, id);
         }
-        _gratitudeNftbyId[id].status = NFTStatus.ACCEPTED;
+        _gratitudeNftbyId[id].status = NftStatus.ACCEPTED;
+        emit GratitudTokenAceptedEvent(id, NftStatus.ACCEPTED, _geo);
     }
 
     /**
@@ -345,7 +355,7 @@ contract GratitudeContract is ERC721, Ownable {
         return ((spender == owner ||
             getApproved(tokenId) == spender ||
             isApprovedForAll(owner, spender)) &&
-            _gratitudeNftbyId[tokenId].status == NFTStatus.ACCEPTED);
+            _gratitudeNftbyId[tokenId].status == NftStatus.ACCEPTED);
     }
 
     /**
@@ -374,171 +384,61 @@ contract GratitudeContract is ERC721, Ownable {
         address from,
         address to,
         uint256 tokenId
-    ) public override {
+    ) public override nonReentrant {
         require(
             _isApprovedOrOwner(_msgSender(), tokenId) ||
                 _isApprovedbyPending(_msgSender(), tokenId),
             "ERC721: transfer caller is not owner nor approved or NFT not yet accepted"
         );
-        _beforeTokenTransfer(from, to, tokenId);
-        _safeTransfer(from, to, tokenId,"");
-        _afterTokenTransfer(from, to, tokenId);
+        _safeTransfer(from, to, tokenId, "");
     }
 
-    /**************************************************************************
-     * ENNUMERABLE CONTRACT FUNCTIONS AND MAPPICS FOR REPORTING ACCEPTED NFT'S
-     *************************************************************************/
-    mapping(address => mapping(uint256 => uint256)) private _ownedTokens;
-
-    // Mapping from token ID to index of the owner tokens list
-    mapping(uint256 => uint256) private _ownedTokensIndex;
-
-    // Array with all token ids, used for enumeration
-    uint256[] private _allTokens;
-
-    // Mapping from token id to position in the allTokens array
-    mapping(uint256 => uint256) private _allTokensIndex;
+    // ============ CREATE CAMPAIGNS  PUBLIC FUNCTIONS ============
 
     /**
-     * @dev See {IERC721Enumerable-tokenOfOwnerByIndex}.
+     * @notice The receiver retrieve GratitudeNFT wen receiving the linkcode
+     *
+     * @param _campaignUri received in URL
      */
-    function tokenOfOwnerByIndex(address owner, uint256 index)
+    function createCampaign(string memory _campaignUri)
         public
-        view
-        returns (uint256)
-    {
-        require(
-            index < ERC721.balanceOf(owner),
-            "ERC721Enumerable: owner index out of bounds"
-        );
-        return _ownedTokens[owner][index];
+        nonReentrant
+        {
+   
+        _campaignIds.increment();
+        uint256 id = _campaignIds.current();
+            Campaign memory _newCampaign = Campaign({
+            campaignId: id,
+            status: CampaignStatus.ONBOARD,
+            campaignUri:_campaignUri, 
+            campaign_creator: msg.sender
+            });
+
+            _campaignById[id] = _newCampaign;
+        emit GratitudeCampaignCreatedEvent(id, CampaignStatus.ONBOARD, _campaignUri); 
     }
 
-    /**
-     * @dev See {IERC721Enumerable-totalSupply}.
-     */
-    function totalSupply() public view returns (uint256) {
-        return _allTokens.length;
+    function getCampaignStatus(uint256 _campaignId) public view returns(CampaignStatus){
+        return _campaignById[_campaignId].status;
     }
 
-    /**
-     * @dev See {IERC721Enumerable-tokenByIndex}.
-     */
-    function tokenByIndex(uint256 index) public view returns (uint256) {
-        require(
-            index < totalSupply(),
-            "ERC721Enumerable: global index out of bounds"
-        );
-        return _allTokens[index];
+    // ============= OWNER-ONLY ADMIN FUNCTIONS  ============
+
+    function approveCampaign(uint256 _campaignId) external onlyOwner {
+         _campaignById[_campaignId].status = CampaignStatus.ACCEPTED;
+         emit GratitudeCampaignVerified(_campaignId);
+       
     }
 
-    /**
-     * @dev Hook that is called before any token transfer. This includes minting
-     * and burning.
-     *
-     * Calling conditions:
-     *
-     * - When `from` and `to` are both non-zero, ``from``'s `tokenId` will be
-     * transferred to `to`.
-     * - When `from` is zero, `tokenId` will be minted for `to`.
-     * - When `to` is zero, ``from``'s `tokenId` will be burned.
-     * - `from` cannot be the zero address.
-     * - `to` cannot be the zero address.
-     *
-     * To learn more about hooks, head to xref:ROOT:extending-contracts.adoc#using-hooks[Using Hooks].
-     */
-    function _beforeTokenTransfer(
-        address from,
-        address to,
-        uint256 tokenId
-    ) internal virtual override {
-        super._beforeTokenTransfer(from, to, tokenId);
-
-        if (from == address(0)) {
-            _addTokenToAllTokensEnumeration(tokenId);
-        } else if (from != to) {
-            _removeTokenFromOwnerEnumeration(from, tokenId);
-        }
-        if (to == address(0)) {
-            _removeTokenFromAllTokensEnumeration(tokenId);
-        } else if (to != from) {
-            _addTokenToOwnerEnumeration(to, tokenId);
-        }
+    function rejectCampaign(uint256 _campaignId) external onlyOwner {
+         _campaignById[_campaignId].status = CampaignStatus.REJECTED;
+         emit GratitudeCampaignRejected(_campaignId);
     }
 
-    /**
-     * @dev Private function to add a token to this extension's ownership-tracking data structures.
-     * @param to address representing the new owner of the given token ID
-     * @param tokenId uint256 ID of the token to be added to the tokens list of the given address
-     */
-    function _addTokenToOwnerEnumeration(address to, uint256 tokenId) private {
-        uint256 length = ERC721.balanceOf(to);
-        _ownedTokens[to][length] = tokenId;
-        _ownedTokensIndex[tokenId] = length;
-    }
+    receive() external payable {}
 
-    /**
-     * @dev Private function to add a token to this extension's token tracking data structures.
-     * @param tokenId uint256 ID of the token to be added to the tokens list
-     */
-    function _addTokenToAllTokensEnumeration(uint256 tokenId) private {
-        _allTokensIndex[tokenId] = _allTokens.length;
-        _allTokens.push(tokenId);
-    }
-
-    /**
-     * @dev Private function to remove a token from this extension's ownership-tracking data structures. Note that
-     * while the token is not assigned a new owner, the `_ownedTokensIndex` mapping is _not_ updated: this allows for
-     * gas optimizations e.g. when performing a transfer operation (avoiding double writes).
-     * This has O(1) time complexity, but alters the order of the _ownedTokens array.
-     * @param from address representing the previous owner of the given token ID
-     * @param tokenId uint256 ID of the token to be removed from the tokens list of the given address
-     */
-    function _removeTokenFromOwnerEnumeration(address from, uint256 tokenId)
-        private
-    {
-        // To prevent a gap in from's tokens array, we store the last token in the index of the token to delete, and
-        // then delete the last slot (swap and pop).
-        console.log('I should be here');
-        uint256 lastTokenIndex = ERC721.balanceOf(from) - 1;
-        uint256 tokenIndex = _ownedTokensIndex[tokenId];        
-        console.log(lastTokenIndex);
-        console.log(tokenIndex);
-        // When the token to delete is the last token, the swap operation is unnecessary
-        if (tokenIndex != lastTokenIndex) {
-            uint256 lastTokenId = _ownedTokens[from][lastTokenIndex];
-
-            _ownedTokens[from][tokenIndex] = lastTokenId; // Move the last token to the slot of the to-delete token
-            _ownedTokensIndex[lastTokenId] = tokenIndex; // Update the moved token's index
-        }
-
-        // This also deletes the contents at the last position of the array
-        delete _ownedTokensIndex[tokenId];
-        delete _ownedTokens[from][lastTokenIndex];
-    }
-
-    /**
-     * @dev Private function to remove a token from this extension's token tracking data structures.
-     * This has O(1) time complexity, but alters the order of the _allTokens array.
-     * @param tokenId uint256 ID of the token to be removed from the tokens list
-     */
-    function _removeTokenFromAllTokensEnumeration(uint256 tokenId) private {
-        // To prevent a gap in the tokens array, we store the last token in the index of the token to delete, and
-        // then delete the last slot (swap and pop).
-
-        uint256 lastTokenIndex = _allTokens.length - 1;
-        uint256 tokenIndex = _allTokensIndex[tokenId];
-
-        // When the token to delete is the last token, the swap operation is unnecessary. However, since this occurs so
-        // rarely (when the last minted token is burnt) that we still do the swap here to avoid the gas cost of adding
-        // an 'if' statement (like in _removeTokenFromOwnerEnumeration)
-        uint256 lastTokenId = _allTokens[lastTokenIndex];
-
-        _allTokens[tokenIndex] = lastTokenId; // Move the last token to the slot of the to-delete token
-        _allTokensIndex[lastTokenId] = tokenIndex; // Update the moved token's index
-
-        // This also deletes the contents at the last position of the array
-        delete _allTokensIndex[tokenId];
-        _allTokens.pop();
+    function withdraw() public onlyOwner {
+        uint256 balance = address(this).balance;
+        payable(msg.sender).transfer(balance);
     }
 }
