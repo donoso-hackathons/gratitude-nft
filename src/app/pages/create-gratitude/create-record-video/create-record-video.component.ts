@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'record-video',
+  selector: 'create-record-video',
   templateUrl: './create-record-video.component.html',
   styleUrls: ['./create-record-video.component.scss']
 })

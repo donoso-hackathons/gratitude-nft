@@ -17,12 +17,14 @@ import { ParticlesModule } from 'src/app/shared/components/particles/particles.m
 import { CommonFormComponent } from './common-form/common-form.component';
 ;
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { CreateRecordAudioComponent } from './create-record-audio/create-record-audio.component';
 
 @NgModule({
   declarations: [
     CreateGratitudeComponent,
     CreateGratitudeWrappperComponent,
     CreateRecordVideoComponent,
+    CreateRecordAudioComponent,
     CreateTakePhotoComponent,
     CommonFormComponent
   ],
