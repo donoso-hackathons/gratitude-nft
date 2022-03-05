@@ -14,6 +14,7 @@ import { CreateGratitudeModule } from '../pages/create-gratitude/create-gratitud
 
 import { NftContractRoutingModule } from './nft-contract-routing.module';
 import { blockchain_imports, blockchain_providers } from '../blockchain_wiring';
+import { DashboardModule } from '../pages/dashboard/dashboard.module';
 
 
 
@@ -34,6 +35,7 @@ import { blockchain_imports, blockchain_providers } from '../blockchain_wiring';
     IpfsModule,
     CreateGratitudeModule,
     NftContractRoutingModule,
+    DashboardModule,
     ...blockchain_imports
   ],
   providers:[...blockchain_providers] ,

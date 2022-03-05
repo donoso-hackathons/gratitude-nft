@@ -11,6 +11,7 @@ import {WebcamModule} from 'ngx-webcam';
 import { CreateTakePhotoComponent } from './create-take-photo/create-take-photo.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { DashboardModule } from '../dashboard/dashboard.module';
 ;
 @NgModule({
   declarations: [

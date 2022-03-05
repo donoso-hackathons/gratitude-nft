@@ -13,8 +13,9 @@ import {MatDividerModule} from '@angular/material/divider';
   imports: [
     CommonModule,
     GratitudeTokenCardModule,
-    DashboardRoutingModule,
+   // DashboardRoutingModule,
     MatDividerModule
-  ]
+  ],
+  exports:[DashboardComponent]
 })
 export class DashboardModule { }

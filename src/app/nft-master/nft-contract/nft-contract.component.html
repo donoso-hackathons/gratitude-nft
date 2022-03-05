@@ -9,6 +9,12 @@
 <div *ngIf="!!contractHeader">
   <mat-tab-group [(selectedIndex)]="selectedIndex" mat-align-tabs="center">
 
+    <mat-tab label="Dashboard">
+     <nft-dashboard></nft-dashboard>
+   
+     </mat-tab>
+
+
     <mat-tab label="Create Gratitude ">
       <gratitude-wrappper></gratitude-wrappper>
    

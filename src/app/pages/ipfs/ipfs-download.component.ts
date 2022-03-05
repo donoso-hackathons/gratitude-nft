@@ -46,7 +46,7 @@ export class IpfsDownloadComponent implements OnInit {
     const ipfs = window.IpfsHttpClient.create({ host: "ipfs.infura.io", port: 5001, protocol: "https" })
 
     this.uploading = true;
-    const result = await this.ipfsService.getFile(this.ipfs_cid.value)
+    const result = await this.ipfsService.getFileJSON(this.ipfs_cid.value)
     console.log(result)
    
       this.ipfs_input.setValue( JSON.stringify(result, undefined, 4))

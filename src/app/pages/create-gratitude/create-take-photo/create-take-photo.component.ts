@@ -50,8 +50,8 @@ constructor(public ipfsService: IpfsService, private dappInjectorService:DappInj
 
     /// 1 - ADDING BASE64string image to IPFS
     const result = await this.ipfsService.add(this.webcamImage.imageAsDataUrl);
-    console.log(result)
-    const ipfs_url = `https://ipfs.io/ipfs/${result.path}`
+    console.log(`https://ipfs.io/ipfs/${result.path}`)
+    const ipfs_url = result.path;
 
 
   //// 2- CREATING  IPFS JSON
@@ -68,15 +68,12 @@ constructor(public ipfsService: IpfsService, private dappInjectorService:DappInj
 
 
 
- //// 4- UPLOADING IPFS JSON AND getting tokenURI
-
-
-  //// 5- Minting token with adress_o (it means we do not know the receiver)
+  //// 4- Minting token with adress_o (it means we do not know the receiver)
    const timestamp = Math.ceil((new Date().getTime())/1000)
    const linkCode = randomString(10)
    const result_mint = await this.gratitudeContract.createGratitudeToken(1, adress_0, {lat:500, lng:500}, timestamp, tokenUri, linkCode)
-   
-    console.log(result_mint)
+  const tx =  await result_mint.wait();
+    console.log(tx)
     
     //// TODO 
     // feedback user and redirecto dashbboars
