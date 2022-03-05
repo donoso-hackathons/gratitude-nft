@@ -23,7 +23,7 @@ export class DashboardComponent implements AfterViewInit {
           console.log(token.tokenUri)
           const tokenUri = token.tokenUri.toString()
           console.log(tokenUri)
-          const ipfs_json = await this.ipfsService.getFileJSON('QmWbZFK1MocmEuV4GhKrcKuq35P6pouFQf1zHp6nJwWdPG')
+          const ipfs_json = await this.ipfsService.getFileJSON(tokenUri)
           console.log(ipfs_json)
 
     

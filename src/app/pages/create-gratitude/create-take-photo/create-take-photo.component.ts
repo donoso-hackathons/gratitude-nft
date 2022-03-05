@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { adress_0, DappInjectorService, NotifierService, randomString, Web3Actions } from 'angular-web3';
@@ -8,6 +8,7 @@ import { Subject, Observable } from 'rxjs';
 import { IGRATITUDE_IPFS_JSON } from 'src/app/shared/models/general';
 import { environment } from 'src/environments/environment';
 import { IpfsService } from '../../ipfs/ipfs-service';
+import { CommonFormComponent } from '../common-form/common-form.component';
 
 @Component({
   selector: 'create-take-photo',
@@ -40,12 +41,16 @@ export class CreateTakePhotoComponent implements AfterViewInit {
 
 constructor(
   private store:Store,
+  private cd:ChangeDetectorRef,
   public ipfsService: IpfsService, 
   private dappInjectorService:DappInjectorService,
   private notifierService: NotifierService,
   private router: Router) {
 
 }
+
+@ViewChild('commonForm') public commonForm: CommonFormComponent;
+
   ngAfterViewInit(): void {
     WebcamUtil.getAvailableVideoInputs().then(
       (mediaDevices: MediaDeviceInfo[]) => {
@@ -58,9 +63,18 @@ constructor(
 
 
  async mintNft() {
+  this.cd.detectChanges();
+ if (this.commonForm.commonForm.valid == false){
+   console.log(false)
+   return
+ }
+  const name = this.commonForm.commonForm.controls['nameCtrl'].value;
+  const description = this.commonForm.commonForm.controls['descriptionCtrl'].value;
+  const checklocation = this.commonForm.commonForm.controls['locationCtrl'].value
 
   this.store.dispatch(Web3Actions.chainBusy({ status: true }));
-  
+
+
   let tokenUri;
 
   try {
@@ -70,14 +84,14 @@ constructor(
     const result = await this.ipfsService.add(this.webcamImage.imageAsDataUrl);
     console.log(`https://ipfs.io/ipfs/${result.path}`)
     const ipfs_url = result.path;
-
+    
 
   //// 2- CREATING  IPFS JSON
     const ipfsJson: IGRATITUDE_IPFS_JSON = {
         type:'image',
         ipfsFileUrl: ipfs_url,
-        senderName:'myname',
-        description:'my description'
+        senderName:name,
+        description:description
     }
 
  //// 3- UPLOADING IPFS JSON AND getting tokenURI

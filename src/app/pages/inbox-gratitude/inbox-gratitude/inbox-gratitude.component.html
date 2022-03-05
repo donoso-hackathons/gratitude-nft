@@ -5,5 +5,5 @@ top: 0;
 left: 0;" [shape]="3" [moveSpeed]="9" [defSize]="20" [number]="50" [linkingFlag]="false" [snowEffect]="true">
 </app-particles>
 <div style="display:flex;flex-direction: column;justify-content: center;align-items: center;height:100%">
-<token-card *ngIf="!!gratitudeToken" [gratitudeToken]="gratitudeToken" [linkCode]="linkCode"  [role]="'receiver'" ></token-card>
+<token-card *ngIf="gratitudeToken!== undefined" [gratitudeToken]="gratitudeToken" [linkCode]="linkCode"  [role]="'receiver'" ></token-card>
 </div>

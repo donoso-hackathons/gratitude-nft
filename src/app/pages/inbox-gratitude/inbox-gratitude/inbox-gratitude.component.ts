@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { DappInjectorService, Web3Actions } from 'angular-web3';
 import { Contract } from 'ethers';
 import { IGRATITUDE_NFT } from 'src/app/shared/models/general';
+import { IpfsService } from '../../ipfs/ipfs-service';
 
 @Component({
   selector: 'inbox-gratitude',
@@ -17,6 +18,7 @@ export class InboxGratitudeComponent implements AfterViewInit {
   constructor(private dappInjectorService:DappInjectorService,
     private router: Router,
     private store:Store,
+    private ipfsService:IpfsService,
     private route: ActivatedRoute) {
      
      }
@@ -27,12 +29,15 @@ export class InboxGratitudeComponent implements AfterViewInit {
       const nft = await this.gratitudeContract.getGratitudeNFtByLinkCode(this.linkCode)
       console.log(nft)
       const status = nft.status;
-      const tokenUri = nft.tokenUri;
-      const tokenId = nft.tokenId;
-      const ipfsJson = {} /// TODO  DOENLOAD IPFSJSON knwoing the tokenuri
+      const tokenUri = nft.tokenUri.replace('https://ipfs.io/ipfs/','');;
+      const tokenId = nft.tokenId
 
-      this.gratitudeToken =  {...ipfsJson,...{ status,tokenId}} as IGRATITUDE_NFT;
+      await this.ipfsService.init()
+      const ipfs_json = await this.ipfsService.getFileJSON(tokenUri)
+      console.log(ipfs_json)
 
+      this.gratitudeToken =  {...ipfs_json,...{ status,tokenId}} as IGRATITUDE_NFT;
+      console.log(this.gratitudeToken)
 
     }
  

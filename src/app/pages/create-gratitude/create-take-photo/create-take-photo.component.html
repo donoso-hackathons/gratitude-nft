@@ -51,6 +51,7 @@
 <div class="snapshot" *ngIf="webcamImage">
   <h2>Your Picture</h2>
   <img [src]="webcamImage.imageAsDataUrl" />
+  <common-form #commonForm></common-form>
   <button style="background: green;" (click)="mintNft()"  type="button" class="top-bar-element top-bar-element-biz">
     <div class="display-flex-center">
 

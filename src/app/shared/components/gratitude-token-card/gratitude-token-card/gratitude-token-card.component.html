@@ -1,15 +1,13 @@
 <mat-card class="example-card">
     <mat-card-header *ngIf="role=='receiver'">
       <div ></div>
-      <mat-card-title>Creter</mat-card-title>
-      <mat-card-subtitle>Send you a Gratitude Token</mat-card-subtitle>
+      <mat-card-title> {{gratitudeToken.senderName}}</mat-card-title>
+      <mat-card-subtitle>Sent you a Gratitude Token</mat-card-subtitle>
     </mat-card-header>
-    <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+    <img *ngIf="gratitudeToken.type == 'image' && src !== undefined" mat-card-image src="{{src}}" alt="Photo of a Shiba Inu">
     <mat-card-content>
       <p>
-        The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
-        A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally
-        bred for hunting.
+       {{gratitudeToken.description}}
       </p>
     </mat-card-content>
     <mat-card-actions style="text-align: center;" *ngIf="role=='receiver'">

@@ -14,13 +14,17 @@ import { MatButtonModule } from '@angular/material/button';
 import { DashboardModule } from '../dashboard/dashboard.module';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import { ParticlesModule } from 'src/app/shared/components/particles/particles.module';
+import { CommonFormComponent } from './common-form/common-form.component';
 ;
+import { MatCheckboxModule } from '@angular/material/checkbox';
+
 @NgModule({
   declarations: [
     CreateGratitudeComponent,
     CreateGratitudeWrappperComponent,
     CreateRecordVideoComponent,
-    CreateTakePhotoComponent
+    CreateTakePhotoComponent,
+    CommonFormComponent
   ],
   imports: [
     CommonModule,
@@ -30,6 +34,7 @@ import { ParticlesModule } from 'src/app/shared/components/particles/particles.m
     MatSelectModule,
     WebcamModule,
     MatInputModule,
+    MatCheckboxModule,
     MatIconModule,
     MatButtonModule,
     ClipboardModule,

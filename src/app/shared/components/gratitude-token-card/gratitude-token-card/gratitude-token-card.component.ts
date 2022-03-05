@@ -1,6 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
+
+import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
 import { DappInjectorService } from 'angular-web3';
 import { Contract } from 'ethers';
+import { IpfsService } from 'src/app/pages/ipfs/ipfs-service';
 import { IGRATITUDE_NFT } from 'src/app/shared/models/general';
 
 @Component({
@@ -8,17 +10,32 @@ import { IGRATITUDE_NFT } from 'src/app/shared/models/general';
   templateUrl: './gratitude-token-card.component.html',
   styleUrls: ['./gratitude-token-card.component.scss'],
 })
-export class GratitudeTokenCardComponent implements OnInit {
+export class GratitudeTokenCardComponent implements AfterViewInit {
   gratitudeContract: Contract;
+  src:string;
+  
+  constructor(private dappInjectorService: DappInjectorService, private ipfs:IpfsService) {
 
-  constructor(private dappInjectorService: DappInjectorService) {
+  }
+
+  async onChainStuff(){
+    if (this.gratitudeToken.type == 'image') {
+      this.src = await this.ipfs.getblobFile(this.gratitudeToken.ipfsFileUrl) 
+    }
+  }
+
+  ngAfterViewInit(): void {
     this.gratitudeContract =
-      this.dappInjectorService.config.contracts['myContract'].contract;
+    this.dappInjectorService.config.contracts['myContract'].contract;
+    console.log(this.gratitudeToken)
+    this.onChainStuff()
+  
+
   }
   @Input() gratitudeToken: IGRATITUDE_NFT;
   @Input() linkCode: string;
   @Input() role: 'receiver' | 'creater';
-  ngOnInit(): void {}
+
 
 
   reject() {
