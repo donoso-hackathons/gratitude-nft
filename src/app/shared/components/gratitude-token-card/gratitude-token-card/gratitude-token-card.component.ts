@@ -48,12 +48,14 @@ export class GratitudeTokenCardComponent implements AfterViewInit {
     }
   }
 
-  accept() {
+  async accept() {
     if (this.linkCode !== undefined) {
       try {
-        const result = this.gratitudeContract.acceptLinkHash(this.linkCode);
+        const result = await this.gratitudeContract.acceptLinkHash(this.linkCode, {lat:500, lng:500});
+        await result.wait()
       } catch (error) {
-        // TODO Handle error}
+      const myerror =  this.dappInjectorService.handleContractError(error);
+      console.log(error)
       }
     }
   }
