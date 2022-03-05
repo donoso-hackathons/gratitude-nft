@@ -8,18 +8,18 @@
                     <div class="card-image-temp2"></div>
                         <div class="card-image-temp3"></div>
 
-                <img [ngClass]="isFilter ? 'grayscale' : 'none'" [ngClass]="isFilter2 ? 'blur' : 'none'" [ngClass]="isFilter3 ? 'invert' : 'none'" class="card-image-img card-img img-thumbnail rounded img-fluid"
+                <img [ngClass]="isFilter ? 'grayscale' : 'none'" [ngClass]="isFilter2 ? 'hue' : 'none'" [ngClass]="isFilter3 ? 'invert' : 'none'" class="card-image-img card-img img-thumbnail rounded img-fluid"
                     [src]="image" />
 
 
 
                     <div class="card-filters  justify-content-around m-2">
                         <button (click)="clickEvent()"  class="card-buttons-btn ">Grayscale</button>
-                        <button (click)="clickEvent2()" class="card-buttons-btn ">Blur</button>
+                        <button (click)="clickEvent2()" class="card-buttons-btn ">Hue</button>
                         <button (click)="clickEvent3()" class="card-buttons-btn ">Invert</button>
-                        <button (click)="temp1()" class="card-buttons-btn ">Template1</button>
-                        <button (click)="temp2()" class="card-buttons-btn ">Template2</button>
-                        <button (click)="temp3()" class="card-buttons-btn ">Template3</button>
+                        <button (click)="temp1()" class="card-buttons-btn ">Robot</button>
+                        <button (click)="temp2()" class="card-buttons-btn ">Monster</button>
+                        <button (click)="temp3()" class="card-buttons-btn ">Kitten</button>
                     </div>
             </div>
                 <!-- <div class="card-title m-auto p-2">
@@ -29,7 +29,8 @@
                 </h4>
                 </div> -->
             <div class="image-upload">
-                <button class="image-upload-btn btn-primary p-2 mb-3">
+                <input hidden type ="file" (change) = "onFileUpload($event)" #fileupload>
+                <button (click) = "fileupload.click()" class="image-upload-btn btn-primary p-2 mb-3">
                     Upload Image
                 </button>
             </div>

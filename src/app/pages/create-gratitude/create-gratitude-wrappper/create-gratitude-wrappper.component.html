@@ -8,6 +8,5 @@
   </mat-form-field>
 
   <create-gratitude *ngIf="nftOptionControl.value == 'image'" ></create-gratitude>
-
-  <take-photo  *ngIf="nftOptionControl.value == 'photo'"></take-photo>
+  <create-take-photo *ngIf="nftOptionControl.value == 'photo'" ></create-take-photo>
 </div>
