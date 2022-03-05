@@ -1,1 +1,64 @@
-<p>create-record-video works!</p>
+<div style="text-align: center">
+  <h2>Ngx-Webcam Demo</h2>
+
+  <div *ngIf="showWebcam == false" style="text-align: center">
+    <button type="button" class="top-bar-element top-bar-element-biz">
+      <div class="display-flex-center">
+        <div class="top-bar-element-icon">
+          <mat-icon> photo_camera </mat-icon>
+        </div>
+        <div class="top-bar-element-text top-bar-element-text-biz">
+          <span></span>Show Camera
+        </div>
+      </div>
+    </button>
+  </div>
+
+  <div *ngIf="showWebcam">
+    <webcam
+      [height]="500"
+      [width]="500"
+      [trigger]="triggerObservable"
+      (imageCapture)="handleImage($event)"
+      [allowCameraSwitch]="allowCameraSwitch"
+      [switchCamera]="nextWebcamObservable"
+      [videoOptions]="videoOptions"
+      [imageQuality]="1"
+      (cameraSwitched)="cameraWasSwitched($event)"
+      (initError)="handleInitError($event)"
+    ></webcam>
+    <br />
+    <button style="background: green;" (click)="triggerSnapshot()"  type="button" class="top-bar-element top-bar-element-biz">
+        <div class="display-flex-center">
+
+          <div class="top-bar-element-text top-bar-element-text-biz">
+            <span></span>Take Picture
+          </div>
+        </div>
+      </button>
+ 
+      <button (click)="showWebcam = false"  type="button" class="top-bar-element top-bar-element-biz">
+        <div class="display-flex-center">
+
+          <div class="top-bar-element-text top-bar-element-text-biz">
+            <span></span>Stop Camera
+          </div>
+        </div>
+      </button>
+  </div>
+</div>
+
+<div class="snapshot" *ngIf="webcamImage">
+  <h2>Your Picture</h2>
+  <img [src]="webcamImage.imageAsDataUrl" />
+  <button style="background: green;" (click)="mintNft()"  type="button" class="top-bar-element top-bar-element-biz">
+    <div class="display-flex-center">
+
+      <div class="top-bar-element-text top-bar-element-text-biz">
+        <span></span>Create Nft
+    </div>
+    </div>  
+  </button>
+</div>
+
+
