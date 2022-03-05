@@ -11,6 +11,8 @@ export class CreateGratitudeWrappperComponent implements OnInit {
   nftOptions:any[] = [ 'story', 'audio' ,'photo', 'image' , 'only-text'
   ]
   nftOptionControl: FormControl = new FormControl('image')
+  
+  
 
   constructor() { }
 

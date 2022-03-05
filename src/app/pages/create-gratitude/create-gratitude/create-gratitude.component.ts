@@ -39,16 +39,19 @@ export class CreateGratitudeComponent implements OnInit {
     this.isFilter3 = !this.isFilter3;       
   }
 
-  image: any = 'https://images.unsplash.com/photo-1612904370392-d1dde7a8ddc8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80';
+  image: any = 'https://robohash.org/honey?set=set3';
   temp1() {
-  this.image = '../../../../assets/images/birthday-g62be367ca_640.png'
+  this.image = 'https://robohash.org/honey?set=set1'
 }  
   temp2() {
-  this.image = '../../../../assets/images/bubbles-g85ef2b58e_1280.png'
+  this.image = 'https://robohash.org/honey?set=set2'
 }  
   temp3() {
-  this.image = '../../../../assets/images/hearts-g1d52ecab5_1280.png'
-}  
+  this.image = 'https://robohash.org/honey?set=set4'
+  }  
+  
+  // random image https://source.unsplash.com/user/c_v_r
+  
     }
 
 
