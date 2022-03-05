@@ -45,7 +45,7 @@ export class NftContractComponent implements AfterViewInit {
   deployer_balance: any;
   loading_contract: 'loading' | 'found' | 'error' = 'loading';
   newWallet!: ethers.Wallet;
-  selectedIndex = 1;
+  selectedIndex = 0;
   dollarExchange!: number;
   balanceDollar!: number;
   myContract!: AngularContract;

@@ -4,7 +4,6 @@ import { NotifierService } from './notifier.service';
 import { MatIconModule } from '@angular/material/icon';
 import { NotifierComponent } from './notifier/notifier.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { NgbToastModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 
@@ -14,8 +13,7 @@ import { NgbToastModule } from '@ng-bootstrap/ng-bootstrap';
   imports: [
     CommonModule,
     MatIconModule,
-    MatSnackBarModule,
-    NgbToastModule
+    MatSnackBarModule
   ]
 })
 export class NotifierModule {

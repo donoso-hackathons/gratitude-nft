@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DappInjectorModule } from './dapp-injector/dapp-injector.module';
 import { StoreModule } from '@ngrx/store';
-import { DappInjectorService, WalletDisplayModule, we3ReducerFunction} from 'angular-web3';
+import { DappInjectorService, DappLoadingModule, WalletDisplayModule, we3ReducerFunction} from 'angular-web3';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -31,6 +31,7 @@ import {WebcamModule} from 'ngx-webcam';
     NgbModule,
     MatIconModule,
     WebcamModule,
+    DappLoadingModule,
     ...blockchain_imports
   ],
   providers: [...blockchain_providers],

@@ -1,5 +1,7 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { adress_0, DappInjectorService, randomString } from 'angular-web3';
+import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { adress_0, DappInjectorService, NotifierService, randomString, Web3Actions } from 'angular-web3';
 import { Contract } from 'ethers';
 import { WebcamInitError, WebcamImage, WebcamUtil } from 'ngx-webcam';
 import { Subject, Observable } from 'rxjs';
@@ -32,7 +34,12 @@ export class CreateTakePhotoComponent implements AfterViewInit {
   private trigger: Subject<void> = new Subject<void>();
 
 
-constructor(public ipfsService: IpfsService, private dappInjectorService:DappInjectorService,) {
+constructor(
+  private store:Store,
+  public ipfsService: IpfsService, 
+  private dappInjectorService:DappInjectorService,
+  private notifierService: NotifierService,
+  private router: Router) {
 
 }
   ngAfterViewInit(): void {
@@ -47,6 +54,13 @@ constructor(public ipfsService: IpfsService, private dappInjectorService:DappInj
 
 
  async mintNft() {
+
+  this.store.dispatch(Web3Actions.chainBusy({ status: true }));
+  
+  let tokenUri;
+
+  try {
+
 
     /// 1 - ADDING BASE64string image to IPFS
     const result = await this.ipfsService.add(this.webcamImage.imageAsDataUrl);
@@ -64,19 +78,42 @@ constructor(public ipfsService: IpfsService, private dappInjectorService:DappInj
 
  //// 3- UPLOADING IPFS JSON AND getting tokenURI
     const result_ipfsJson = await this.ipfsService.add(JSON.stringify(ipfsJson));
-    const tokenUri = `https://ipfs.io/ipfs/${result_ipfsJson.path}`
+    tokenUri = `https://ipfs.io/ipfs/${result_ipfsJson.path}`
+
+
+    
+  } catch (error) {
+    this.notifierService.showNotificationTransaction({success:false, error_message:' Problems woth IPFS'});
+  
+    this.store.dispatch(Web3Actions.chainBusy({ status: false}));
+  }
 
 
 
   //// 4- Minting token with adress_o (it means we do not know the receiver)
+  try {
+
+
+
    const timestamp = Math.ceil((new Date().getTime())/1000)
    const linkCode = randomString(10)
    const result_mint = await this.gratitudeContract.createGratitudeToken(1, adress_0, {lat:500, lng:500}, timestamp, tokenUri, linkCode)
-  const tx =  await result_mint.wait();
-    console.log(tx)
+   const tx =  await result_mint.wait();
+  
+   await this.notifierService.showNotificationTransaction({success:true, success_message: 'NFT Minted!!'});
+   this.store.dispatch(Web3Actions.chainBusy({ status: false }));
+   //this.router.navigateByUrl('/dashboard')
+
+
+        
+  } catch (error) {
+    const error_message = await this.dappInjectorService.handleContractError(error);
+    this.notifierService.showNotificationTransaction({success:false, error_message: error_message});
+    this.store.dispatch(Web3Actions.chainBusy({ status: false }));
     
-    //// TODO 
-    // feedback user and redirecto dashbboars
+  }
+    
+ 
 
 
   }

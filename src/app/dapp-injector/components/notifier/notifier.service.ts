@@ -1,4 +1,4 @@
-import { AfterViewInit, Injectable, TemplateRef } from '@angular/core';
+import { AfterViewInit, Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ITRANSACTION_RESULT } from '../../models';
 import { NotifierComponent } from './notifier/notifier.component';
@@ -13,18 +13,11 @@ export interface INOTIF {
   providedIn: 'root',
 })
 export class NotifierService {
-  toasts: any[] = [];
   constructor(private _snackBar: MatSnackBar) {}
 
-  show(textOrTpl: string | TemplateRef<any>, options: any = {}) {
-    this.toasts.push({ textOrTpl, ...options });
-  }
 
-  remove(toast:any) {
-    this.toasts = this.toasts.filter(t => t !== toast);
-  }
   async showNotificationTransaction(notification_message:ITRANSACTION_RESULT){
- 
+    console.log(notification_message)
     this._snackBar.openFromComponent(NotifierComponent, {
       data: notification_message,
       horizontalPosition: 'right',
