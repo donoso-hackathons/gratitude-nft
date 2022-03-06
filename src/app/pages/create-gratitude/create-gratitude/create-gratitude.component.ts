@@ -12,9 +12,7 @@ import { Contract, utils } from 'ethers';
   styleUrls: ['./create-gratitude.component.scss']
 })
 export class CreateGratitudeComponent implements OnInit {
-  static image(image: any) {
-    throw new Error('Method not implemented.');
-  }
+
   gratitudeContract: Contract;
   details = {
     name:'',
@@ -205,8 +203,8 @@ getIP() {
 
     }
 
-var canvas = document.createElement('canvas');
-canvas.id = "canvasPhoto";
-var ctx = canvas.getContext('2d');
-var Image: new (width?: number, height?: number) => HTMLImageElement
-ctx.drawImage(Image.arguments, 0, 0)
+// var canvas = document.createElement('canvas');
+// canvas.id = "canvasPhoto";
+// var ctx = canvas.getContext('2d');
+// var Image: new (width?: number, height?: number) => HTMLImageElement
+// ctx.drawImage(Image.arguments, 0, 0)

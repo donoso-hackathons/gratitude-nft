@@ -21,7 +21,7 @@ import { CreateRecordAudioComponent } from './create-record-audio/create-record-
 
 @NgModule({
   declarations: [
-    CreateGratitudeComponent,
+     CreateGratitudeComponent,
     CreateGratitudeWrappperComponent,
     CreateRecordVideoComponent,
     CreateRecordAudioComponent,
