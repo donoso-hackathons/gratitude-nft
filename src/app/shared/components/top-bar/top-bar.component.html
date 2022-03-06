@@ -5,8 +5,7 @@
       <div class="block-relative">
         <div class="noeEn">
           <a [routerLink]="['/']" routerLinkActive="router-link-active">
-            <img class="logo-small" src="assets/images/logo/wog.png">
-            <img class="logo-big" src="assets/images/logo/wog_logo_transparent_long.png">
+            <img class="logo" src="assets/images/logo/wog.png">
           </a>
           <a [routerLink]="['/campaigns']" routerLinkActive="router-link-active"  style="color:#ff0074;margin:0 5px 0 20px;font-weight: 700;cursor: pointer;">Campaigns</a>
           <a    style="color:#ff0074;margin:0 5px;font-weight: 700;cursor: pointer;" *ngIf="blockchain_status==='success'" >Dashboard</a>
@@ -16,7 +15,7 @@
 
     </div>
     <div class="top-sub-bar">
- 
+
         <div *ngIf="blockchain_status!=='success'"  class="block-relative"><a (click)="connect()">
 
           <button type="button" class="top-bar-element  top-bar-element-biz">
