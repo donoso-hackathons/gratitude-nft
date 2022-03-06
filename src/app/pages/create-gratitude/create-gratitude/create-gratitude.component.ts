@@ -51,6 +51,7 @@ getIP() {
       console.log(result)
       console.log(`https://ipfs.io/ipfs/${result.path}`)
       this.imageUrl = `https://ipfs.io/ipfs/${result.path}`;
+      this.image=this.imageUrl;
       console.log(this.imageUrl,"imageeeeeeee");
      } catch (error) {
        console.log(error,"errorrr");
@@ -90,19 +91,19 @@ getIP() {
     Gratitude: ${this.details.gratitude}
     `);
     }
-    
+
   }
 
 
   async mintNft() {
 
     this.store.dispatch(Web3Actions.chainBusy({ status: true }));
-    
+
     let tokenUri;
-  
+
     try {
-  
-  
+
+
     //// 2- CREATING  IPFS JSON
       const ipfsJson: IGRATITUDE_IPFS_JSON = {
           type:'image',
@@ -112,64 +113,63 @@ getIP() {
       }
 
       console.log(JSON.stringify(ipfsJson),"json");
-  
+
    //// 3- UPLOADING IPFS JSON AND getting tokenURI
       const result_ipfsJson = await this.ipfsService.add(JSON.stringify(ipfsJson));
       this.tokenUri = `https://ipfs.io/ipfs/${result_ipfsJson.path}`
       console.log(this.tokenUri,"uriiiiiiii");
-  
-  
-      
+
+
     } catch (error) {
       console.log(error,"errorrrrrr");
-      this.notifierService.showNotificationTransaction({success:false, error_message:' Problems woth IPFS'});
-    
+      this.notifierService.showNotificationTransaction({success:false, error_message:' Problems with IPFS'});
+
       this.store.dispatch(Web3Actions.chainBusy({ status: false}));
     }
-  
-  
-  
+
+
+
     //// 4- Minting token with adress_o (it means we do not know the receiver)
     try {
-  
-  
-  
+
+
+
      const timestamp = Math.ceil((new Date().getTime())/1000)
      const linkCode = randomString(10)
      const result_mint = await this.gratitudeContract.createGratitudeToken(1, adress_0, {lat:500, lng:500}, timestamp, this.tokenUri, linkCode)
      const tx =  await result_mint.wait();
      console.log(tx,"transactionnnn")
-    
+
      await this.notifierService.showNotificationTransaction({success:true, success_message: 'NFT Minted!!'});
      this.store.dispatch(Web3Actions.chainBusy({ status: false }));
      //this.router.navigateByUrl('/dashboard')
-  
-  
-          
+
+
+
     } catch (error) {
       console.log(error,"error minting")
       const error_message = await this.dappInjectorService.handleContractError(error);
       this.notifierService.showNotificationTransaction({success:false, error_message: error_message});
       this.store.dispatch(Web3Actions.chainBusy({ status: false }));
-      
+
     }
-      
-   
-  
-  
+
+
+
+
     }
   isFilter: boolean = false;
   isFilter2: boolean = false;
   isFilter3: boolean = false;
 
   clickEvent(){
-    this.isFilter = !this.isFilter;       
+    this.isFilter = !this.isFilter;
 }
   clickEvent2(){
-    this.isFilter2 = !this.isFilter2;       
+    this.isFilter2 = !this.isFilter2;
 }
   clickEvent3(){
-    this.isFilter3 = !this.isFilter3;       
+    this.isFilter3 = !this.isFilter3;
   }
 
   image: any = 'https://robohash.org/' + randomString(15);
@@ -178,14 +178,14 @@ getIP() {
 }
   temp2() {
   this.image = 'https://robohash.org/honey?set=set2'
-}  
+}
   temp3() {
   this.image = 'https://robohash.org/honey?set=set4'
-  }  
-  
-  
+  }
+
+
   // random image https://source.unsplash.com/user/c_v_r
-  
+
     }
 
 
@@ -194,11 +194,11 @@ getIP() {
 // const canvas = document.getElementById('canvas');
 // const ctx = canvas.getContext('2d');
 // const image = document.getElementById('source');
-// 
+//
 // image.addEventListener('load', e => {
 //   // Draw unfiltered image
 //   ctx.drawImage(image, 0, 0, image.width * .6, image.height * .6);
-// 
+//
 //   // Draw image with filter
 //   ctx.filter = 'contrast(1.4) sepia(1) drop-shadow(-9px 9px 3px #e81)';
 //   ctx.drawImage(image, 400, 0, -image.width * .6, image.height * .6);

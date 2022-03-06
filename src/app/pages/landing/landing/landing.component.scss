@@ -24,7 +24,6 @@ p {
     line-height: 35px;
     font-family: "Open Sans", sans-serif;
 }
-
 // ====================================================================
 //   Theme Main Banner
 // ====================================================================
@@ -40,8 +39,8 @@ p {
       41deg
       , #ff0075, #ff00758f);
   }
-  
-  
+
+
 
 
  #theme-main-banner {
@@ -85,7 +84,7 @@ p {
   padding: 0;
   z-index: 2;
   @media (max-width: 991px) {
-  
+
     top:unset;
     transform:unset;
     padding-top:65px;
