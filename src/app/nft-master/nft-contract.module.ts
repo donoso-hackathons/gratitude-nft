@@ -35,7 +35,7 @@ import { DashboardModule } from '../pages/dashboard/dashboard.module';
     IpfsModule,
     CreateGratitudeModule,
     NftContractRoutingModule,
-    DashboardModule,
+
     ...blockchain_imports
   ],
   providers:[...blockchain_providers] ,

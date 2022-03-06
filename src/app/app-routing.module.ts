@@ -20,6 +20,12 @@ const routes: Routes = [
           (m) => m.DashboardModule)
     },
     {
+      path: 'campaigns',
+      loadChildren: () =>
+        import('./pages/campaign/campaign.module').then(
+          (m) => m.CampaignModule)
+    },
+    {
       path: 'inbox-gratitude',
       loadChildren: () =>
         import('./pages/inbox-gratitude/inbox-gratitude.module').then(

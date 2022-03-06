@@ -4,7 +4,7 @@ export const INFURA_ID = "460f40a260564ac4a4f4b3fffb032dad";
 // MY ETHERSCAN_ID, SWAP IN YOURS FROM https://etherscan.io/myapikey
 export const ETHERSCAN_KEY = "DNXJA8RX2Q3VZ4URQIWP7Z68CJXQZSC6AW";
 
-
+export const GRAPH_APIURL = "https://api.thegraph.com/subgraphs/name/jdonosocoding/gratitude-nft"
 
 export const ALCHEMY_KEY = "oKxs-03sij-U_N0iOlrSsZFr29-IqbuF";
 

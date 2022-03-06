@@ -2,7 +2,7 @@ import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { adress_0, DappInjectorService, NotifierService, randomString, Web3Actions } from 'angular-web3';
-import { Contract } from 'ethers';
+import { Contract, utils } from 'ethers';
 import { WebcamInitError, WebcamImage, WebcamUtil } from 'ngx-webcam';
 import { Subject, Observable } from 'rxjs';
 import { IGRATITUDE_IPFS_JSON } from 'src/app/shared/models/general';
@@ -64,6 +64,9 @@ constructor(
 
  async mintNft() {
   this.cd.detectChanges();
+  console.log(this.commonForm.commonForm.getRawValue())
+
+
  if (this.commonForm.commonForm.valid == false){
    console.log(false)
    return
@@ -115,7 +118,9 @@ constructor(
 
    const timestamp = Math.ceil((new Date().getTime())/1000)
    const linkCode = randomString(10)
-   const result_mint = await this.gratitudeContract.createGratitudeToken(1, adress_0, {lat:500, lng:500}, timestamp, tokenUri, linkCode)
+   const result_mint = await this.gratitudeContract.createGratitudeToken(1, adress_0, {lat:500, lng:500}, timestamp, tokenUri, linkCode, 
+      { gasPrice: utils.parseUnits('100', 'gwei'), 
+      gasLimit: 2000000 })
    const tx =  await result_mint.wait();
   
   // await this.notifierService.showNotificationTransaction({success:true, success_message: 'NFT Minted!!'});
@@ -140,10 +145,19 @@ constructor(
 
   public triggerSnapshot(): void {
     this.trigger.next();
+    this.cd.detectChanges();
   }
 
-  public toggleWebcam(): void {
-    this.showWebcam = !this.showWebcam;
+async  toggleWebcam(){
+  // const timestamp = Math.ceil((new Date().getTime())/1000)
+  // const linkCode = randomString(10)
+
+  //   const result_mint = await this.gratitudeContract.createGratitudeToken(1, adress_0, {lat:500, lng:500}, timestamp, 'tokenUri', linkCode, 
+  //   { gasPrice: utils.parseUnits('1', 'gwei'), 
+  //     gasLimit: 2000000 })
+  //   const tx =  await result_mint.wait();
+   this.showWebcam = !this.showWebcam;
+   this.cd.detectChanges();
   }
 
   public handleInitError(error: WebcamInitError): void {
