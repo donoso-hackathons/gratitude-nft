@@ -1,23 +1,17 @@
 # Gratitude NFT
 
-Gratitude NFT a Dapp Hackathon project that aims to create the XXXX
+Gratitude NFT a Dapp Hackathon project that aims to create the the platform to mint and send to friends gratitude tokens
+[See demo](https://gratitude-nft.web.app/)
 
-## Major problems it solves
+The user can upload an image or take a photo and create an NFT for sending to someone, if he knows the address of the receiver he can input, if not 
+a link will generated for 10 min where he could accept the gratitude nft token
 
-XXXXx
+The dapp also allows to create campaigns o send gratitude help in occasions like now for a specific address in Ukraine.
+This campaigns will be verified by the gratitude-nft team.
 
-
-## Answering Questions not yet there
-
-XXXXXX
-
-## Next steps and hackathon decisions
-
-XXXXx
-
-   ### use cases
-      - XXXXx
-
+The gratitude nft token is a ERC721 token wrapper which adds some status and helper methods for sending and accepting.
+As well as the tokens, so the campagins are minted on chain, and in both cases Uri are saven in ipfs.
+Querying the campaigns and the nft's are done with subgraph.
 
 
 # 🏄‍♂️ Quick Start
