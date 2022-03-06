@@ -53,24 +53,25 @@ export class CommonFormComponent implements OnInit, OnDestroy {
 
 
   isLocationavailable(){
-    if (navigator.geolocation !== undefined){
+    if (navigator.geolocation === undefined){
       this.commonForm.controls['locationCtrl'].setValue(false);
       this.commonForm.controls['locationCtrl'].disable()
 
     }
   }
 
-  getCoords = async () => {
-    const pos = await new Promise((resolve, reject) => {
+  getCoords = ():Promise<{available:boolean, lng?:number, lat?:number}> => {
+    return new Promise((resolve, reject) => {
       navigator.geolocation.getCurrentPosition((pos) => {
+        console.log(pos)
         const coord = {
           available:true,
-          long: pos.coords.longitude,
+          lng: pos.coords.longitude,
           lat: pos.coords.latitude
         }
         resolve(coord)
       }), () => {
-          resolve({availble:false})
+          resolve({available:false})
       };
 
     })
