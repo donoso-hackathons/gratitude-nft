@@ -272,6 +272,23 @@
    height:65px;
  }
 
+.isOpen{
+  left:0
+}
+
+  .desktop {
+    display:none;
+    @media (min-width: 989px) { 
+      display:block
+    }
+  }
+
+.mobile {
+  display:block;
+  @media (min-width: 989px) { 
+    display:none
+  }
+}
 
  .top-bar-wrapper {
    display: flex;

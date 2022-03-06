@@ -20,7 +20,7 @@ export class TopBarComponent implements OnChanges, OnDestroy {
     show_login_verlay = false;
   contractHeader: ICONTRACT;
   signer: Signer;
-
+  isOpen = false;
   constructor(private dappInjectorService:DappInjectorService) {
 
    }
@@ -44,6 +44,9 @@ export class TopBarComponent implements OnChanges, OnDestroy {
     this.dappInjectorService.launchWenmodal();
     
   }
+ togglemenu() {
+   this.isOpen = !this.isOpen;
+ }
 
   ngOnInit(): void {
   }
