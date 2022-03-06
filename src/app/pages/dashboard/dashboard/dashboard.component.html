@@ -50,8 +50,8 @@
                 <token-card  style="margin:15px;" [gratitudeToken]="token" [linkCode]="linkCode"  [role]="'creater'"
                 *ngFor="let token of tokens_receive"></token-card>
             </div>
-            <div *ngIf="load_more">
-                <button (click)="sshowMoreReceived()" style="margin-top:10px;" type="button"
+            <div *ngIf="load_more_receive">
+                <button (click)="showMoreReceived()" style="margin-top:10px;" type="button"
                     class="top-bar-element  top-bar-element-biz">
                     <div class="display-flex-center">
 

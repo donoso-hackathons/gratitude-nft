@@ -66,6 +66,7 @@ export class GratitudeTokenCardComponent implements AfterViewInit {
         const result = await this.gratitudeContract.acceptLinkHash(this.linkCode, {lat:500, lng:500},  { gasPrice: utils.parseUnits('100', 'gwei'), 
         gasLimit: 2000000 });
         const tx= await result.wait()
+        this.store.dispatch(Web3Actions.chainBusy({ status: false }));
         this.router.navigateByUrl('/dashboard')
       }  catch (error) {
         const error_message = await this.dappInjectorService.handleContractError(error);

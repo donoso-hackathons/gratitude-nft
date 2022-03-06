@@ -18,13 +18,10 @@ export class CommonFormComponent implements OnInit, OnDestroy {
     },
     {
       id: 1,
-      name: 'User Wit Adress 0x'
+      name: 'User With Adress 0x'
     },
-    {
-      id: 2,
-      name: 'Campaign'
-    }]
-
+]
+  option = 0;
   receiverOptionControl: FormControl = new FormControl(0)
 
   constructor(public formBuilder: FormBuilder) {
@@ -33,7 +30,7 @@ export class CommonFormComponent implements OnInit, OnDestroy {
       descriptionCtrl: [
         '', [Validators.maxLength(200)]
       ],
-     // locationCtrl: [true],
+      locationCtrl: [true],
       addressCtrl: ['']
     });
 
@@ -45,7 +42,9 @@ export class CommonFormComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((value) => {
         console.log(value);
+        this.option = value;
         if (value == 1) {
+        
           this.commonForm.controls['addressCtrl'].setValidators([Validators.required, Validators.maxLength(len), Validators.minLength(len)])
         }
 

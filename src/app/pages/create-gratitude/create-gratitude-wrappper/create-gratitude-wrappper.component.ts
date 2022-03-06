@@ -8,7 +8,7 @@ import { FormControl } from '@angular/forms';
 })
 export class CreateGratitudeWrappperComponent implements OnInit {
 
-  nftOptions:any[] = [ 'story', 'audio' ,'photo', 'image' , 'only-text'
+  nftOptions:any[] = [  ,'photo', 'image' 
   ]
   nftOptionControl: FormControl = new FormControl('image')
   

@@ -134,12 +134,14 @@ constructor(
 
   //// 4- Minting token with adress_o (it means we do not know the receiver)
   try {
-
-
+    let adressto_push = address_0
+    if (this.commonForm.option == 1){
+      adressto_push = this.commonForm.commonForm.controls['addressCtrl'].value;
+    }
 
    const timestamp = Math.ceil((new Date().getTime())/1000)
    const linkCode = randomString(10)
-   const result_mint = await this.gratitudeContract.createGratitudeToken(1, address_0, geo, timestamp, tokenUri, linkCode, 
+   const result_mint = await this.gratitudeContract.createGratitudeToken(1, adressto_push , geo, timestamp, tokenUri, linkCode, 
       { gasPrice: utils.parseUnits('100', 'gwei'), 
       gasLimit: 2000000 })
    const tx =  await result_mint.wait();

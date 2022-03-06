@@ -15,7 +15,6 @@
       <button (click)="reject()" mat-raised-button color="warn">reject</button>
     </mat-card-actions>
     <mat-card-actions  *ngIf="role=='creater'">
-      <button mat-raised-button>LIKE</button>
-      <button mat-raised-button>SHARE</button>
+        Status {{gratitudeToken.stauts == 1 ? 'PENDING' : gratitudeToken.status == 4 ? 'ACCEPTED' :  gratitudeToken.status == 5 ? 'REJECTED' : ''}}
     </mat-card-actions>
   </mat-card>

@@ -31,7 +31,7 @@
         </a></div>
 
     <wallet-display  (onDisconect)="disconnect()" class="desktop" *ngIf="blockchain_status=='success'" style="margin-right:10px" [signer]="signer"
-        (doFaucetEvent)="doFaucetEvent.emit()" (openTransactionEvent)="openTransactionEvent.emit()"></wallet-display>
+        (doFaucetEvent)="doFaucet()" (openTransactionEvent)="openTransactionEvent.emit()"></wallet-display>
         <mat-icon *ngIf="blockchain_status=='success'"  style="color:#5d0825" (click)="togglemenu()" class="mobile">
           menu
         </mat-icon>
@@ -48,6 +48,6 @@
       menu
     </mat-icon>
     <wallet-display  (onDisconect)="disconnect()" *ngIf="blockchain_status=='success'" style="margin-right:10px;margin-top:60px;display:block" [signer]="signer"
-    (doFaucetEvent)="doFaucetEvent.emit()" (openTransactionEvent)="openTransactionEvent.emit()"></wallet-display>
+    (doFaucetEvent)="doFaucet()" (openTransactionEvent)="openTransactionEvent.emit()"></wallet-display>
   </div>
 </div>
