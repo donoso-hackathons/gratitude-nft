@@ -9,6 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { CreateCampaignComponent } from './create-campaign/create-campaign.component';
 import { GratitudeCampaignCardModule } from 'src/app/shared/components/gratitude-campaign-card/gratitude-campaign-card.module';
+import { MatTabsModule } from '@angular/material/tabs';
 
 
 @NgModule({
@@ -23,6 +24,7 @@ import { GratitudeCampaignCardModule } from 'src/app/shared/components/gratitude
     ReactiveFormsModule,
     MatFormFieldModule,
     MatIconModule,
+    MatTabsModule,
     MatInputModule,
     GratitudeCampaignCardModule
   ]

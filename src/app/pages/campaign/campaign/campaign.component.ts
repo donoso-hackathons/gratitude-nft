@@ -21,9 +21,13 @@ import { CreateCampaignComponent } from '../create-campaign/create-campaign.comp
 export class CampaignComponent implements AfterViewInit {
   campaignForm: any;
   currentPage = 1
+  currentPageMy = 1
   itemsPerPage = 2;
-  laod_more = true;
-  campaigns:Array<IGRATITUDE_CAMPAIGN > = [];
+  selectedIndex = 1;
+  load_more = true;
+  load_more_my = true;
+  campaigns: Array<IGRATITUDE_CAMPAIGN> = [];
+  my_campaigns: Array<IGRATITUDE_CAMPAIGN> = [];
   show_mint_success: boolean;
   gratitudeContract: Contract;
   blockchain_status: unknown;
@@ -61,11 +65,13 @@ export class CampaignComponent implements AfterViewInit {
     this.store.select(web3Selectors.chainStatus).subscribe(async (value) => {
       this.blockchain_status = value;
 
-      this.noConnected()
+      this.getAllCampaigns()
 
       if (value == 'success') {
         this.gratitudeContract = this.dappInjectorService.config.contracts['myContract'].contract
         this.asyncStuff()
+       const signer =   this.dappInjectorService.config.signer;
+       console.log(signer)
       } else {
 
       }
@@ -74,7 +80,7 @@ export class CampaignComponent implements AfterViewInit {
 
   }
 
-  async noConnected() {
+  async getAllCampaigns() {
 
     const result = await this.thegraphService.querySubgraph(`
   query {
@@ -87,27 +93,92 @@ export class CampaignComponent implements AfterViewInit {
     }
   }
 `)
-    console.log(result)
+
 
     for (const campaign of result.gratitudeCampaigns) {
       const status = campaign.status;
       // console.log(token.tokenUri)
-      const campaignUri=  campaign.campaignUri.toString().replace('https://ipfs.io/ipfs/','');;
+      const campaignUri = campaign.campaignUri.toString().replace('https://ipfs.io/ipfs/', '');;
 
       await this.ipfsService.init()
       const ipfs_json = await this.ipfsService.getFileJSON(campaignUri)
       console.log(ipfs_json)
 
-      this.campaigns.push({...ipfs_json,...{ status,campaign_creator: campaign.campaign_creator}});
+      this.campaigns.push({ ...ipfs_json, ...{ status, campaign_creator: campaign.campaign_creator } });
 
 
+    }
+    console.log(this.campaigns.length)
+
+    if (this.campaigns.length == this.currentPage * this.itemsPerPage) {
+      this.load_more = true
+    } else {
+      this.load_more = false
     }
 
 
   }
 
+  async getMyCampaigns() {
+    const myAddresse = await this.dappInjectorService.config.signer.getAddress()
+    console.log(myAddresse)
+    const result = await this.thegraphService.querySubgraph(`
+        query {
+          gratitudeCampaigns(first: ${this.itemsPerPage}, skip: ${(this.currentPageMy - 1) * this.itemsPerPage}, where: {
+            campaign_creator: "${myAddresse}",
+            }) {
+            id
+            campaignUri
+            campaign_creator
+            name
+            status
+          }
+        }
+      `)
+
+      console.log(result)
+
+    for (const campaign of result.gratitudeCampaigns) {
+      const status = campaign.status;
+      // console.log(token.tokenUri)
+      const campaignUri = campaign.campaignUri.toString().replace('https://ipfs.io/ipfs/', '');;
+
+      await this.ipfsService.init()
+      const ipfs_json = await this.ipfsService.getFileJSON(campaignUri)
+
+
+      this.my_campaigns.push({ ...ipfs_json, ...{ status, campaign_creator: campaign.campaign_creator } });
+
+
+    }
+  
+
+    if (this.my_campaigns.length == this.currentPageMy * this.itemsPerPage) {
+      this.load_more_my = true
+    } else {
+      this.load_more_my = false
+    }
+
+
+  }
+
+
+  showMore() {
+    this.currentPage ++;
+    this.getAllCampaigns()
+  }
+
+  showMoreMy() {
+    this.currentPageMy ++;
+    this.getAllMyCampaigns()
+  }
+  getAllMyCampaigns() {
+    throw new Error('Method not implemented.');
+  }
+
   async asyncStuff() {
     await this.ipfsService.init()
+    this.getMyCampaigns()
   }
 
 

@@ -1,31 +1,66 @@
-
 <div style="margin:auto;text-align: center;margin:20px;padding-top:30px">
-        <h4>Available Campaigns</h4>
-        <p>Campaigns are the way we can express </p>
-        <div style="display:flex;flex-wrap: wrap;justify-content: center;">
-            <campaign-card [gratitudeCampaign]="campaign" *ngFor="let campaign of campaigns" ></campaign-card>
-        </div>
+    <mat-tab-group [(selectedIndex)]="selectedIndex" mat-align-tabs="center">
 
-    <div *ngIf="this.blockchain_status=='success'">
 
-    <div style="margin:20px;" *ngIf="campaigns.length == 0">
-        <p>You haven't yet created any Gratitude Campaigns</p>
- 
-    </div>
- 
-     <button (click)="openDialog()" style="margin-top:10px;" type="button" class="top-bar-element  top-bar-element-biz">
-        <div class="display-flex-center">
-            <div class="top-bar-element-icon">
-                <mat-icon>
-                    favorite
-                </mat-icon>
+        <mat-tab label="Create Gratitude ">
+            <p>Campaigns are the way we can express </p>
+            <div style="display:flex;flex-wrap: wrap;justify-content: center;">
+                <campaign-card style="margin:15px" [gratitudeCampaign]="campaign" *ngFor="let campaign of campaigns">
+                </campaign-card>
+
             </div>
-            <div class="top-bar-element-text top-bar-element-text-biz"><span></span>Create a Campaign
+            <div *ngIf="load_more">
+                <button (click)="showMore()" style="margin-top:10px;" type="button"
+                    class="top-bar-element  top-bar-element-biz">
+                    <div class="display-flex-center">
+
+                        <div class="top-bar-element-text top-bar-element-text-biz"><span></span>Load More
+                        </div>
+                    </div>
+                </button>
             </div>
-        </div>
-    </button>
+        </mat-tab>
+
+
+        <mat-tab *ngIf="this.blockchain_status=='success'" label="Your Campaigns">
+            <div >
+                <div style="margin:20px;" *ngIf="my_campaigns.length == 0">
+                    <p>You haven't yet created any Gratitude Campaigns</p>
+
+                </div>
+
+                <button (click)="openDialog()" style="margin-top:10px;" type="button"
+                    class="top-bar-element  top-bar-element-biz">
+                    <div class="display-flex-center">
+                        <div class="top-bar-element-icon">
+                            <mat-icon>
+                                favorite
+                            </mat-icon>
+                        </div>
+                        <div class="top-bar-element-text top-bar-element-text-biz"><span></span>Create a Campaign
+                        </div>
+                    </div>
+                </button>
+                <div style="display:flex;flex-wrap: wrap;justify-content: center;">
+                    <campaign-card style="margin:15px" [gratitudeCampaign]="campaign" *ngFor="let campaign of my_campaigns">
+                    </campaign-card>
+    
+                </div>
+                <div *ngIf="load_more_my">
+                    <button (click)="showMoreMy()" style="margin-top:10px;" type="button"
+                        class="top-bar-element  top-bar-element-biz">
+                        <div class="display-flex-center">
+    
+                            <div class="top-bar-element-text top-bar-element-text-biz"><span></span>Load More
+                            </div>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </mat-tab>
+
+
+
+    </mat-tab-group>
+
 </div>
-
-
-
-    </div>
