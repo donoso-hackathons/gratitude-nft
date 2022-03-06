@@ -34,7 +34,7 @@ describe('Gratitude Campaign CREATOR', function () {
 
   
   it('Should have initial 1 tokenIds after create Campaign and status must set to ONBOARD = 2', async function () {
-    await gratitudeContract.createCampaign('https://sdada')
+    await gratitudeContract.createCampaign('https://sdada','myname')
 
     const campaignId = await gratitudeContract._campaignIds();
     expect(campaignId).to.equal(1);
@@ -47,7 +47,7 @@ describe('Gratitude Campaign CREATOR', function () {
 
 
   it('Contract Creator should be able to approve and reject', async function () {
-    await gratitudeContract.createCampaign('https://sdada')
+    await gratitudeContract.createCampaign('https://sdada','myname')
 
 
     await gratitudeContract.approveCampaign(1)
@@ -63,7 +63,7 @@ describe('Gratitude Campaign CREATOR', function () {
 
 
   it('Only Contract Owner Creator should be able to verify', async function () {
-    await gratitudeContract.createCampaign('https://sdada')
+    await gratitudeContract.createCampaign('https://sdada','myname')
 
     const campaignId = await gratitudeContract._campaignIds();
     await expect(
@@ -72,7 +72,7 @@ describe('Gratitude Campaign CREATOR', function () {
   });
 
   it('Only Contract Owner Creator should be able to reject', async function () {
-    await gratitudeContract.createCampaign('https://sdada')
+    await gratitudeContract.createCampaign('https://sdada','myname')
 
     const campaignId = await gratitudeContract._campaignIds();
     await expect(

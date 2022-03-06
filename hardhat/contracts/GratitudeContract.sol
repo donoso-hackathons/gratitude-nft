@@ -76,11 +76,12 @@ contract GratitudeContract is ERC721, Ownable, ReentrancyGuard {
         NftStatus status,
         address sender,
         address receiver,
-        GEO geo,
+        uint256 lat,
+        uint256 lng,
         string tokenUri
     );
     event GratitudTokenChangeStatusEvent(uint256 tokenId, NftStatus  status);
-    event GratitudTokenAceptedEvent(uint256 tokenId, NftStatus status, GEO geo);
+    event GratitudTokenAceptedEvent(uint256 tokenId, NftStatus status,  uint256 lat, uint256 lng);
 
 
     //Global Campaign Mapping
@@ -90,7 +91,8 @@ contract GratitudeContract is ERC721, Ownable, ReentrancyGuard {
     event GratitudeCampaignCreatedEvent(
         uint256 indexed campaignId,
         CampaignStatus status,
-        string campaignUri
+        string campaignUri,
+        string name
     );
     event GratitudeCampaignVerified(uint256 campaignId);
     event GratitudeCampaignRejected(uint256 campaignId);
@@ -158,7 +160,7 @@ contract GratitudeContract is ERC721, Ownable, ReentrancyGuard {
             _createdGratitudeNFT[msg.sender][_balanceByCreator[msg.sender]] = id;
             _gratitudeNftbyId[id] = _newGratitudeNft;
 
-          emit GratitudeTokenCreationEvent(id, NftStatus(_status), msg.sender, _receiver, _geo, _tokenUri);  
+          emit GratitudeTokenCreationEvent(id, NftStatus(_status), msg.sender, _receiver, _geo.lat, _geo.lng, _tokenUri);  
 
     }
 
@@ -331,7 +333,7 @@ contract GratitudeContract is ERC721, Ownable, ReentrancyGuard {
             transferFrom(owner, to, id);
         }
         _gratitudeNftbyId[id].status = NftStatus.ACCEPTED;
-        emit GratitudTokenAceptedEvent(id, NftStatus.ACCEPTED, _geo);
+        emit GratitudTokenAceptedEvent(id, NftStatus.ACCEPTED, _geo.lat,_geo.lng);
     }
 
     /**
@@ -400,7 +402,7 @@ contract GratitudeContract is ERC721, Ownable, ReentrancyGuard {
      *
      * @param _campaignUri received in URL
      */
-    function createCampaign(string memory _campaignUri)
+    function createCampaign(string memory _name,string memory _campaignUri)
         public
         nonReentrant
         {
@@ -415,7 +417,7 @@ contract GratitudeContract is ERC721, Ownable, ReentrancyGuard {
             });
 
             _campaignById[id] = _newCampaign;
-        emit GratitudeCampaignCreatedEvent(id, CampaignStatus.ONBOARD, _campaignUri); 
+        emit GratitudeCampaignCreatedEvent(id, CampaignStatus.ONBOARD, _campaignUri,_name); 
     }
 
     function getCampaignStatus(uint256 _campaignId) public view returns(CampaignStatus){
