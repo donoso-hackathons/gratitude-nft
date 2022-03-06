@@ -12,6 +12,9 @@ import { Contract, utils } from 'ethers';
   styleUrls: ['./create-gratitude.component.scss']
 })
 export class CreateGratitudeComponent implements OnInit {
+  static image(image: any) {
+    throw new Error('Method not implemented.');
+  }
   gratitudeContract: Contract;
   details = {
     name:'',
@@ -159,7 +162,10 @@ getIP() {
 
 
 
-    }
+  }
+
+
+
   isFilter: boolean = false;
   isFilter2: boolean = false;
   isFilter3: boolean = false;
@@ -176,7 +182,7 @@ getIP() {
 
   image: any = 'https://robohash.org/' + randomString(15);
   temp1() {
-    this.image = 'https://robohash.org/' + randomString(5);
+    this.image = 'https://img.freepik.com/free-vector/thank-you-composition-comic-style_23-2147828808.jpg?w=740';
 }
   temp2() {
   this.image = 'https://robohash.org/honey?set=set2'
@@ -184,24 +190,23 @@ getIP() {
   temp3() {
   this.image = 'https://robohash.org/honey?set=set4'
   }
+  temp4() {
+  this.image = 'https://img.freepik.com/free-vector/cute-unicorn-with-birthday-cake-cartoon-vector-icon-illustration-animal-food-icon-concept-isolated-premium-vector-flat-cartoon-style_138676-3362.jpg?w=740'
+  }
+  temp5() {
+  this.image = 'https://img.freepik.com/free-vector/cartoon-great-job-stickers-collection_23-2148928582.jpg?w=900'
+  }
+  temp6() {
+  this.image = 'https://robohash.org/' + randomString(10);
+  }
 
 
   // random image https://source.unsplash.com/user/c_v_r
 
     }
 
-
-// image filter
-
-// const canvas = document.getElementById('canvas');
-// const ctx = canvas.getContext('2d');
-// const image = document.getElementById('source');
-//
-// image.addEventListener('load', e => {
-//   // Draw unfiltered image
-//   ctx.drawImage(image, 0, 0, image.width * .6, image.height * .6);
-//
-//   // Draw image with filter
-//   ctx.filter = 'contrast(1.4) sepia(1) drop-shadow(-9px 9px 3px #e81)';
-//   ctx.drawImage(image, 400, 0, -image.width * .6, image.height * .6);
-// });
+var canvas = document.createElement('canvas');
+canvas.id = "canvasPhoto";
+var ctx = canvas.getContext('2d');
+var Image: new (width?: number, height?: number) => HTMLImageElement
+ctx.drawImage(Image.arguments, 0, 0)
