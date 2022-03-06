@@ -66,16 +66,32 @@ constructor(
   this.cd.detectChanges();
   console.log(this.commonForm.commonForm.getRawValue())
 
-
+ 
  if (this.commonForm.commonForm.valid == false){
    console.log(false)
    return
  }
+
+
+
+
   const name = this.commonForm.commonForm.controls['nameCtrl'].value;
   const description = this.commonForm.commonForm.controls['descriptionCtrl'].value;
   const checklocation = this.commonForm.commonForm.controls['locationCtrl'].value
 
   this.store.dispatch(Web3Actions.chainBusy({ status: true }));
+
+ const geo = {lat:'nop', lng:'nop'}
+
+  if (this.commonForm.commonForm.controls['locationCtrl'].value == true){
+    const f =  await this.commonForm.getCoords();
+    if (f.available == true){
+      geo.lat= f.lat.toString()
+      geo.lng = f.lng.toString();
+    }
+  
+   }
+  
 
 
   let tokenUri;
@@ -118,7 +134,7 @@ constructor(
 
    const timestamp = Math.ceil((new Date().getTime())/1000)
    const linkCode = randomString(10)
-   const result_mint = await this.gratitudeContract.createGratitudeToken(1, adress_0, {lat:500, lng:500}, timestamp, tokenUri, linkCode, 
+   const result_mint = await this.gratitudeContract.createGratitudeToken(1, adress_0, geo, timestamp, tokenUri, linkCode, 
       { gasPrice: utils.parseUnits('100', 'gwei'), 
       gasLimit: 2000000 })
    const tx =  await result_mint.wait();

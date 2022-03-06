@@ -1,7 +1,7 @@
 
 import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
 import { DappInjectorService } from 'angular-web3';
-import { Contract } from 'ethers';
+import { Contract, utils } from 'ethers';
 import { IpfsService } from 'src/app/pages/ipfs/ipfs-service';
 import { IGRATITUDE_NFT } from 'src/app/shared/models/general';
 
@@ -41,7 +41,8 @@ export class GratitudeTokenCardComponent implements AfterViewInit {
   reject() {
     if (this.linkCode !== undefined) {
       try {
-        const result = this.gratitudeContract.rejectGratitudeNFTbyLinkCode(this.linkCode);
+        const result = this.gratitudeContract.rejectGratitudeNFTbyLinkCode(this.linkCode,  { gasPrice: utils.parseUnits('100', 'gwei'), 
+        gasLimit: 2000000 });
       } catch (error) {
         // TODO Handle error}
       }
@@ -51,7 +52,8 @@ export class GratitudeTokenCardComponent implements AfterViewInit {
   async accept() {
     if (this.linkCode !== undefined) {
       try {
-        const result = await this.gratitudeContract.acceptLinkHash(this.linkCode, {lat:500, lng:500});
+        const result = await this.gratitudeContract.acceptLinkHash(this.linkCode, {lat:500, lng:500},  { gasPrice: utils.parseUnits('100', 'gwei'), 
+        gasLimit: 2000000 });
         await result.wait()
       } catch (error) {
       const myerror =  this.dappInjectorService.handleContractError(error);
