@@ -1,0 +1,73 @@
+<div style="margin:auto;text-align: center;margin:20px;padding-top:30px">
+    <h4 style="margin:20px">Plase fill in to create a campaign</h4>
+    <form style="display: flex;flex-direction: column;" [formGroup]="campaignForm">
+        <mat-form-field class="input-biz" appearance="fill">
+            <mat-label>Name<span style="color:orange">*</span></mat-label>
+            <input formControlName="nameCtrl" matInput>
+          </mat-form-field>
+        <mat-form-field class="text-area" appearance="fill">
+            <mat-label>Description</mat-label>
+            <textarea formControlName="descriptionCtrl" rows="4" matInput></textarea>
+          </mat-form-field>
+    
+          <div>
+            <mat-form-field class="input-biz" appearance="fill">
+              <mat-label>Phone for crosscheck and verify<span style="color:orange">*</span></mat-label>
+              <input formControlName="phoneCtrl" matInput>
+            </mat-form-field>
+    
+          </div>
+    
+          <div>
+            <mat-form-field class="input-biz" appearance="fill">
+              <mat-label>Your online for crosscheck and verify<span style="color:orange">*</span></mat-label>
+              <input formControlName="webCtrl" matInput>
+            </mat-form-field>
+    
+          </div>
+          <button [style.background]="campaignForm.valid ? 'green' : 'lightgrey'" style="background: green;" (click)="mintCampaign()"  type="button" class="top-bar-element top-bar-element-biz">
+            <div class="display-flex-center">
+        
+              <div class="top-bar-element-text top-bar-element-text-biz">
+                <span></span>Create Nft
+            </div>
+            </div>  
+          </button>
+    
+    </form>
+</div>
+<div  *ngIf="show_mint_success == true"  style="width:100vw;
+height: 100vh;
+background-color: rgba(91, 87, 87, 0.7);
+position: fixed;
+top: 0px;
+left:0px;
+z-index: 1000;">
+  <app-particles style="position: fixed;width: 100%;height: 100%;left: 0;top: 0;"
+   [shape]="2" [moveSpeed]="9" [defSize]="20" [number]="200" [linkingFlag]="false" [snowEffect]="true">
+  </app-particles>
+  <div style="width: 80%;
+  max-width:500px;
+  min-width: 300px;
+  background: white;
+  border-radius: 5px;
+  opacity: 1;
+  margin: auto;
+  display:flex;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  transform: translateY(calc(50vh - 280px));
+  padding: 10px 20px 32px;
+">
+<mat-icon (click)="close()" style="color:red;cursor:pointer;">clear</mat-icon>
+<h3> Bravo!!!</h3>
+<p>Congratulations, your campaign has been launch, now you will have to wait until the Fratitude Team verify your information </p>
+<!-- <span>{{show_mint_code}}</span>
+<button style="margin: 0 5px 0 5px; transform: scale(0.7)" class="btn btn-light"
+
+[cdkCopyToClipboard]="show_mint_code">
+<i class="material-icons">content_copy</i>
+</button> -->
+  </div>
+  </div>

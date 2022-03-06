@@ -23,4 +23,9 @@ export class DialogService {
    // const result = await dialogRef.afterClosed().toPromise()
     return result
   }
+
+  async createCampaign() {
+    
+  }
+
 }

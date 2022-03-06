@@ -24,8 +24,7 @@ export class AppComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     this.store.select(web3Selectors.chainStatus).subscribe(async (value) => {
       this.blockchain_status = value;
-      console.log(this.location.path())
-      console.log(this.location.path().indexOf('/inbox-gratitude'))
+
       if (this.location.path().indexOf('/inbox-gratitude') !==  -1){
 
       } else if (value == 'success'){

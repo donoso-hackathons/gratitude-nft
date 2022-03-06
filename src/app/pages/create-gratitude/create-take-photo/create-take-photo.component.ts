@@ -61,6 +61,11 @@ constructor(
   }
 
 
+  close(){
+    console.log('i am closing')
+    this.show_mint_success = false
+    this.router.navigateByUrl('/dashboard')
+  }
 
  async mintNft() {
   this.cd.detectChanges();

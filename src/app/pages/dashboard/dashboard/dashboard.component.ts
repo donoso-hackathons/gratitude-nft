@@ -46,5 +46,14 @@ export class DashboardComponent implements AfterViewInit {
     this.gratitudeContract =  this.dappInjectorService.config.contracts['myContract'].contract;
     this.getTokens()
 
+    // gratitudeTokens(first: 5, where: {
+    //   sender: "0x464b916c32e9ab72cfa5e94a4ab768797b46a1dd",
+    // } ) {
+    //   id
+    //   status
+    //   sender
+    //   receiver
+    // }
+
   }
 }

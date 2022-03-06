@@ -1,19 +1,17 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
-import { address_0, DappInjectorService, NotifierService, randomString, Web3Actions } from 'angular-web3';
+import { address_0, DappInjectorService, NotifierService, randomString, Web3Actions, web3Selectors } from 'angular-web3';
 import { Contract, utils } from 'ethers';
+import { IGRATITUDE_CAMPAIGN } from 'src/app/shared/models/general';
+import { ThegraphService } from 'src/app/shared/services/thegraph.service';
 
 
 import { IpfsService } from '../../ipfs/ipfs-service';
+import { CreateCampaignComponent } from '../create-campaign/create-campaign.component';
 
-export interface IGRATITUDE_CAMPAIGN_JSON {
-  type: 'text',
-  description:string,
-  name:string,
-  campaign_creator:string,
-  ipfsFileUrl?:string // Needed in case grattude nft not only text
-}
 
 @Component({
   selector: 'campaign-gratitude',
@@ -22,136 +20,96 @@ export interface IGRATITUDE_CAMPAIGN_JSON {
 })
 export class CampaignComponent implements AfterViewInit {
   campaignForm: any;
+  currentPage = 1
+  itemsPerPage = 2;
+  laod_more = true;
+  campaigns:Array<IGRATITUDE_CAMPAIGN > = [];
   show_mint_success: boolean;
   gratitudeContract: Contract;
+  blockchain_status: unknown;
+  location: any;
+  router: any;
   constructor(
-    private store:Store,
-    private cd:ChangeDetectorRef,
-    public ipfsService: IpfsService, 
-    private dappInjectorService:DappInjectorService,
+    private thegraphService: ThegraphService,
+    private store: Store,
+    private cd: ChangeDetectorRef,
+    public ipfsService: IpfsService,
+    private dappInjectorService: DappInjectorService,
     public formBuilder: FormBuilder,
-    private notifierService: NotifierService,) {
+    private notifierService: NotifierService,
+    public dialog: MatDialog, private modalService: NgbModal
+  ) {
 
-    const len = address_0.length;
 
-    this.campaignForm = this.formBuilder.group({
-      nameCtrl: ['', [Validators.required, Validators.maxLength(20)]],
-      descriptionCtrl: [
-        '', [Validators.maxLength(200)]
-      ],
-      phoneCtrl:['',Validators.required],
-      webCtrl:['',Validators.required],
-     // locationCtrl: [true],
-      addressCtrl: ['',[Validators.maxLength(len),Validators.minLength(len)]]
-    });
   }
+  async openDialog() {
+    const modalRef = this.modalService.open(CreateCampaignComponent);
+    // const dialogRef = this.dialog.open(TransactionComponent, {
+    // //   width: '80%',
+    // //   maxWidth: '400px',
+    // //   data: {},
+    // });
+
+    const result = await modalRef.closed.toPromise()
+
+    // const result = await dialogRef.afterClosed().toPromise()
+    return result
+  }
+
+
   ngAfterViewInit(): void {
-    this.gratitudeContract =  this.dappInjectorService.config.contracts['myContract'].contract
-    this.asyncStuff()
-  }
+    this.store.select(web3Selectors.chainStatus).subscribe(async (value) => {
+      this.blockchain_status = value;
 
-  async asyncStuff(){
-   await this.ipfsService.init()
-  }
+      this.noConnected()
 
+      if (value == 'success') {
+        this.gratitudeContract = this.dappInjectorService.config.contracts['myContract'].contract
+        this.asyncStuff()
+      } else {
 
-  async mintCampaign() {
-
-  
-  
-   
-   if (this.campaignForm.valid == false){
-  
-     return
-   }
-  
-  
-  
-  
-    const name = this.campaignForm.controls['nameCtrl'].value;
-    const description = this.campaignForm.controls['descriptionCtrl'].value;
-    const address_creator = this.campaignForm.controls['addressCtrl'].value;
-    //const checklocation = this.campaignForm.controls['locationCtrl'].value
-  
-    this.store.dispatch(Web3Actions.chainBusy({ status: true }));
-  
-   const geo = {lat:'nop', lng:'nop'}
-  
-    // if (this.campaignForm.controls['locationCtrl'].value == true){
-    //   const f =  await this.commonForm.getCoords();
-    //   if (f.available == true){
-    //     geo.lat= f.lat.toString()
-    //     geo.lng = f.lng.toString();
-    //   }
-    
-    //  }
-    
-  
-  
-    let tokenUri;
-  
-    try {
-  
-  
-
-  
-    //// 2- CREATING  IPFS JSON
-      const ipfsJson: IGRATITUDE_CAMPAIGN_JSON = {
-          type:'text',
-          ipfsFileUrl: 'ipfs_url',
-          campaign_creator:address_creator,
-          name:name,
-          description:description
       }
-  
-      console.log(ipfsJson)
 
-   //// 3- UPLOADING IPFS JSON AND getting tokenURI
-      const result_ipfsJson = await this.ipfsService.add(JSON.stringify(ipfsJson));
-      tokenUri = `${result_ipfsJson.path}`
-  
-      console.log(ipfsJson)
-      
-    } catch (error) {
-      console.log(error)
-      this.notifierService.showNotificationTransaction({success:false, error_message:' Problems woth IPFS'});
-      
-      this.store.dispatch(Web3Actions.chainBusy({ status: false}));
+    });
+
+  }
+
+  async noConnected() {
+
+    const result = await this.thegraphService.querySubgraph(`
+  query {
+    gratitudeCampaigns(first: ${this.itemsPerPage}, skip: ${(this.currentPage - 1) * this.itemsPerPage}) {
+      id
+      campaignUri
+      campaign_creator
+      name
+      status
     }
-  
-  
-  
-    //// 4- Minting token with adress_o (it means we do not know the receiver)
-    try {
-  
-  
-  
-     const timestamp = Math.ceil((new Date().getTime())/1000)
-     const linkCode = randomString(10)
-     const result_mint = await this.gratitudeContract.createCampaign(name,tokenUri,
-        { gasPrice: utils.parseUnits('100', 'gwei'), 
-        gasLimit: 2000000 })
-     const tx =  await result_mint.wait();
-    
-    // await this.notifierService.showNotificationTransaction({success:true, success_message: 'NFT Minted!!'});
-     this.store.dispatch(Web3Actions.chainBusy({ status: false }));
-     this.show_mint_success = true
-    //  this.show_mint_code = `${environment.host}/inbox-gratitude/${linkCode}`
-    //  this.router.navigateByUrl('/dashboard')
-  
-  
-          
-    } catch (error) {
-      const error_message = await this.dappInjectorService.handleContractError(error);
-      this.notifierService.showNotificationTransaction({success:false, error_message: error_message});
-      this.store.dispatch(Web3Actions.chainBusy({ status: false }));
-      
+  }
+`)
+    console.log(result)
+
+    for (const campaign of result.gratitudeCampaigns) {
+      const status = campaign.status;
+      // console.log(token.tokenUri)
+      const campaignUri=  campaign.campaignUri.toString().replace('https://ipfs.io/ipfs/','');;
+
+      await this.ipfsService.init()
+      const ipfs_json = await this.ipfsService.getFileJSON(campaignUri)
+      console.log(ipfs_json)
+
+      this.campaigns.push({...ipfs_json,...{ status,campaign_creator: campaign.campaign_creator}});
+
+
     }
-      
-   
-  
-  
-    }
+
+
+  }
+
+  async asyncStuff() {
+    await this.ipfsService.init()
+  }
+
 
   ngOnInit(): void {
   }

@@ -1,0 +1,27 @@
+<mat-card  class="example-card">
+  
+        <mat-card-header>
+
+          <mat-card-title style="position: relative;">           <div [style.background]="gratitudeCampaign.status == 0 ? 'orange' : gratitudeCampaign.status == 1 ?  'green' : 'red' "  
+            style="height:20px;width:20px;border-radius:50%;position: absolute;
+            top: 5px;left:0px;"></div> {{gratitudeCampaign.name}} </mat-card-title>
+          <mat-card-subtitle>{{gratitudeCampaign.status == 0 ? 'Pending Verification' : gratitudeCampaign.status == 1 ?  'Verified' : 'Rejected'}}</mat-card-subtitle>
+        </mat-card-header>
+  
+      <mat-card-content>
+      <p style="text-align: left;
+      padding: 0 15px;">
+       {{gratitudeCampaign.description}}
+      </p>
+
+    </mat-card-content>
+    <mat-card-actions style="text-align: center;" >
+      <span>{{gratitudeCampaign.campaign_creator}}</span>
+      <button style="margin: 0 5px 0 5px; transform: scale(0.7)" class="btn btn-light"
+
+      [cdkCopyToClipboard]="gratitudeCampaign.campaign_creator">
+      <i class="material-icons">content_copy</i>
+      </button>
+    </mat-card-actions>
+
+  </mat-card>

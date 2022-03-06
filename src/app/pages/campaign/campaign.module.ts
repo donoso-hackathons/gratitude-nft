@@ -7,11 +7,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { CreateCampaignComponent } from './create-campaign/create-campaign.component';
+import { GratitudeCampaignCardModule } from 'src/app/shared/components/gratitude-campaign-card/gratitude-campaign-card.module';
 
 
 @NgModule({
   declarations: [
-    CampaignComponent
+    CampaignComponent,
+    CreateCampaignComponent
   ],
   imports: [
     CommonModule,
@@ -20,7 +23,8 @@ import { MatInputModule } from '@angular/material/input';
     ReactiveFormsModule,
     MatFormFieldModule,
     MatIconModule,
-    MatInputModule
+    MatInputModule,
+    GratitudeCampaignCardModule
   ]
 })
 export class CampaignModule { }

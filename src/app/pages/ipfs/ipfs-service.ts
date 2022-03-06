@@ -1,7 +1,6 @@
 import { DOCUMENT } from '@angular/common';
 import { Inject, Injectable } from '@angular/core';
-import { GRAPH_APIURL } from 'angular-web3';
-import { createClient } from 'urql';
+
 
 declare global {
   interface Window {
@@ -110,23 +109,6 @@ export class IpfsService {
       });
       this.loading = false;
     }
-    const tokensQuery = `
-    query {
-      gratitudeTokens(first: 5) {
-        id
-        status
-        sender
-        receiver
-        tokenUri
-      }
-    }
-  `;
-
-    const client = createClient({
-      url: GRAPH_APIURL,
-    });
-
-    const data = await client.query(tokensQuery).toPromise();
-    console.log(data)
+    
   }
 }

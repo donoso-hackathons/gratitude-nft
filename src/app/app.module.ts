@@ -15,6 +15,7 @@ import { blockchain_imports, blockchain_providers } from './blockchain_wiring';
 import { TopBarComponent } from './shared/components/top-bar/top-bar.component';
 import {WebcamModule} from 'ngx-webcam';
 import { IpfsService } from './pages/ipfs/ipfs-service';
+import { ThegraphService } from './shared/services/thegraph.service';
 
 
 @NgModule({
@@ -35,7 +36,7 @@ import { IpfsService } from './pages/ipfs/ipfs-service';
     DappLoadingModule,
     ...blockchain_imports
   ],
-  providers: [...blockchain_providers,IpfsService],
+  providers: [...blockchain_providers,IpfsService,ThegraphService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
