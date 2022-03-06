@@ -6,6 +6,8 @@
 /out-tsc
 /bazel-out
 
+/src/assets/contracts
+
 /hardhat/.env
 /src/environments/environment.mumbai.ts
 
