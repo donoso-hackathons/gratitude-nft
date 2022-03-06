@@ -19,8 +19,8 @@ export class DashboardComponent implements AfterViewInit {
   currentPageReceive = 1
   itemsPerPage = 2;
   selectedIndex = 0;
-  load_more = true;
-  load_more_receive = true;
+  load_more =false;
+  load_more_receive = false;
 
   tokens: Array<IGRATITUDE_NFT> = [];
   tokens_receive: Array<IGRATITUDE_NFT> = [];
@@ -80,6 +80,49 @@ export class DashboardComponent implements AfterViewInit {
   
     }
   
+    async getmyTokens() {
+
+      const result = await this.thegraphService.querySubgraph(`
+      query {
+      gratitudeTokens(first: ${this.itemsPerPage}, skip: ${(this.currentPage - 1) * this.itemsPerPage}, where: {
+        sender: "${this.myaddresse}"
+        })
+    {
+      id
+      status
+      tokenUri
+      sender
+      receiver
+    }
+    }
+  `)
+  
+  
+      for (const token of result.gratitudeTokens) {
+        console.log(token);
+        const status = token.status;
+        // console.log(token.tokenUri)
+        const campaignUri = token.tokenUri.toString().replace('https://ipfs.io/ipfs/', '');;
+  
+        await this.ipfsService.init()
+        const ipfs_json = await this.ipfsService.getFileJSON(campaignUri)
+        console.log(ipfs_json)
+  
+        this.tokens.push(  {...ipfs_json,...{ status,tokenId:token.id}});
+      
+  
+      }
+      console.log(this.tokens.length)
+  
+      if (this.tokens.length == this.currentPageReceive * this.itemsPerPage) {
+        this.load_more = true
+      } else {
+        this.load_more  = false
+      }
+  
+  
+    }
+  
     // async getMyTokens() {
     //   const myAddresse = await this.dappInjectorService.config.signer.getAddress()
     //   console.log(myAddresse)
@@ -124,10 +167,10 @@ export class DashboardComponent implements AfterViewInit {
     // }
   
   
-    // showMore() {
-    //   this.currentPage ++;
-    //   this.getAllCampaigns()
-    // }
+    showMore() {
+      this.currentPage ++;
+      this.getmyTokens()
+    }
   
     showMoreReceived() {
       this.currentPageReceive ++;
@@ -173,6 +216,7 @@ export class DashboardComponent implements AfterViewInit {
     this.myaddresse = await (this.dappInjectorService.config.signer.getAddress())
    // this.getTokens()
     this.getReceivedTokens()
+    this.getmyTokens()
       }
     })
 

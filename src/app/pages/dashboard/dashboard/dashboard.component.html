@@ -26,8 +26,41 @@
                     <token-card  style="margin:15px;" [gratitudeToken]="token" [linkCode]="linkCode"  [role]="'creater'"
                     *ngFor="let token of tokens"></token-card>
                 </div>
+                <div *ngIf="load_more">
+                    <button (click)="showMore()" style="margin-top:10px;" type="button"
+                        class="top-bar-element  top-bar-element-biz">
+                        <div class="display-flex-center">
+    
+                            <div class="top-bar-element-text top-bar-element-text-biz"><span></span>Load More
+                            </div>
+                        </div>
+                    </button>
+                </div>
             </div>
         </mat-tab>
-        <mat-tab label="Received"></mat-tab>
+        <mat-tab label="Received">
+        <div style="margin:20px;" *ngIf="tokens_receive.length == 0">
+            <p>You haven't yet received any tokens</p>
+     
+        </div>
+        <div style="margin:20px;" *ngIf="tokens_receive.length >= 0">
+            
+            <div style="text-align:center;display:flex;flex-wrap: wrap;justify-content: center;">
+
+                <token-card  style="margin:15px;" [gratitudeToken]="token" [linkCode]="linkCode"  [role]="'creater'"
+                *ngFor="let token of tokens_receive"></token-card>
+            </div>
+            <div *ngIf="load_more">
+                <button (click)="sshowMoreReceived()" style="margin-top:10px;" type="button"
+                    class="top-bar-element  top-bar-element-biz">
+                    <div class="display-flex-center">
+
+                        <div class="top-bar-element-text top-bar-element-text-biz"><span></span>Load More
+                        </div>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </mat-tab>
     </mat-tab-group>
 </div>
