@@ -1,0 +1,111 @@
+@import '../../../../assets/css/variables';
+
+// background-color: $teal-dark;color: white;font-size: 40px
+// background-color: $pink;color: white;font-size: 40px;"
+.btn1{
+margin-bottom: 50px; 
+margin-right: 20px;
+background-color: $teal;
+color: white;
+padding: 10px;
+font-size: 40px;
+padding: 8px 8px 8px 8px;
+border-radius: 5px;
+text-decoration: none;
+cursor: pointer;
+}
+.btn1:hover{
+    background-color: $teal-dark;
+    transition: all 0.2s ease-in-out;
+}
+.btn2{
+margin-bottom: 50px;    
+background-color: $pink;
+color: white;
+padding: 10px;
+font-size: 40px;
+padding: 8px 8px 8px 8px;
+border-radius: 5px;
+text-decoration: none;
+cursor: pointer;
+}
+.btn2:hover{
+background-color: $pink-dark;
+transition: all 0.2s ease-in-out;
+}
+.title{
+    display: flex;
+    justify-content: center;
+    font-family: 'Syncopate', sans-serif;
+    font-size: 66px;
+    background: -webkit-linear-gradient($pink, $teal-dark);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    padding: 15px;
+    @media screen and (max-width:800px) {
+      font-size: 44px;
+    }
+    @media screen and (max-width:600px) {
+      font-size: 26px;
+    }
+}
+.nft{
+    margin-left: 24px;
+    font-family: 'Orbitron', sans-serif;
+    background: -webkit-linear-gradient($teal-dark, $pink);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.mint{
+    background-color: $teal;
+    color: white;
+    width: 400px;
+    padding: 10px;
+    font-size: 40px;
+    padding: 8px 8px 8px 8px;
+    border-radius: 5px;
+    text-decoration: none;
+    cursor: pointer;
+    margin-top: 20px;
+}
+.mint:hover{
+   background-color: $teal-dark;
+   transition: all 0.2s ease-in-out;  
+}
+.name{
+    display: flex;
+    justify-content: center;
+    width: 400px;
+    min-height: 64px;
+    font-size: 34px;
+    font-weight: 500;
+    border: 2px solid $black;
+    border-radius: 6px;
+    text-align: center;
+    margin: 10px 15px 0 0;
+    color: $black;
+    background-color: transparent;
+    padding: 8px 8px 8px 8px;
+    border-radius: 5px;
+    transition: all 0.2s ease-in-out;
+    text-decoration: none;
+}
+.card{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.card-inputs{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.background{
+    background: -webkit-linear-gradient($teal, $pink);
+    width: 100vw;
+    top: 0;
+    left: 0;
+
+  }
