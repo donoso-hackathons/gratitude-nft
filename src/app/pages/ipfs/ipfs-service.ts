@@ -110,21 +110,23 @@ export class IpfsService {
       });
       this.loading = false;
     }
-  //   const tokensQuery = `
-  //   query {
-  //     tokens {
-  //       id
-  //       tokenID
-  //       contentURI
-  //       metadataURI
-  //     }
-  //   }
-  // `;
+    const tokensQuery = `
+    query {
+      gratitudeTokens(first: 5) {
+        id
+        status
+        sender
+        receiver
+        tokenUri
+      }
+    }
+  `;
 
-  //   const client = createClient({
-  //     url: GRAPH_APIURL,
-  //   });
+    const client = createClient({
+      url: GRAPH_APIURL,
+    });
 
-  //   const data = await client.query(tokensQuery).toPromise();
+    const data = await client.query(tokensQuery).toPromise();
+    console.log(data)
   }
 }
