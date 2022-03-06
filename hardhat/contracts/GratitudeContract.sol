@@ -90,6 +90,7 @@ contract GratitudeContract is ERC721, Ownable, ReentrancyGuard {
     ///// Campaign Events
     event GratitudeCampaignCreatedEvent(
         uint256 indexed campaignId,
+        address campaign_creator,
         CampaignStatus status,
         string campaignUri,
         string name
@@ -417,7 +418,7 @@ contract GratitudeContract is ERC721, Ownable, ReentrancyGuard {
             });
 
             _campaignById[id] = _newCampaign;
-        emit GratitudeCampaignCreatedEvent(id, CampaignStatus.ONBOARD, _campaignUri,_name); 
+        emit GratitudeCampaignCreatedEvent(id, msg.sender, CampaignStatus.ONBOARD, _campaignUri,_name); 
     }
 
     function getCampaignStatus(uint256 _campaignId) public view returns(CampaignStatus){

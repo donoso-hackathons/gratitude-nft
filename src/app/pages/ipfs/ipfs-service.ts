@@ -1,6 +1,7 @@
 import { DOCUMENT } from '@angular/common';
 import { Inject, Injectable } from '@angular/core';
-
+import { GRAPH_APIURL } from 'angular-web3';
+import { createClient } from 'urql';
 
 declare global {
   interface Window {
@@ -14,58 +15,53 @@ declare global {
 export class IpfsService {
   ipfs: any;
   loading = true;
-  constructor(  @Inject(DOCUMENT) private readonly document: any) {}
+  constructor(@Inject(DOCUMENT) private readonly document: any) {}
 
   // async getFileObervable(hash:string){
   //   let myObject = '';
-  //   from(this.ipfs.cat(hash)).pipe( 
+  //   from(this.ipfs.cat(hash)).pipe(
   //     switchMap((buffer: Buffer) => {
 
   //     })
   //   )
   // }
 
-
   async getblobFile(hash: string): Promise<any> {
-    const responseBufferChunks = []
+    const responseBufferChunks = [];
     for await (const file of this.ipfs.cat(hash)) {
       if (!file) continue;
       responseBufferChunks.push(file);
     }
-    const responseBuffer = Buffer.concat(responseBufferChunks)
-    return responseBuffer.toString()
-
+    const responseBuffer = Buffer.concat(responseBufferChunks);
+    return responseBuffer.toString();
   }
-
 
   async getFileJSON(hash: string): Promise<any> {
-    const responseBufferChunks = []
+    const responseBufferChunks = [];
     for await (const file of this.ipfs.cat(hash)) {
       if (!file) continue;
       responseBufferChunks.push(file);
     }
-    const responseBuffer = Buffer.concat(responseBufferChunks)
-    return JSON.parse(responseBuffer.toString())
-
+    const responseBuffer = Buffer.concat(responseBufferChunks);
+    return JSON.parse(responseBuffer.toString());
   }
 
-  
-  loadTagToPromise(options:{name:string, type:'script' | 'link',  args:Array<{name:string, value:string}>}){
-    if (document.getElementById(options.name) !== null) { 
-        return true
+  loadTagToPromise(options: {
+    name: string;
+    type: 'script' | 'link';
+    args: Array<{ name: string; value: string }>;
+  }) {
+    if (document.getElementById(options.name) !== null) {
+      return true;
     }
     const promiseTag = new Promise<void>((resolve, reject) => {
       let tag = this.document.createElement(options.type);
       try {
-        
-    
         for (const attribute of options.args) {
-          tag[attribute.name]= attribute.value
-        
-      }
-      console.log(tag)
+          tag[attribute.name] = attribute.value;
+        }
+        console.log(tag);
         tag.onload = () => {
-      
           resolve();
         };
         this.document.body.appendChild(tag);
@@ -74,9 +70,8 @@ export class IpfsService {
         console.log(error);
       }
     });
-    return promiseTag
+    return promiseTag;
   }
-
 
   async add(file: any) {
     return await this.ipfs.add(file);
@@ -115,5 +110,21 @@ export class IpfsService {
       });
       this.loading = false;
     }
+  //   const tokensQuery = `
+  //   query {
+  //     tokens {
+  //       id
+  //       tokenID
+  //       contentURI
+  //       metadataURI
+  //     }
+  //   }
+  // `;
+
+  //   const client = createClient({
+  //     url: GRAPH_APIURL,
+  //   });
+
+  //   const data = await client.query(tokensQuery).toPromise();
   }
 }

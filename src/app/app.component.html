@@ -4,10 +4,10 @@
 [blockchain_is_busy]="blockchain_is_busy" style=" display: block; margin-top: 64px;"></top-bar>
 <div *ngIf="blockchain_status == 'ethereum-not-connected' || blockchain_status ==  'wallet-not-connected'">
 
-    <button  type="button" *ngIf="dappInjectorService.webModal?.ready == true"  class="btn btn-outline-success"  (click)="web3modalAction(true)"
+    <button  type="button" *ngIf="dappInjectorService?.webModal?.ready == true"  class="btn btn-outline-success"  (click)="web3modalAction(true)"
   > Sign in with Metamask/Wallet
   </button>
-  <div *ngIf="dappInjectorService.webModal?.ready == false" class="loadingspinner"></div>
+  <div *ngIf="dappInjectorService?.webModal?.ready == false" class="loadingspinner"></div>
   
   </div>
 
