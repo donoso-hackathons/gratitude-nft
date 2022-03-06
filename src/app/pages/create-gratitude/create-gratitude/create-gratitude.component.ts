@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { DappInjectorService, NotifierService,Web3Actions,adress_0,randomString } from 'angular-web3';
+import { DappInjectorService, NotifierService,Web3Actions,address_0,randomString } from 'angular-web3';
 import { IpfsService } from '../../ipfs/ipfs-service';
 import {IGRATITUDE_IPFS_JSON} from 'src/app/shared/models/general';
 import { Store } from '@ngrx/store';
-import { Contract } from 'ethers';
+import { Contract, utils } from 'ethers';
 
 
 @Component({
@@ -12,6 +12,7 @@ import { Contract } from 'ethers';
   styleUrls: ['./create-gratitude.component.scss']
 })
 export class CreateGratitudeComponent implements OnInit {
+
   gratitudeContract: Contract;
   details = {
     name:'',
@@ -136,7 +137,9 @@ getIP() {
 
      const timestamp = Math.ceil((new Date().getTime())/1000)
      const linkCode = randomString(10)
-     const result_mint = await this.gratitudeContract.createGratitudeToken(1, adress_0, {lat:500, lng:500}, timestamp, this.tokenUri, linkCode)
+     const result_mint = await this.gratitudeContract.createGratitudeToken(1, address_0, {lat:500, lng:500}, timestamp, this.tokenUri, linkCode
+      ,{ gasPrice: utils.parseUnits('100', 'gwei'), 
+      gasLimit: 2000000 })
      const tx =  await result_mint.wait();
      console.log(tx,"transactionnnn")
 
@@ -157,7 +160,10 @@ getIP() {
 
 
 
-    }
+  }
+
+
+
   isFilter: boolean = false;
   isFilter2: boolean = false;
   isFilter3: boolean = false;
@@ -174,7 +180,7 @@ getIP() {
 
   image: any = 'https://robohash.org/' + randomString(15);
   temp1() {
-    this.image = 'https://robohash.org/' + randomString(5);
+    this.image = 'https://img.freepik.com/free-vector/thank-you-composition-comic-style_23-2147828808.jpg?w=740';
 }
   temp2() {
   this.image = 'https://robohash.org/honey?set=set2'
@@ -182,24 +188,17 @@ getIP() {
   temp3() {
   this.image = 'https://robohash.org/honey?set=set4'
   }
+  temp4() {
+  this.image = 'https://img.freepik.com/free-vector/cute-unicorn-with-birthday-cake-cartoon-vector-icon-illustration-animal-food-icon-concept-isolated-premium-vector-flat-cartoon-style_138676-3362.jpg?w=740'
+  }
+  temp5() {
+  this.image = 'https://img.freepik.com/free-vector/cartoon-great-job-stickers-collection_23-2148928582.jpg?w=900'
+  }
+  temp6() {
+  this.image = 'https://source.unsplash.com/user/c_v_r';
+  }
 
 
   // random image https://source.unsplash.com/user/c_v_r
 
     }
-
-
-// image filter
-
-// const canvas = document.getElementById('canvas');
-// const ctx = canvas.getContext('2d');
-// const image = document.getElementById('source');
-//
-// image.addEventListener('load', e => {
-//   // Draw unfiltered image
-//   ctx.drawImage(image, 0, 0, image.width * .6, image.height * .6);
-//
-//   // Draw image with filter
-//   ctx.filter = 'contrast(1.4) sepia(1) drop-shadow(-9px 9px 3px #e81)';
-//   ctx.drawImage(image, 400, 0, -image.width * .6, image.height * .6);
-// });

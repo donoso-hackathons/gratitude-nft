@@ -11,7 +11,7 @@ export const ALCHEMY_KEY = "oKxs-03sij-U_N0iOlrSsZFr29-IqbuF";
 export type NETWORK_TYPE = 'localhost' | 'mainnet'| 'mumbai' | 'kovan' | 'rinkeby' | 'ropsten' | 'goerli' |'polygon' | 'xdai' |'noop';
 
 
-export const adress_0 = '0x0000000000000000000000000000000000000000';
+export const address_0 = '0x0000000000000000000000000000000000000000';
 
 export interface INETWORK {
 name: NETWORK_TYPE;
