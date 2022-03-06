@@ -1,5 +1,33 @@
-<mat-divider ></mat-divider>
-<div style="text-align:center;display:flex;flex-wrap: wrap;justify-content: center;">
+<div style="margin:auto;text-align: center;margin:20px;padding-top:30px">
+    <h4 style="margin:20px">Todavia no has creado ningun token</h4>
+    <mat-tab-group [(selectedIndex)]="selectedIndex" mat-align-tabs="center">
 
-<token-card style="margin:15px;"  *ngFor="let token of tokens"></token-card>
+        <mat-tab label="Created">
+
+            <div style="margin:20px;" *ngIf="tokens.length == 0">
+                <p>Todavia no has creado ningun token</p>
+         
+            </div>
+            <button (click)="createtoken()" style="margin-top:10px;" type="button" class="top-bar-element  top-bar-element-biz">
+                <div class="display-flex-center">
+                    <div class="top-bar-element-icon">
+                        <mat-icon>
+                            favorite
+                        </mat-icon>
+                    </div>
+                    <div class="top-bar-element-text top-bar-element-text-biz"><span></span>Create a Gratitude Token
+                    </div>
+                </div>
+            </button>
+            <div style="margin:20px;" *ngIf="tokens.length >= 0">
+                <mat-divider></mat-divider>
+                <div style="text-align:center;display:flex;flex-wrap: wrap;justify-content: center;">
+
+                    <token-card  style="margin:15px;" [gratitudeToken]="token" [linkCode]="linkCode"  [role]="'creater'"
+                    *ngFor="let token of tokens"></token-card>
+                </div>
+            </div>
+        </mat-tab>
+        <mat-tab label="Received"></mat-tab>
+    </mat-tab-group>
 </div>

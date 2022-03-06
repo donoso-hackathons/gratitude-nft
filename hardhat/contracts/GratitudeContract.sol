@@ -18,15 +18,14 @@ contract GratitudeContract is ERC721, Ownable, ReentrancyGuard {
     Counters.Counter public _campaignIds;
 
     struct GEO {
-        uint16 lat;
-        uint16 lng;
+        string lat;
+        string lng;
     }
 
     struct NFT {
         address receiver;
         uint256 tokenId;
         NftStatus status;
-        GEO geo;
         uint256 timeStamp;
         string tokenUri;
         bytes32 linkCode;
@@ -76,12 +75,12 @@ contract GratitudeContract is ERC721, Ownable, ReentrancyGuard {
         NftStatus status,
         address sender,
         address receiver,
-        uint256 lat,
-        uint256 lng,
+        string lat,
+        string lng,
         string tokenUri
     );
     event GratitudTokenChangeStatusEvent(uint256 tokenId, NftStatus  status);
-    event GratitudTokenAceptedEvent(uint256 tokenId, NftStatus status,  uint256 lat, uint256 lng);
+    event GratitudTokenAceptedEvent(uint256 tokenId, NftStatus status,  string lat, string lng);
 
 
     //Global Campaign Mapping
@@ -137,7 +136,6 @@ contract GratitudeContract is ERC721, Ownable, ReentrancyGuard {
         NFT memory _newGratitudeNft = NFT({
             status: NftStatus.DRAFT,
             receiver: _receiver,
-            geo: _geo,
             tokenId: id,
             timeStamp: _timeStamp,
             tokenUri: _tokenUri,

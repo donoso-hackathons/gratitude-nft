@@ -52,7 +52,7 @@
   <h2>Your Picture</h2>
   <img [src]="webcamImage.imageAsDataUrl" />
   <common-form #commonForm></common-form>
-  <button style="background: green;" (click)="mintNft()"  type="button" class="top-bar-element top-bar-element-biz">
+  <button [style.background]="commonForm.commonForm.valid ? 'green' : 'lightgrey'" style="background: green;" (click)="mintNft()"  type="button" class="top-bar-element top-bar-element-biz">
     <div class="display-flex-center">
 
       <div class="top-bar-element-text top-bar-element-text-biz">

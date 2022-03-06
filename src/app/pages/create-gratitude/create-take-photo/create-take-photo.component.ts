@@ -64,6 +64,9 @@ constructor(
 
  async mintNft() {
   this.cd.detectChanges();
+  console.log(this.commonForm.commonForm.getRawValue())
+
+
  if (this.commonForm.commonForm.valid == false){
    console.log(false)
    return
@@ -142,6 +145,7 @@ constructor(
 
   public triggerSnapshot(): void {
     this.trigger.next();
+    this.cd.detectChanges();
   }
 
 async  toggleWebcam(){
@@ -153,6 +157,7 @@ async  toggleWebcam(){
   //     gasLimit: 2000000 })
   //   const tx =  await result_mint.wait();
    this.showWebcam = !this.showWebcam;
+   this.cd.detectChanges();
   }
 
   public handleInitError(error: WebcamInitError): void {

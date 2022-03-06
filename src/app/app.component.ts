@@ -30,7 +30,7 @@ export class AppComponent implements AfterViewInit {
 
       } else if (value == 'success'){
         console.log(this.router.url)
-         this.router.navigateByUrl('/master')
+         this.router.navigateByUrl('/dashboard')
        } else {
          this.router.navigateByUrl('/landing')
        }
