@@ -170,11 +170,9 @@ export class CampaignComponent implements AfterViewInit {
 
   showMoreMy() {
     this.currentPageMy ++;
-    this.getAllMyCampaigns()
+    this.getMyCampaigns()
   }
-  getAllMyCampaigns() {
-    throw new Error('Method not implemented.');
-  }
+ 
 
   async asyncStuff() {
     await this.ipfsService.init()

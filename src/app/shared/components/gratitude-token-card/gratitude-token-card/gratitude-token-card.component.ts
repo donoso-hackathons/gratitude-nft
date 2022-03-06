@@ -1,6 +1,8 @@
 
 import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
-import { DappInjectorService } from 'angular-web3';
+import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { DappInjectorService, NotifierService, Web3Actions } from 'angular-web3';
 import { Contract, utils } from 'ethers';
 import { IpfsService } from 'src/app/pages/ipfs/ipfs-service';
 import { IGRATITUDE_NFT } from 'src/app/shared/models/general';
@@ -13,10 +15,15 @@ import { IGRATITUDE_NFT } from 'src/app/shared/models/general';
 export class GratitudeTokenCardComponent implements AfterViewInit {
   gratitudeContract: Contract;
   src:string;
-  
-  constructor(private dappInjectorService: DappInjectorService, private ipfs:IpfsService) {
+  show_mint_success 
+  constructor(
+    private router:Router,
+    private store:Store,
+    private notifierService: NotifierService,
+    private dappInjectorService: DappInjectorService, private ipfs:IpfsService) {
 
   }
+
 
   async onChainStuff(){
     if (this.gratitudeToken.type == 'image') {
@@ -28,6 +35,9 @@ export class GratitudeTokenCardComponent implements AfterViewInit {
     this.gratitudeContract =
     this.dappInjectorService.config.contracts['myContract'].contract;
     console.log(this.gratitudeToken)
+    if (this.gratitudeToken.status !=1){
+      this.router.navigateByUrl('/dashboard')
+    }
     this.onChainStuff()
   
 
@@ -51,13 +61,17 @@ export class GratitudeTokenCardComponent implements AfterViewInit {
 
   async accept() {
     if (this.linkCode !== undefined) {
+      this.store.dispatch(Web3Actions.chainBusy({ status: true }));
       try {
         const result = await this.gratitudeContract.acceptLinkHash(this.linkCode, {lat:500, lng:500},  { gasPrice: utils.parseUnits('100', 'gwei'), 
         gasLimit: 2000000 });
-        await result.wait()
-      } catch (error) {
-      const myerror =  this.dappInjectorService.handleContractError(error);
-      console.log(error)
+        const tx= await result.wait()
+        this.router.navigateByUrl('/dashboard')
+      }  catch (error) {
+        const error_message = await this.dappInjectorService.handleContractError(error);
+        this.notifierService.showNotificationTransaction({success:false, error_message: error_message});
+        this.store.dispatch(Web3Actions.chainBusy({ status: false }));
+        
       }
     }
   }

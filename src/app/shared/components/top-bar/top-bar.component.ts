@@ -5,6 +5,7 @@ import { takeUntil } from 'rxjs/operators';
 import { DappInjectorService, ICONTRACT, NETWORK_STATUS } from 'angular-web3';
 import { connect } from 'http2';
 import { Signer } from 'ethers';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'top-bar',
@@ -21,7 +22,9 @@ export class TopBarComponent implements OnChanges, OnDestroy {
   contractHeader: ICONTRACT;
   signer: Signer;
   isOpen = false;
-  constructor(private dappInjectorService:DappInjectorService) {
+  constructor(
+    private router:Router,
+    private dappInjectorService:DappInjectorService) {
 
    }
   ngOnChanges(changes: SimpleChanges): void {
@@ -44,6 +47,12 @@ export class TopBarComponent implements OnChanges, OnDestroy {
     this.dappInjectorService.launchWenmodal();
     
   }
+
+  disconnect(){
+    this.isOpen = false;
+    this.router.navigateByUrl('/landing')
+  }
+
  togglemenu() {
    this.isOpen = !this.isOpen;
  }

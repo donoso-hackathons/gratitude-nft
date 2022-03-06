@@ -80,7 +80,7 @@ contract GratitudeContract is ERC721, Ownable, ReentrancyGuard {
         string tokenUri
     );
     event GratitudTokenChangeStatusEvent(uint256 tokenId, NftStatus  status);
-    event GratitudTokenAceptedEvent(uint256 tokenId, NftStatus status,  string lat, string lng);
+    event GratitudTokenAceptedEvent(uint256 tokenId, NftStatus status,  string lat, string lng,address receiver);
 
 
     //Global Campaign Mapping
@@ -332,7 +332,7 @@ contract GratitudeContract is ERC721, Ownable, ReentrancyGuard {
             transferFrom(owner, to, id);
         }
         _gratitudeNftbyId[id].status = NftStatus.ACCEPTED;
-        emit GratitudTokenAceptedEvent(id, NftStatus.ACCEPTED, _geo.lat,_geo.lng);
+        emit GratitudTokenAceptedEvent(id, NftStatus.ACCEPTED, _geo.lat,_geo.lng,msg.sender);
     }
 
     /**

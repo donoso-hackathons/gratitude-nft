@@ -7,7 +7,7 @@
     </mat-select>
   </mat-form-field>
 
-  <create-gratitude *ngIf="nftOptionControl.value == 'image'" ></create-gratitude>
+  <create-image *ngIf="nftOptionControl.value == 'image'" ></create-image>
   <create-take-photo *ngIf="nftOptionControl.value == 'photo'" ></create-take-photo>
   <create-record-audio *ngIf="nftOptionControl.value == 'audio'" ></create-record-audio>
   <create-record-video *ngIf="nftOptionControl.value == 'story'" ></create-record-video>

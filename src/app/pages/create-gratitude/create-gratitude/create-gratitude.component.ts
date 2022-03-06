@@ -46,11 +46,12 @@ getIP() {
     const reader = new FileReader();
 
     reader.addEventListener('load', async (event: any) => {
+      this.image = reader.result;
       const buf = Buffer.from(reader.result as ArrayBuffer)
      try {
       const result = await this.ipfsService.add(buf);
       console.log(result)
-      console.log(`https://ipfs.io/ipfs/${result.path}`)
+      console.log(` ${result.path}`)
       this.imageUrl = `https://ipfs.io/ipfs/${result.path}`;
       this.image=this.imageUrl;
       console.log(this.imageUrl,"imageeeeeeee");

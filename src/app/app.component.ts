@@ -31,7 +31,7 @@ export class AppComponent implements AfterViewInit {
         console.log(this.router.url)
          this.router.navigateByUrl('/dashboard')
        } else {
-         this.router.navigateByUrl('/master')
+         this.router.navigateByUrl('/landing')
        }
 
     });

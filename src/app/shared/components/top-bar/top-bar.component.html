@@ -30,9 +30,9 @@
           </button>
         </a></div>
 
-    <wallet-display  class="desktop" *ngIf="blockchain_status=='success'" style="margin-right:10px" [signer]="signer"
+    <wallet-display  (onDisconect)="disconnect()" class="desktop" *ngIf="blockchain_status=='success'" style="margin-right:10px" [signer]="signer"
         (doFaucetEvent)="doFaucetEvent.emit()" (openTransactionEvent)="openTransactionEvent.emit()"></wallet-display>
-        <mat-icon style="color:#ff0074" (click)="togglemenu()" class="mobile">
+        <mat-icon *ngIf="blockchain_status=='success'"  style="color:#5d0825" (click)="togglemenu()" class="mobile">
           menu
         </mat-icon>
 
@@ -42,12 +42,12 @@
 
 <div  class="mobile" [style.transform]="isOpen ?  'translateX(0)': 'translateX(100%)'" style="position:relative;height: 100vh;width: 100vw;background: #0000009e;z-index: 1111111;position: absolute;top: 0;">
   <div>
-    <mat-icon  style="color:#ff0074;position: absolute; height:25px;width:24px; background-color: white;border-radius: 50%;
+    <mat-icon  style="color:#5d0825;position: absolute; height:25px;width:24px; background-color: white;border-radius: 50%;
     right: 9px;
     top: 19px;"(click)="togglemenu()" class="mobile">
       menu
     </mat-icon>
-    <wallet-display *ngIf="blockchain_status=='success'" style="margin-right:10px;margin-top:60px;display:block" [signer]="signer"
+    <wallet-display  (onDisconect)="disconnect()" *ngIf="blockchain_status=='success'" style="margin-right:10px;margin-top:60px;display:block" [signer]="signer"
     (doFaucetEvent)="doFaucetEvent.emit()" (openTransactionEvent)="openTransactionEvent.emit()"></wallet-display>
   </div>
 </div>

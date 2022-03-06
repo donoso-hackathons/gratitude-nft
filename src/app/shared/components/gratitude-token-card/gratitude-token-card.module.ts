@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { GratitudeTokenCardComponent } from './gratitude-token-card/gratitude-token-card.component';
 import {MatCardModule} from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
+import { ParticlesModule } from '../particles/particles.module';
 
 
 @NgModule({

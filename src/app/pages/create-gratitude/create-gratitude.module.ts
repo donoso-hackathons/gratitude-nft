@@ -18,6 +18,7 @@ import { CommonFormComponent } from './common-form/common-form.component';
 ;
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { CreateRecordAudioComponent } from './create-record-audio/create-record-audio.component';
+import { CreateImageComponent } from './create-image/create-image.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { CreateRecordAudioComponent } from './create-record-audio/create-record-
     CreateRecordVideoComponent,
     CreateRecordAudioComponent,
     CreateTakePhotoComponent,
-    CommonFormComponent
+    CommonFormComponent,
+    CreateImageComponent
   ],
   imports: [
     CommonModule,

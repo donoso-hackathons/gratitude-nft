@@ -44,6 +44,7 @@ export class WalletDisplayComponent implements AfterViewInit {
 
   @ViewChild("wallet", { read: ElementRef }) private walletDiv!: ElementRef;
   @Output() doFaucetEvent = new EventEmitter();
+  @Output() onDisconect = new EventEmitter();
   @Output() openTransactionEvent = new EventEmitter();
 
   openTransaction() {
@@ -57,6 +58,7 @@ export class WalletDisplayComponent implements AfterViewInit {
 
   doDisconnect() {
     this.store.dispatch(Web3Actions.chainStatus({ status: 'disconnected' }))
+    this.onDisconect.emit()
   }
 
   async doScan() {

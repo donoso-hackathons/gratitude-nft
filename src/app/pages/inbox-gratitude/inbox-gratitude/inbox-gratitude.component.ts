@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { DappInjectorService, Web3Actions } from 'angular-web3';
+import { DappInjectorService, Web3Actions, web3Selectors } from 'angular-web3';
 import { Contract } from 'ethers';
 import { IGRATITUDE_NFT } from 'src/app/shared/models/general';
 import { IpfsService } from '../../ipfs/ipfs-service';
@@ -15,6 +15,7 @@ export class InboxGratitudeComponent implements AfterViewInit {
   gratitudeContract: Contract;
   gratitudeToken:IGRATITUDE_NFT;
   linkCode: string;
+  blockchain_status: string;
   constructor(private dappInjectorService:DappInjectorService,
     private router: Router,
     private store:Store,
@@ -43,15 +44,29 @@ export class InboxGratitudeComponent implements AfterViewInit {
  
  
     ngAfterViewInit(): void {
-    this.store.dispatch(Web3Actions.chainBusy({ status: true}));
-    this.linkCode = this.route.snapshot.params['linkCode'];
-    console.log(this.route.snapshot.params)
-    this.gratitudeContract =  this.dappInjectorService.config.contracts['myContract'].contract
-    if (this.linkCode) {
-        this.getToken()
-    } else {
-     this.router.navigateByUrl('/master')
-    }
+
+      this.store.select(web3Selectors.chainStatus).subscribe(async (value) => {
+        this.blockchain_status = value;
+  
+      
+  
+        if (value == 'success') {
+          this.store.dispatch(Web3Actions.chainBusy({ status: true}));
+          this.linkCode = this.route.snapshot.params['linkCode'];
+          console.log(this.route.snapshot.params)
+          this.gratitudeContract =  this.dappInjectorService.config.contracts['myContract'].contract
+          if (this.linkCode) {
+              this.getToken()
+          } else {
+           this.router.navigateByUrl('/master')
+          }
+        } else {
+  
+        }
+  
+      });
+
+  
 
   }
 
