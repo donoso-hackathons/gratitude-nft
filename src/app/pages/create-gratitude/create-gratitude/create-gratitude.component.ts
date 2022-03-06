@@ -19,12 +19,25 @@ export class CreateGratitudeComponent implements OnInit {
   }
   imageUrl:string;
   tokenUri :string;
+  loading: boolean;
+  private _myIPService: any;
+  IppDetails: any;
+  errorMessage: any;
   constructor(private dappInjectorService:DappInjectorService,private ipfsService:IpfsService,private store:Store,private notifierService: NotifierService,) { }
 
   ngOnInit(): void {
   // const myContract = this.dappInjectorService.config.contracts['myContract'].runFunction('mint',[])
   this.gratitudeContract =  this.dappInjectorService.config.contracts['myContract'].contract
   }
+
+getIP() {
+    this.loading = true;
+    this._myIPService.getIP()
+    .subscribe(
+        IPDetails => this.IppDetails,
+        error =>  this.errorMessage = <any>error
+        );
+}
 
   onFileUpload(event){
     const file: File = event.target.files[0];
@@ -159,16 +172,17 @@ export class CreateGratitudeComponent implements OnInit {
     this.isFilter3 = !this.isFilter3;       
   }
 
-  image: any = 'https://robohash.org/honey?set=set3';
+  image: any = 'https://robohash.org/' + randomString(15);
   temp1() {
-  this.image = 'https://robohash.org/honey?set=set1'
-}  
+    this.image = 'https://robohash.org/' + randomString(5);
+}
   temp2() {
   this.image = 'https://robohash.org/honey?set=set2'
 }  
   temp3() {
   this.image = 'https://robohash.org/honey?set=set4'
   }  
+  
   
   // random image https://source.unsplash.com/user/c_v_r
   

@@ -1,4 +1,5 @@
-[
+{
+    "abi": [
         {
             "inputs": [],
             "stateMutability": "nonpayable",
@@ -70,16 +71,22 @@
                     "type": "uint8"
                 },
                 {
+                    "components": [
+                        {
+                            "internalType": "uint16",
+                            "name": "lat",
+                            "type": "uint16"
+                        },
+                        {
+                            "internalType": "uint16",
+                            "name": "lng",
+                            "type": "uint16"
+                        }
+                    ],
                     "indexed": false,
-                    "internalType": "uint256",
-                    "name": "lat",
-                    "type": "uint256"
-                },
-                {
-                    "indexed": false,
-                    "internalType": "uint256",
-                    "name": "lng",
-                    "type": "uint256"
+                    "internalType": "struct GratitudeContract.GEO",
+                    "name": "geo",
+                    "type": "tuple"
                 }
             ],
             "name": "GratitudTokenAceptedEvent",
@@ -123,12 +130,6 @@
                     "indexed": false,
                     "internalType": "string",
                     "name": "campaignUri",
-                    "type": "string"
-                },
-                {
-                    "indexed": false,
-                    "internalType": "string",
-                    "name": "name",
                     "type": "string"
                 }
             ],
@@ -189,16 +190,22 @@
                     "type": "address"
                 },
                 {
+                    "components": [
+                        {
+                            "internalType": "uint16",
+                            "name": "lat",
+                            "type": "uint16"
+                        },
+                        {
+                            "internalType": "uint16",
+                            "name": "lng",
+                            "type": "uint16"
+                        }
+                    ],
                     "indexed": false,
-                    "internalType": "uint256",
-                    "name": "lat",
-                    "type": "uint256"
-                },
-                {
-                    "indexed": false,
-                    "internalType": "uint256",
-                    "name": "lng",
-                    "type": "uint256"
+                    "internalType": "struct GratitudeContract.GEO",
+                    "name": "geo",
+                    "type": "tuple"
                 },
                 {
                     "indexed": false,
@@ -388,11 +395,6 @@
         },
         {
             "inputs": [
-                {
-                    "internalType": "string",
-                    "name": "_name",
-                    "type": "string"
-                },
                 {
                     "internalType": "string",
                     "name": "_campaignUri",
@@ -933,4 +935,7 @@
             "stateMutability": "payable",
             "type": "receive"
         }
-    ]
+    ],
+    "name": "GratitudeContract",
+    "address": "0xf5059a5D33d5853360D16C683c16e67980206f36"
+}

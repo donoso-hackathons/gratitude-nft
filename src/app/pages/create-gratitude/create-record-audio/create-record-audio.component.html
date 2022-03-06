@@ -1,9 +1,18 @@
+<div class="background">
+<h2 class="title">Audio <span class="nft">NFT</span></h2>
 <div style="text-align:center;margin-top: 200px;">
-    <button (click)="initiateRecording()" class="btn btn-primary" *ngIf="!recording"
-        style="cursor: pointer;background-color: green;color: white;font-size: 40px;"> Start Recording </button>
-    <button (click)="stopRecording()" class="btn btn-danger" *ngIf="recording"
-        style="cursor: pointer;background-color: red;color: white;font-size: 40px;"> Stop Recording </button>
+    <button (click)="initiateRecording()" class="btn1" *ngIf="!recording"
+        style="cursor: pointer;"> Start Recording </button>
+    <button (click)="stopRecording()" class="btn2" *ngIf="recording"
+        style="cursor: pointer;"> Stop Recording </button>
     <audio controls="" *ngIf="url">
         <source [src]="sanitize(url)" type="audio/wav">
     </audio>
+</div>
+<div class="card">
+    <div class="card-inputs">
+<input *ngIf="url" class="name" placeholder="Name">
+<button *ngIf="url" class="mint">Mint NFT</button>
+</div>
+</div>
 </div>
