@@ -300,25 +300,11 @@
  }
 
 
- .logo-small {
+ .logo {
   display:block;
   width:65px;
-  @media (min-width: 768px) {
-
-    display:none
  }
 
- }
-
-
- .logo-big {
-  display:none;
-  @media (min-width: 768px) {
-    width:200px;
-    display:block
- }
-
- }
 
  .noeEn {
    display: flex;
