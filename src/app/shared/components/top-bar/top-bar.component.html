@@ -9,7 +9,7 @@
             <img class="logo-big" src="assets/images/logo/wog_logo_transparent_long.png">
           </a>
           <a [routerLink]="['/campaigns']" routerLinkActive="router-link-active"  style="color:#ff0074;margin:0 5px 0 20px;font-weight: 700;cursor: pointer;">Campaigns</a>
-          <a    style="color:#ff0074;margin:0 5px;font-weight: 700;cursor: pointer;" *ngIf="blockchain_status==='success'" >Dashboard</a>
+          <a  [routerLink]="['/dahsboard']"   style="color:#ff0074;margin:0 5px;font-weight: 700;cursor: pointer;" *ngIf="blockchain_status==='success'" >Dashboard</a>
         </div>
       </div>
 

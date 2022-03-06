@@ -1,11 +1,11 @@
 <div style="margin:auto;text-align: center;margin:20px;padding-top:30px">
-    <h4 style="margin:20px">Todavia no has creado ningun token</h4>
+    <h4 style="margin:20px">Token Dashboard</h4>
     <mat-tab-group [(selectedIndex)]="selectedIndex" mat-align-tabs="center">
 
         <mat-tab label="Created">
 
             <div style="margin:20px;" *ngIf="tokens.length == 0">
-                <p>Todavia no has creado ningun token</p>
+                <p>You haven't yet created any Gratoitude tokens</p>
          
             </div>
             <button (click)="createtoken()" style="margin-top:10px;" type="button" class="top-bar-element  top-bar-element-biz">

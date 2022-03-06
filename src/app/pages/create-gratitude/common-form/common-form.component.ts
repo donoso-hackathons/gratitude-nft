@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { adress_0 } from 'angular-web3';
+import { address_0 } from 'angular-web3';
+
 import { Subject, takeUntil } from 'rxjs';
 @Component({
   selector: 'common-form',
@@ -32,18 +33,20 @@ export class CommonFormComponent implements OnInit, OnDestroy {
       descriptionCtrl: [
         '', [Validators.maxLength(200)]
       ],
-      locationCtrl: [true],
+     // locationCtrl: [true],
       addressCtrl: ['']
     });
 
-    this.isLocationavailable()
+   // this.isLocationavailable()
+
+    const len = address_0.length
 
     this.receiverOptionControl.valueChanges
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((value) => {
         console.log(value);
         if (value == 1) {
-          this.commonForm.controls['addressCtrl'].setValidators([Validators.required, Validators.length[20]])
+          this.commonForm.controls['addressCtrl'].setValidators([Validators.required, Validators.maxLength(len), Validators.minLength(len)])
         }
 
 

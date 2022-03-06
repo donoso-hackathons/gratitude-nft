@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DappInjectorService, NotifierService,Web3Actions,adress_0,randomString } from 'angular-web3';
+import { DappInjectorService, NotifierService,Web3Actions,address_0,randomString } from 'angular-web3';
 import { IpfsService } from '../../ipfs/ipfs-service';
 import {IGRATITUDE_IPFS_JSON} from 'src/app/shared/models/general';
 import { Store } from '@ngrx/store';
@@ -136,7 +136,7 @@ getIP() {
 
      const timestamp = Math.ceil((new Date().getTime())/1000)
      const linkCode = randomString(10)
-     const result_mint = await this.gratitudeContract.createGratitudeToken(1, adress_0, {lat:500, lng:500}, timestamp, this.tokenUri, linkCode
+     const result_mint = await this.gratitudeContract.createGratitudeToken(1, address_0, {lat:500, lng:500}, timestamp, this.tokenUri, linkCode
       ,{ gasPrice: utils.parseUnits('100', 'gwei'), 
       gasLimit: 2000000 })
      const tx =  await result_mint.wait();

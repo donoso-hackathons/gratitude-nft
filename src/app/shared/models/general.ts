@@ -3,7 +3,6 @@ export interface IGRATITUDE_IPFS_JSON {
     description:string,
     senderName:string,
     ipfsFileUrl?:string // Needed in case grattude nft not only text
-
 }
 
 export interface IGRATITUDE_NFT extends IGRATITUDE_IPFS_JSON {

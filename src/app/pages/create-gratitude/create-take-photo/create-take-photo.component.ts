@@ -1,7 +1,7 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { adress_0, DappInjectorService, NotifierService, randomString, Web3Actions } from 'angular-web3';
+import { address_0, DappInjectorService, NotifierService, randomString, Web3Actions } from 'angular-web3';
 import { Contract, utils } from 'ethers';
 import { WebcamInitError, WebcamImage, WebcamUtil } from 'ngx-webcam';
 import { Subject, Observable } from 'rxjs';
@@ -64,11 +64,11 @@ constructor(
 
  async mintNft() {
   this.cd.detectChanges();
-  console.log(this.commonForm.commonForm.getRawValue())
+
 
  
  if (this.commonForm.commonForm.valid == false){
-   console.log(false)
+
    return
  }
 
@@ -77,20 +77,20 @@ constructor(
 
   const name = this.commonForm.commonForm.controls['nameCtrl'].value;
   const description = this.commonForm.commonForm.controls['descriptionCtrl'].value;
-  const checklocation = this.commonForm.commonForm.controls['locationCtrl'].value
+  //const checklocation = this.commonForm.commonForm.controls['locationCtrl'].value
 
   this.store.dispatch(Web3Actions.chainBusy({ status: true }));
 
  const geo = {lat:'nop', lng:'nop'}
 
-  if (this.commonForm.commonForm.controls['locationCtrl'].value == true){
-    const f =  await this.commonForm.getCoords();
-    if (f.available == true){
-      geo.lat= f.lat.toString()
-      geo.lng = f.lng.toString();
-    }
+  // if (this.commonForm.commonForm.controls['locationCtrl'].value == true){
+  //   const f =  await this.commonForm.getCoords();
+  //   if (f.available == true){
+  //     geo.lat= f.lat.toString()
+  //     geo.lng = f.lng.toString();
+  //   }
   
-   }
+  //  }
   
 
 
@@ -134,7 +134,7 @@ constructor(
 
    const timestamp = Math.ceil((new Date().getTime())/1000)
    const linkCode = randomString(10)
-   const result_mint = await this.gratitudeContract.createGratitudeToken(1, adress_0, geo, timestamp, tokenUri, linkCode, 
+   const result_mint = await this.gratitudeContract.createGratitudeToken(1, address_0, geo, timestamp, tokenUri, linkCode, 
       { gasPrice: utils.parseUnits('100', 'gwei'), 
       gasLimit: 2000000 })
    const tx =  await result_mint.wait();
@@ -143,7 +143,7 @@ constructor(
    this.store.dispatch(Web3Actions.chainBusy({ status: false }));
    this.show_mint_success = true
    this.show_mint_code = `${environment.host}/inbox-gratitude/${linkCode}`
-   //this.router.navigateByUrl('/dashboard')
+  // this.router.navigateByUrl('/dashboard')
 
 
         
