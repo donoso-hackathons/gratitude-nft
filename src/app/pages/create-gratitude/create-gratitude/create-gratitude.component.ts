@@ -195,16 +195,10 @@ getIP() {
   this.image = 'https://img.freepik.com/free-vector/cartoon-great-job-stickers-collection_23-2148928582.jpg?w=900'
   }
   temp6() {
-  this.image = 'https://robohash.org/' + randomString(10);
+  this.image = 'https://source.unsplash.com/user/c_v_r';
   }
 
 
   // random image https://source.unsplash.com/user/c_v_r
 
     }
-
-// var canvas = document.createElement('canvas');
-// canvas.id = "canvasPhoto";
-// var ctx = canvas.getContext('2d');
-// var Image: new (width?: number, height?: number) => HTMLImageElement
-// ctx.drawImage(Image.arguments, 0, 0)
