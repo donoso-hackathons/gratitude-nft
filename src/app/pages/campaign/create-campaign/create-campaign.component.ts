@@ -30,9 +30,9 @@ export class CreateCampaignComponent implements AfterViewInit {
     const len = address_0.length;
 
     this.campaignForm = this.formBuilder.group({
-      nameCtrl: ['', [Validators.required, Validators.maxLength(20)]],
+      nameCtrl: ['', [Validators.required, Validators.maxLength(100)]],
       descriptionCtrl: [
-        '', [Validators.maxLength(200)]
+        '', [Validators.maxLength(400)]
       ],
       phoneCtrl:['',Validators.required],
       webCtrl:['',Validators.required],
